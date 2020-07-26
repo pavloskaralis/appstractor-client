@@ -24,7 +24,7 @@ function Stripe ({index,blockIndex,rowIndex}) {
     }
 
     useEffect(()=>{
-        console.log(blockIndex,rowIndex)
+        console.log(blockIndex,rowIndex);
     },[])
 
 
