@@ -1,0 +1,29 @@
+.canvas {
+    width: 3600px;
+    height: 2400px; 
+    background-color: lightgray;  
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; 
+
+    .row {
+        width: 100%;
+        border: 1px black solid;
+        box-sizing: border-box;
+        flex: 1; 
+
+        .block {
+            display: flex;
+            flex-basis: 200px; 
+            border: 1px blue solid;
+            box-sizing: border-box;
+
+            .stripe {
+                flex-basis: 8.33px; 
+                border: 1px red solid;
+                box-sizing: border-box;
+            }
+        }
+    }
+}
+
