@@ -3,16 +3,31 @@ import uniqueid from 'lodash.uniqueid';
 import '../Styles/Canvas.scss'
 
 const state = new (function () {
-    this.canvasHeight = 2400;
-    this.canvasWidth = 3600; 
-    this.backgroundSize = 100000;
+    //static: canvas size
+    this.canvasHeight = 400;
+    this.canvasWidth = 600; 
+    //static: max units
+    this.maxRows = 12; 
+    this.maxBlocks = 18;
+    this.maxStripes = 24; 
+
+    //upload/link/stock
     this.source = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
-    //max 12
+    //sliders: units
     this.rows = 12;
-    //max 18
-    this.blocks = 10;
-    //max 24
-    this.stripes = 24;
+    this.blocks = 9;
+    this.stripes = 3;
+    //slider: background detail
+    this.backgroundSize = 100000;
+    //slider: background shadow
+    this.boxShadow = `${this.canvasWidth * .01}px ${this.canvasWidth * .01}px ${this.canvasWidth * .025}px ${this.canvasWidth * .005}px rgba(0,0,0,.5)`; 
+    //toggle: stripe shape
+    this.borderRadius = false;
+    //toggle: background compression
+    this.compression = false; 
+    
+
+    
     //background position difference between two blocks
     this.xRate = 1/this.blocks * 100; 
     this.yRate = 1/this.rows * 100; 
@@ -37,15 +52,19 @@ const state = new (function () {
 
 
 function Stripe ({index,direction,position}) {
-    const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
+    const [flexGrow] = useState([1,12,20][Math.floor(Math.random() * 3)]); 
     
     const style = {
         backgroundImage: `url(${state.source})`,
-        // backgroundSize: `${state.backgroundSize}%`,
-        backgroundSize: direction === 'column' ? `${state.backgroundSize}% ${state.bgHeight}px` : `${state.bgWidth}px ${state.backgroundSize}%`,
+        backgroundSize: !state.compression ? 
+            `${state.backgroundSize}%` : direction === 'column' ? `
+                ${state.backgroundSize}% ${state.bgHeight}px` : `${state.bgWidth}px ${state.backgroundSize}%`,
         backgroundPosition: `${position.x}% ${position.y}%`,
         flexGrow: flexGrow,
         display: index + 1 <= state.stripes ? 'flex' : 'none',
+        flexBasis: `calc(100%/${state.maxStripes})`,
+        borderRadius: state.borderRadius ? `${state.canvasWidth}px` : '',
+        boxShadow: state.boxShadow
     }
 
     return <div 
@@ -55,7 +74,7 @@ function Stripe ({index,direction,position}) {
 }
 
 function Block({index, rowIndex, rowDisplay}){
-    const [ids] = useState(new Array(24).fill().map(ele => uniqueid()));
+    const [ids] = useState(new Array(state.maxStripes).fill().map(ele => uniqueid()));
     const [flexDirection, toggleFD] = useState(['row','column'][Math.floor(Math.random() * 2)])
     const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
     
@@ -97,7 +116,8 @@ function Block({index, rowIndex, rowDisplay}){
     const style = {
         flexGrow: flexGrow,
         flexDirection: flexDirection,
-        display: display ? 'flex' : 'none'
+        display: display ? 'flex' : 'none',
+        flexBasis: `calc(100%/${state.maxBlocks})`
     }
 
     const stripes = ids.map((id,i)=>{
@@ -121,7 +141,7 @@ function Block({index, rowIndex, rowDisplay}){
 }
 
 function Row({index}){
-    const [ids] = useState(new Array(18).fill().map(ele => uniqueid()));
+    const [ids] = useState(new Array(state.maxBlocks).fill().map(ele => uniqueid()));
     
     const display = index + 1 <= state.rows; 
     
@@ -146,11 +166,13 @@ function Row({index}){
 
 
 export default function Canvas(){
-    const [ids] = useState(new Array(12).fill().map(ele => uniqueid()));
+    const [ids] = useState(new Array(state.maxRows).fill().map(ele => uniqueid()));
 
     const style = {
         height: state.canvasHeight,
-        width: state.canvasWidth
+        width: state.canvasWidth,
+        backgroundImage: `url(${state.source})`,
+        backgroundSize: `${state.backgroundSize}%`
     }
 
     const rows = ids.map((id,i) => {
