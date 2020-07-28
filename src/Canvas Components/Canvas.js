@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react';
+import React, { useState, useMemo, useContext } from 'react';
 import uniqueid from 'lodash.uniqueid';
 import '../Styles/Canvas.scss'
 
@@ -7,8 +7,8 @@ const state = new (function () {
     //upload/link/stock
     this.source = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
     //sliders: units
-    this.rows = 1;
-    this.blocks = 1;
+    this.rows = 3;
+    this.blocks = 5;
     this.stripes = 6;
     //slider: background detail
     this.backgroundSize = 1000000;
@@ -21,7 +21,7 @@ const state = new (function () {
     //toggle: horizontal unity
     this.rowUniformity = true;
     //toggle: shadow intensity
-    this.shadowIntensity = 0;
+    this.shadowIntensity = 1;
     //slider: shadow angle
     this.shadowAngle = .05;
     //slider: shadow diffusion
@@ -53,9 +53,9 @@ function Stripe ({isVisible, backgroundPosition, backgroundSize}) {
     //each stripe has a randomly assigned flex grow value
     const [flexGrow] = useState([1,12,20][Math.floor(Math.random() * 3)]); 
     //access max limit of stripes per block
-    const {maxUnits:{stripes}} = useContext(CanvasContext);
+    const {maxUnits:{stripeMax}} = useContext(CanvasContext);
     //access canvas width 
-    const {canvasDimensions:{width}} = useContext(CanvasContext);
+    const {canvasDimensions:{canvasWidth}} = useContext(CanvasContext);
 
     const style = {
         backgroundImage: `url(${state.source})`,
@@ -63,9 +63,9 @@ function Stripe ({isVisible, backgroundPosition, backgroundSize}) {
         backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
         flexGrow: flexGrow,
         display: isVisible ? 'flex' : 'none',
-        flexBasis: `calc(100%/${stripes})`,
-        borderRadius: state.borderRadius ? `${width}px` : '',
-        boxShadow: `0px ${width * state.shadowAngle}px ${width * state.shadowDiffusion}px ${width * .0015}px rgba(0,0,0,${state.shadowIntensity})`
+        flexBasis: `calc(100%/${stripeMax})`,
+        borderRadius: state.borderRadius ? `${canvasWidth}px` : '',
+        boxShadow: `0px ${canvasWidth * state.shadowAngle}px ${canvasWidth * state.shadowDiffusion}px ${canvasWidth * .0015}px rgba(0,0,0,${state.shadowIntensity})`
     }
 
     return <div 
@@ -89,11 +89,11 @@ const shuffleArray = (array) => {
 
 function Block({isVisible, backgroundPosition}){
     //accesss relative stripe size depending on flex direction
-    const {unitSizes:{stripe:{rowSize,columnSize}, row, block}} = useContext(CanvasContext);
+    const {unitSizes:{stripeSize, rowSize, blockSize}} = useContext(CanvasContext);
     //access max limit of stripes per block
-    const {maxUnits:{stripes}} = useContext(CanvasContext);
+    const {maxUnits:{stripeMax}} = useContext(CanvasContext);
     //generate unique id for each stripe in block
-    const ids = useMemo(()=> new Array(stripes).fill().map(ele => uniqueid()),[stripes]);
+    const ids = useMemo(()=> new Array(stripeMax).fill().map(ele => uniqueid()),[stripeMax]);
     //each block has a randomly assigned flex direction that can be toggled
     const [flexDirection, toggleFD] = useState(['row','column'][Math.floor(Math.random() * 2)]);
     //each block has a randomly assigned flex grow value
@@ -107,7 +107,7 @@ function Block({isVisible, backgroundPosition}){
     }
 
     //each stripe retrieves a background position using the index of another stripe in order to fragment background
-    const stripeIndexes = useMemo(()=> new Array(stripes).fill().map((ele,i) => i),[stripes]);
+    const stripeIndexes = useMemo(()=> new Array(stripeMax).fill().map((ele,i) => i),[stripeMax]);
     const randomIndexes = useMemo(()=>shuffleArray([...stripeIndexes]),[stripeIndexes]);
     const stripeBackgroundPositions =  useMemo(()=> new Array(ids.length).fill().map((ele,i)=>{
         //if block and stripe are visible
@@ -115,19 +115,19 @@ function Block({isVisible, backgroundPosition}){
             //return stripe background positions based on flex direction
             return flexDirection === 'column' ? {
                 x: backgroundPosition.x,
-                y: backgroundPosition.y + (i * columnSize)
+                y: backgroundPosition.y + (i * stripeSize.column)
             } : {
-                x: backgroundPosition.x + (i * rowSize),
+                x: backgroundPosition.x + (i * stripeSize.row),
                 y: backgroundPosition.y
             }
         }
         //otherwise return empty positions
         return {x:'',y:''}      
-    }),[backgroundPosition,columnSize,rowSize,flexDirection,ids]);
+    }),[backgroundPosition,stripeSize,flexDirection,ids]);
     
     //background size dependent on flex direction of block 
     const backgroundSize = !state.compression ? `${state.backgroundSize}%` : flexDirection === 'column' ? `
-        ${state.backgroundSize}% ${row}px` : `${block}px ${state.backgroundSize}%`
+        ${state.backgroundSize}% ${rowSize}px` : `${blockSize}px ${state.backgroundSize}%`
 
     const stripeComponents = ids.map((id,i)=>{
         return <Stripe  
@@ -151,9 +151,9 @@ function Block({isVisible, backgroundPosition}){
 
 function Row({isVisible, backgroundPositions}){
     //access max limit of blocks per row 
-    const {maxUnits:{blocks}} = useContext(CanvasContext)
+    const {maxUnits:{blockMax}} = useContext(CanvasContext)
     //generate unique id for each block in row
-    const ids = useMemo(()=> new Array(blocks).fill().map(ele => uniqueid()), [blocks]);
+    const ids = useMemo(()=> new Array(blockMax).fill().map(ele => uniqueid()), [blockMax]);
     //each row has a randomly assigned flex grow value
     const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
     
@@ -185,10 +185,10 @@ function Row({isVisible, backgroundPositions}){
 
 const CanvasContext = React.createContext(); 
 
-//takes in 2 objects: {height, width} and {rows, blocks, stripes}
+//takes in 2 objects: {canvasHeight, canvasWidth} and {rowMax, blockMax, stripeMax}
 export default function Canvas({canvasDimensions, maxUnits}){
     //generate unique id for each row
-    const ids = useMemo(()=>new Array(maxUnits.rows).fill().map(ele => uniqueid()),[maxUnits.rows]);
+    const ids = useMemo(()=>new Array(maxUnits.rowMax).fill().map(ele => uniqueid()),[maxUnits.rowMax]);
 
     // percentage of canvas a single row or block takes up
     const blockSize = useMemo(()=> 1/state.blocks * 100,[state.blocks]);
@@ -198,8 +198,8 @@ export default function Canvas({canvasDimensions, maxUnits}){
     const stripeColumnSize = useMemo(()=> rowSize/state.stripes, [rowSize, state.stripes]);
 
     //dissect background image into grid based on user selected row and block quantity
-    const backgroundPositions = useMemo(()=> Array(maxUnits.rows).fill().reduce((rows,x,i)=>{
-        rows[i] = Array(maxUnits.blocks).fill().reduce((blocks,y,j)=>{
+    const backgroundPositions = useMemo(()=> Array(maxUnits.rowMax).fill().reduce((rows,x,i)=>{
+        rows[i] = Array(maxUnits.blockMax).fill().reduce((blocks,y,j)=>{
             //x and y background position for each visible block within a visible row
             blocks[j] = (j + 1 <= state.blocks && i + 1 <= state.rows) ? {
                 x: j * blockSize,
@@ -214,17 +214,17 @@ export default function Canvas({canvasDimensions, maxUnits}){
     },{}),[state.rows,state.blocks,blockSize, rowSize]);
 
 
-    const rowAbsoluteHeight = canvasDimensions.height/state.rows; 
-    const blockAbsoluteWidth = canvasDimensions.width/state.blocks;
+    const rowAbsoluteHeight = canvasDimensions.canvasHeight/state.rows; 
+    const blockAbsoluteWidth = canvasDimensions.canvasWidth/state.blocks;
 
 
     const canvasStyle = {
         //user cannot alter
-        height: canvasDimensions.height,
-        width: canvasDimensions.width,
+        height: canvasDimensions.canvasHeight,
+        width: canvasDimensions.canvasWidth,
         //user can alter
         backgroundImage: `url(${state.source})`,
-        backgroundSize: !state.compression ? `${state.backgroundSize}%` : `${state.backgroundSize}% ${canvasDimensions.height}px `
+        backgroundSize: !state.compression ? `${state.backgroundSize}%` : `${state.backgroundSize}% ${canvasDimensions.canvasHeight}px `
     }
 
     const rowComponents = useMemo(()=> ids.map((id,i) => {
@@ -240,7 +240,7 @@ export default function Canvas({canvasDimensions, maxUnits}){
         <CanvasContext.Provider value={{
             canvasDimensions, 
             maxUnits, 
-            unitSizes: {row: rowAbsoluteHeight, block: blockAbsoluteWidth, stripe: {rowSize: stripeRowSize, columnSize: stripeColumnSize}}
+            unitSizes: {rowSize: rowAbsoluteHeight, blockSize: blockAbsoluteWidth, stripeSize: {row: stripeRowSize, column: stripeColumnSize}}
         }}>
             <div className='canvas' style={canvasStyle}>
                 {rowComponents}

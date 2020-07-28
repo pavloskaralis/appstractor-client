@@ -4,7 +4,7 @@ import Canvas from './Canvas Components/Canvas'
 function App() {
   return (
     <div className="App">
-      <Canvas canvasDimensions={{height: 400, width: 600}} maxUnits={{rows: 12, blocks: 18, stripes: 24}}/>
+      <Canvas canvasDimensions={{canvasHeight: 400, canvasWidth: 600}} maxUnits={{rowMax: 12, blockMax: 18, stripeMax: 24}}/>
     </div>
   );
 }
