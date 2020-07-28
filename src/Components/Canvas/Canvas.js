@@ -8,43 +8,23 @@ const state = new (function () {
     this.source = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
     //sliders: units
     this.rows = 12;
-    this.blocks = 9;
-    this.stripes = 6;
+    this.blocks = 18;
+    this.stripes = 24;
     //slider: background detail
-    this.backgroundSize = 1000000;
+    this.backgroundSize = 10000;
     //toggle: stripe shape
     this.borderRadius =  false;
     //toggle: background compression
-    this.compression = false; 
+    this.compression = true; 
     //toggle: vertical unity
-    this.blockUniformity = false;
-    //toggle: horizontal unity
-    this.rowUniformity = true;
+    this.uniformity = false;
     //toggle: shadow intensity
     this.shadowIntensity = 1;
     //slider: shadow angle
-    this.shadowAngle = .03;
+    this.shadowAngle = .05;
     //slider: shadow diffusion
-    this.shadowDiffusion = .01; 
+    this.shadowDiffusion = .05; 
     
-    //background position difference between two blocks
-    this.xRate = 1/this.blocks * 100; 
-    this.yRate = 1/this.rows * 100; 
-    //background position difference between two stripes 
-    this.xInc = this.xRate/this.stripes;
-    this.yInc = this.yRate/this.stripes;
-    this.backgroundPositions = Array(this.rows).fill().reduce((a,x,i)=>{
-        a[i] = Array(this.blocks).fill().reduce((b,y,j)=>{
-            b[j] = {
-                x: j * this.xRate,
-                y: i * this.yRate
-            };
-            return b; 
-        },{}); 
-        return a; 
-    },{});
-    this.bgHeight = this.canvasHeight/this.rows; 
-    this.bgWidth = this.canvasWidth/this.blocks;
 })();
 
 //takes in visibility boolean, background position (object {x.y}),and background size css string
@@ -132,7 +112,7 @@ function Block({isVisible, backgroundPosition}){
 
     const blockStyle = {
         //toggles between random and uniform flexGrow 
-        flexGrow: state.blockUniformity ? 1 : flexGrow,
+        flexGrow: state.uniformity ? 1 : flexGrow,
         flexDirection: flexDirection,
         //hides block if not visible
         display: isVisible ? 'flex' : 'none',
@@ -156,8 +136,6 @@ function Row({isVisible, backgroundPositions}){
     const {maxUnits:{blockMax}} = useContext(CanvasContext)
     //generate unique id for each block in row
     const ids = useMemo(()=> new Array(blockMax).fill().map(ele => uniqueid()), [blockMax]);
-    //each row has a randomly assigned flex grow value
-    const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
   
     const blockComponents = ids.map((id,i)=>{
         //block is visible if its index falls within user set block quantity and exists within visible row
@@ -170,9 +148,7 @@ function Row({isVisible, backgroundPositions}){
 
     const rowStyle = {
         //hides block if not visible
-        display: isVisible ? 'flex' : 'none',
-        //toggles between random and uniform flexGrow 
-        flexGrow: state.rowUniformity ? 1 : flexGrow
+        display: isVisible ? 'flex' : 'none'
     }
 
     return (
