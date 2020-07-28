@@ -9,16 +9,16 @@ const state = new (function () {
     this.rows = 6;
     this.blocks = 8;
     this.stripes = 4;
-    //slider: background detail
+    //slider: background detail 
     this.backgroundSize = 1000000;
     //toggles: stripe shape, background compression, block unity
-    this.borderRadius =  false;
+    this.borderRadius =  true;
     this.compression = false; 
     this.uniformity = false;
     //sliders: shadow intensity, angle, diffusion
-    this.shadowIntensity = .0;
+    this.shadowIntensity = 1;
     this.shadowAngle = .0;
-    this.shadowDiffusion = .05; 
+    this.shadowDiffusion = .0; 
     //toggle: only horizontal, only vertical, woven, default (random)
     this.pattern = 'default'
 })();

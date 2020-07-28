@@ -17,6 +17,12 @@
             flex-basis: calc(100%/18); 
             // border: 1px blue solid;
             box-sizing: border-box;
+            cursor: pointer;
+
+            &:hover{
+                filter: brightness(110%);
+                z-index: 1;
+            }
 
             .stripe {
                 flex-basis: calc(100%/24); 
