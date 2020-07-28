@@ -10,7 +10,7 @@
         width: 100%;
         // border: 1px green solid;
         box-sizing: border-box;
-        flex: 1; 
+        // flex-direction: row-reverse;
 
         .block {
             display: flex;
@@ -23,6 +23,7 @@
                 // border: 1px red solid;
                 box-sizing: border-box;
                 background-repeat: no-repeat; 
+                // filter: hue-rotate(-20deg)
             }
         }
     }
