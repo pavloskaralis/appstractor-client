@@ -3,28 +3,24 @@ import uniqueid from 'lodash.uniqueid';
 import '../../Styles/Canvas.scss'
 
 const state = new (function () {
-
     //upload/link/stock
     this.source = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
-    //sliders: units
-    this.rows = 12;
-    this.blocks = 18;
-    this.stripes = 24;
+    //sliders: units2
+    this.rows = 6;
+    this.blocks = 8;
+    this.stripes = 4;
     //slider: background detail
-    this.backgroundSize = 10000;
-    //toggle: stripe shape
+    this.backgroundSize = 1000000;
+    //toggles: stripe shape, background compression, block unity
     this.borderRadius =  false;
-    //toggle: background compression
-    this.compression = true; 
-    //toggle: vertical unity
+    this.compression = false; 
     this.uniformity = false;
-    //toggle: shadow intensity
-    this.shadowIntensity = 1;
-    //slider: shadow angle
-    this.shadowAngle = .05;
-    //slider: shadow diffusion
+    //sliders: shadow intensity, angle, diffusion
+    this.shadowIntensity = .0;
+    this.shadowAngle = .0;
     this.shadowDiffusion = .05; 
-    
+    //toggle: only horizontal, only vertical, woven, default (random)
+    this.pattern = 'default'
 })();
 
 //takes in visibility boolean, background position (object {x.y}),and background size css string
@@ -65,19 +61,28 @@ const shuffleArray = (array) => {
     return array;
 }
 
-//takes in visibility boolean and relevant background position (object {x,y})
-function Block({isVisible, backgroundPosition}){
-    //accesss unit sizes and max limit of stripes per block
-    const {unitSizes:{stripeSize, rowSize, blockSize}, maxUnits:{stripeMax} } = useContext(CanvasContext);
+//takes in visibility boolean, relevant background position (object {x,y}), and woven flex direction string
+function Block({isVisible, backgroundPosition, wovenDirection}){
+    //accesss unit sizes and max limit of stripes per block and blocks per row
+    const {unitSizes:{stripeSize, rowSize, blockSize}, maxUnits:{stripeMax}} = useContext(CanvasContext);
     //generate unique id for each stripe in block
     const ids = useMemo(()=> new Array(stripeMax).fill().map(ele => uniqueid()),[stripeMax]);
+    //each stripe retrieves a background position using the index of another stripe in order to fragment background
+    const [randomIndexes,resetRandomIndexes] = useState(()=>shuffleArray(new Array(stripeMax).fill().map((ele,i) => i)));
     //each block has a randomly assigned flex direction that can be toggled
-    const [flexDirection, toggleFD] = useState(['row','column'][Math.floor(Math.random() * 2)]);
+    const [randomDirection, resetRandomDirection] = useState(['row','column'][Math.floor(Math.random() * 2)]);
     //each block has a randomly assigned flex grow value
     const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
     
-    //each stripe retrieves a background position using the index of another stripe in order to fragment background
-    const randomIndexes = useMemo(()=>shuffleArray(new Array(stripeMax).fill().map((ele,i) => i)),[stripeMax]);
+    
+    const flexDirection = {
+        default: randomDirection,
+        horizontal: 'column',
+        vertical: 'row',
+        woven: wovenDirection
+    }[state.pattern]
+    
+ 
     //calculate fragmented background positions
     const fragmentedBackgroundPositions = new Array(ids.length).fill().map((ele,i)=>{
         //if block and stripe are visible
@@ -95,10 +100,10 @@ function Block({isVisible, backgroundPosition}){
         return {x:'',y:''}      
     })
 
-    //background size dependent on flex direction of block 
+    //background size dependant on flex direction of block; calculated here rather than stripe for faster performance
     const backgroundSize = !state.compression ? `${state.backgroundSize}%` : flexDirection === 'column' ? `
         ${state.backgroundSize}% ${rowSize}px` : `${blockSize}px ${state.backgroundSize}%`
-
+    
     const stripeComponents = ids.map((id,i)=>{
         //stripe is visible if its index falls within user set stripe quantity
         //each stripe is passed a random fragmented background position 
@@ -109,6 +114,12 @@ function Block({isVisible, backgroundPosition}){
             backgroundSize={backgroundSize}
         />
     })
+
+    //rerender stripes on click
+    const rerenderStripes = () => {
+        resetRandomDirection(['row','column'][Math.floor(Math.random() * 2)]);
+        resetRandomIndexes(shuffleArray(new Array(stripeMax).fill().map((ele,i) => i)));
+    }
 
     const blockStyle = {
         //toggles between random and uniform flexGrow 
@@ -123,26 +134,28 @@ function Block({isVisible, backgroundPosition}){
         <div 
             className='block' 
             style={blockStyle}
-            onClick={()=> toggleFD(FD => FD === 'row' ? 'column' : 'row')}
+            onClick={rerenderStripes}
         >
             {stripeComponents}
         </div>
     )
 }
 
-//takes in visibility boolean, and relevant background positions (object)
-function Row({isVisible, backgroundPositions}){
+//takes in visibility boolean, relevant background positions (object), and relevant woven flex directions (object)
+function Row({isVisible, backgroundPositions, wovenPattern}){
     //access max limit of blocks per row 
     const {maxUnits:{blockMax}} = useContext(CanvasContext)
     //generate unique id for each block in row
     const ids = useMemo(()=> new Array(blockMax).fill().map(ele => uniqueid()), [blockMax]);
-  
+
+
     const blockComponents = ids.map((id,i)=>{
         //block is visible if its index falls within user set block quantity and exists within visible row
         return <Block 
             key={id} 
             isVisible={i + 1 <= state.blocks && isVisible} 
-            backgroundPosition={backgroundPositions[i]} 
+            backgroundPosition={backgroundPositions[i]}
+            wovenDirection={wovenPattern[i]}
         />
     });
 
@@ -195,6 +208,23 @@ export default function Canvas({canvasDimensions, maxUnits}){
         return rows; 
     },{});
 
+    //construct woven pattern for stripe direction toggle
+    const wovenPattern =  Array(maxUnits.rowMax).fill().reduce((rows,x,i)=>{
+        rows[i] = Array(maxUnits.blockMax).fill().reduce((blocks,y,j)=>{
+            //x and y background position for each visible block within a visible row
+            if(maxUnits.blockMax%2 === 0) {
+                if(i%2 === 0){
+                    blocks[j] = j%2 === 0 ? 'column' : 'row'
+                }else{
+                    blocks[j] = j%2 === 0 ? 'row' : 'column'
+                }
+            }else {
+                blocks[j] = j%2 === 0 ? 'row' : 'column'
+            }
+            return blocks; 
+        },{}); 
+        return rows; 
+    },{});
 
     const rowComponents = ids.map((id,i) => {
         //row is visible if its index falls within user set row quantity
@@ -203,6 +233,7 @@ export default function Canvas({canvasDimensions, maxUnits}){
             key={id} 
             isVisible={i + 1 <= state.rows}
             backgroundPositions={backgroundPositions[i]}
+            wovenPattern={wovenPattern[i]}
         />
     })
 
