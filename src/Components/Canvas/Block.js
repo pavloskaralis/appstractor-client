@@ -1,56 +1,35 @@
-import React, { useState, useMemo, useContext } from 'react';
+import React, { useMemo, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import {CanvasContext} from './Canvas'
 import uniqueid from 'lodash.uniqueid';
 import Stripe from './Stripe'
 
-//stripe indexes get shuffled to fragement background image
-const shuffleArray = (array, stripeQuantity) => {    
-    let currentIndex = stripeQuantity, temporaryValue, randomIndex;   
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }  
-    return array;
-}
-
-//takes in visibility boolean, relevant background position (object {x,y}), and woven flex direction string
-export default function Block({isVisible, backgroundPosition, wovenDirection}){
+//takes in visibility boolean, relevant background position (object {x,y}), woven flex direction string, and relevant random values
+export default function Block({isVisible, backgroundPosition, wovenDirection,randomValues}){
     //access canvas state
-    const {stripeQuantity,stripeDirection,backgroundCompression,backgroundDetail,blockUniformity,blockQuantity} = useSelector(state => state.canvas);
+    const {quantity, pattern, background, maxUnits} = useSelector(state => state.canvas);
     //accesss unit sizes and max limit of stripes per block and blocks per row
-    const {unitSizes:{stripeSize, rowSize, blockSize}, maxUnits:{stripeMax,blockMax}} = useContext(CanvasContext);
+    const {currentUnitSize} = useContext(CanvasContext);
     //generate unique id for each stripe in block
-    const ids = useMemo(()=> new Array(stripeMax).fill().map(ele => uniqueid()),[stripeMax]);
-    //each stripe retrieves a background position using the index of another stripe in order to fragment background
-    const [randomIndexes,resetRandomIndexes] = useState(()=>shuffleArray(new Array(stripeMax).fill().map((ele,i) => i),stripeQuantity));
-    //each block has a randomly assigned flex direction that can be toggled
-    const [randomDirection, resetRandomDirection] = useState(['row','column'][Math.floor(Math.random() * 2)]);
-    //each block has a randomly assigned flex grow value
-    const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
-    //rerender serial to signle new flex grow within child stripes
-    const [rerender,dispatchRerender] = useState(Math.random());
-
+    const ids = useMemo(()=> new Array(maxUnits.stripe).fill().map(ele => uniqueid()),[maxUnits.stripe]);
+    
     const flexDirection = {
-        default: randomDirection,
+        random: randomValues.flexDirection,
         horizontal: 'column',
         vertical: 'row',
         woven: wovenDirection
-    }[stripeDirection]
+    }[pattern]
     
     //calculate fragmented background positions
     const fragmentedBackgroundPositions = new Array(ids.length).fill().map((ele,i)=>{
         //if block and stripe are visible
-        if(isVisible && i + 1 <= stripeQuantity) {
+        if(isVisible && i + 1 <= quantity.stripe) {
             //return stripe background positions based on flex direction
             return flexDirection === 'column' ? {
                 x: backgroundPosition.x,
-                y: backgroundPosition.y + (i * stripeSize.column)
+                y: backgroundPosition.y + (i * currentUnitSize.stripe.column)
             } : {
-                x: backgroundPosition.x + (i * stripeSize.row),
+                x: backgroundPosition.x + (i * currentUnitSize.stripe.row),
                 y: backgroundPosition.y
             }
         }
@@ -59,36 +38,29 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
     })
 
     //background size dependant on flex direction of block; calculated here rather than stripe for faster performance
-    const backgroundSize = !backgroundCompression ? `${backgroundDetail}%` : flexDirection === 'column' ? `
-        ${backgroundDetail}% ${rowSize}px` : `${blockSize}px ${backgroundDetail}%`
+    const backgroundSize = !background.stretch ? `${background.detail}%` : flexDirection === 'column' ? `
+        ${background.detail}% ${currentUnitSize.row}px` : `${currentUnitSize.block}px ${background.detail}%`
     
     let stripeComponents = ids.map((id,i)=>{
         //stripe is visible if its index falls within user set stripe quantity
         //each stripe is passed a random fragmented background position 
         return <Stripe  
             key={id} 
-            isVisible={isVisible && i + 1 <= stripeQuantity} 
-            backgroundPosition={fragmentedBackgroundPositions[randomIndexes[i]]}
+            isVisible={isVisible && i + 1 <= quantity.stripe} 
+            backgroundPosition={fragmentedBackgroundPositions[randomValues.indexes[i]]}
             backgroundSize={backgroundSize}
-            rerender={rerender}
+            randomValues={randomValues.stripes[i]}
+            // rerender={rerender}
         />
     })
 
-     
-    //rerender stripes on click
-    const rerenderStripes = () => {
-        resetRandomDirection(['row','column'][Math.floor(Math.random() * 2)]);
-        resetRandomIndexes(shuffleArray(new Array(stripeMax).fill().map((ele,i) => i),stripeQuantity));
-        dispatchRerender(Math.random());
-    }
-
     const blockStyle = {
         //toggles between random and uniform flexGrow 
-        flexGrow: blockUniformity ? 1 : flexGrow,
+        flexGrow: background.uniform ? 1 : randomValues.flexGrow,
         flexDirection: flexDirection,
         //hides block if not visible
         display: isVisible ? 'flex' : 'none',
-        flexBasis: `calc(100%/${blockMax})`
+        flexBasis: `calc(100%/${maxUnits.block})`
     }
 
     console.log(blockStyle.flexGrow)
@@ -96,7 +68,6 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
         <div 
             className='block' 
             style={blockStyle}
-            onClick={rerenderStripes}
         >
             {stripeComponents}
         </div>

@@ -1,25 +1,23 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux';
-import {CanvasContext} from './Canvas';
 import uniqueid from 'lodash.uniqueid';
 import Block from './Block';
 
-//takes in visibility boolean, relevant background positions (object), and relevant woven flex directions (object)
-export default function Row({isVisible, backgroundPositions, wovenPattern}){
+//takes in visibility boolean, relevant background positions (object), relevant woven flex directions (object), and relevant random values
+export default function Row({isVisible, backgroundPositions, wovenPattern, randomValues}){
     //access canvas state
-    const {blockQuantity} = useSelector(state => state.canvas);
-    //access max limit of blocks per row 
-    const {maxUnits:{blockMax}} = useContext(CanvasContext)
+    const {quantity,maxUnits} = useSelector(state => state.canvas);
     //generate unique id for each block in row
-    const ids = useMemo(()=> new Array(blockMax).fill().map(ele => uniqueid()), [blockMax]);
-
+    const ids = useMemo(()=> new Array(maxUnits.block).fill().map(ele => uniqueid()), [maxUnits.block]);
+    
     const blockComponents = ids.map((id,i)=>{
         //block is visible if its index falls within user set block quantity and exists within visible row
         return <Block 
             key={id} 
-            isVisible={i + 1 <= blockQuantity && isVisible} 
+            isVisible={i + 1 <= quantity.block && isVisible} 
             backgroundPosition={backgroundPositions[i]}
             wovenDirection={wovenPattern[i]}
+            randomValues={randomValues[i]}
         />
     });
 

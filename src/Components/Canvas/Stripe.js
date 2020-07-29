@@ -1,26 +1,24 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, {useContext} from 'react';
 import { useSelector } from 'react-redux';
 import {CanvasContext} from './Canvas'
 
-//takes in visibility boolean, background position (object {x.y}), background size css string, and rerender number
-export default function Stripe ({isVisible, backgroundPosition, backgroundSize, rerender}) {
+//takes in visibility boolean, background position (object {x.y}), background size css string, and relevant random values
+export default function Stripe ({isVisible, backgroundPosition, backgroundSize, randomValues}) {
     //access canvas state
-    const {imageSource,stripeShape,shadowAngle,shadowDiffusion,shadowIntensity} = useSelector(state => state.canvas);
+    const {image,background,shadow,maxUnits} = useSelector(state => state.canvas);
     //access max limit of stripes per block and canvas width
-    const {maxUnits:{stripeMax}, canvasDimensions:{canvasWidth}} = useContext(CanvasContext);
-    //each stripe has a randomly assigned flex grow value
-    const flexGrow = useMemo(()=>[1,6,10][Math.floor(Math.random() * 3)],[rerender]);
-    
+    const {canvasDimensions} = useContext(CanvasContext);
+
     const stripeStyle = {
-        backgroundImage: `url(${imageSource})`,
+        backgroundImage: `url(${image})`,
         backgroundSize: backgroundSize,
         backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
-        flexGrow: flexGrow,
+        flexGrow: randomValues.flexGrow,
         //hides stripe if not visible
         display: isVisible ? 'flex' : 'none',
-        flexBasis: `calc(100%/${stripeMax})`,
-        borderRadius: stripeShape ? `${canvasWidth}px` : '',
-        boxShadow: `0px ${canvasWidth * shadowAngle}px ${canvasWidth * shadowDiffusion}px ${canvasWidth * .0015}px rgba(0,0,0,${shadowIntensity})`
+        flexBasis: `calc(100%/${maxUnits.stripe})`,
+        borderRadius: background.ellipse ? `${canvasDimensions.width}px` : '',
+        boxShadow: `0px ${canvasDimensions.width * shadow.angle}px ${canvasDimensions.width * shadow.size}px ${canvasDimensions.width * .0015}px rgba(0,0,0,${shadow.opacity})`
     }
 
     return <div 
