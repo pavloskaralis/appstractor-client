@@ -22,7 +22,7 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
     //access canvas state
     const {stripeQuantity,stripeDirection,backgroundCompression,backgroundDetail,blockUniformity,blockQuantity} = useSelector(state => state.canvas);
     //accesss unit sizes and max limit of stripes per block and blocks per row
-    const {unitSizes:{stripeSize, rowSize, blockSize}, maxUnits:{stripeMax}} = useContext(CanvasContext);
+    const {unitSizes:{stripeSize, rowSize, blockSize}, maxUnits:{stripeMax,blockMax}} = useContext(CanvasContext);
     //generate unique id for each stripe in block
     const ids = useMemo(()=> new Array(stripeMax).fill().map(ele => uniqueid()),[stripeMax]);
     //each stripe retrieves a background position using the index of another stripe in order to fragment background
@@ -31,7 +31,9 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
     const [randomDirection, resetRandomDirection] = useState(['row','column'][Math.floor(Math.random() * 2)]);
     //each block has a randomly assigned flex grow value
     const [flexGrow] = useState([1,3,5][Math.floor(Math.random() * 3)]); 
-    
+    //rerender serial to signle new flex grow within child stripes
+    const [rerender,dispatchRerender] = useState(Math.random());
+
     const flexDirection = {
         default: randomDirection,
         horizontal: 'column',
@@ -60,7 +62,7 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
     const backgroundSize = !backgroundCompression ? `${backgroundDetail}%` : flexDirection === 'column' ? `
         ${backgroundDetail}% ${rowSize}px` : `${blockSize}px ${backgroundDetail}%`
     
-    const stripeComponents = ids.map((id,i)=>{
+    let stripeComponents = ids.map((id,i)=>{
         //stripe is visible if its index falls within user set stripe quantity
         //each stripe is passed a random fragmented background position 
         return <Stripe  
@@ -68,13 +70,16 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
             isVisible={isVisible && i + 1 <= stripeQuantity} 
             backgroundPosition={fragmentedBackgroundPositions[randomIndexes[i]]}
             backgroundSize={backgroundSize}
+            rerender={rerender}
         />
     })
 
+     
     //rerender stripes on click
     const rerenderStripes = () => {
         resetRandomDirection(['row','column'][Math.floor(Math.random() * 2)]);
         resetRandomIndexes(shuffleArray(new Array(stripeMax).fill().map((ele,i) => i),stripeQuantity));
+        dispatchRerender(Math.random());
     }
 
     const blockStyle = {
@@ -83,9 +88,10 @@ export default function Block({isVisible, backgroundPosition, wovenDirection}){
         flexDirection: flexDirection,
         //hides block if not visible
         display: isVisible ? 'flex' : 'none',
-        flexBasis: `calc(100%/${blockQuantity})`
+        flexBasis: `calc(100%/${blockMax})`
     }
 
+    console.log(blockStyle.flexGrow)
     return (
         <div 
             className='block' 

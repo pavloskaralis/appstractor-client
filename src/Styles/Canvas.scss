@@ -14,7 +14,6 @@
 
         .block {
             display: flex;
-            flex-basis: calc(100%/18); 
             // border: 1px blue solid;
             box-sizing: border-box;
             cursor: pointer;
@@ -24,7 +23,6 @@
             }
 
             .stripe {
-                flex-basis: calc(100%/24); 
                 // border: 1px red solid;
                 box-sizing: border-box;
                 background-repeat: no-repeat; 

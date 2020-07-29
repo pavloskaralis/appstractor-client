@@ -2,9 +2,9 @@ const initialCanvasState = {
     //upload/link/stock
     imageSource: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg',
     //sliders: units2
-    rowQuanity: 6,
-    blockQuantity: 9,
-    stripeQuantity: 24,
+    rowQuanity: 4,
+    blockQuantity: 6,
+    stripeQuantity: 3,
     //toggle: only horizontal, only vertical, woven, default (random)
     stripeDirection: 'woven',
     //slider: background detail 
@@ -15,7 +15,7 @@ const initialCanvasState = {
     blockUniformity: true,
     //sliders: shadow intensity, angle, diffusion
     shadowIntensity: .5,
-    shadowAngle: .05,
+    shadowAngle: .01,
     shadowDiffusion: .01,
 }
 
