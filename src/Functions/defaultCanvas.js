@@ -6,19 +6,19 @@ class defaultCanvas {
         this.image = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
         //sliders
         this.quantity = {
-            row: 4,
-            block: 6,
-            stripe: 3
+            row: 6,
+            block: 9,
+            stripe: 12
         };
         //radio random, horizontal, vertical, woven
-        this.pattern = 'woven';
+        this.pattern = 'random';
         this.background = {
             //slider
-            detail: 1000000,
+            detail: 5000,
             //togles
             ellipse: false,
             stretch: true,
-            uniform: false
+            uniform: true
         };
         //sliders
         this.shadow = {

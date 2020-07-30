@@ -63,7 +63,6 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
         flexBasis: `calc(100%/${maxUnits.block})`
     }
 
-    console.log(blockStyle.flexGrow)
     return (
         <div 
             className='block' 
