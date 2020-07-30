@@ -1,5 +1,6 @@
 import shuffleArray from './shuffleArray'
 
+//each property is deemed necessary to reproduce canvas
 class defaultCanvas {
     constructor(){
         //upload/link/stock
@@ -8,23 +9,23 @@ class defaultCanvas {
         this.quantity = {
             row: 6,
             block: 9,
-            stripe: 12
+            stripe: 3
         };
         //radio random, horizontal, vertical, woven
         this.pattern = 'random';
         this.background = {
             //slider
-            detail: 5000,
+            detail: 1000000,
             //togles
             ellipse: false,
-            stretch: true,
+            stretch: false,
             uniform: true
         };
         //sliders
         this.shadow = {
-            opacity: .5,
-            angle: .01,
-            size: .01
+            opacity: 1,
+            angle: .05,
+            size: .02
         };
         //static
         this.maxUnits = {
@@ -32,7 +33,7 @@ class defaultCanvas {
             block: 18, 
             stripe: 24
         };
-        //randomValues
+        //randomValues; stored in state to make canvas reproducable 
         this.randomValues = new Array(this.maxUnits.row).fill().reduce((rows,x,i)=>{
             rows[i] = new Array(this.maxUnits.block).fill().reduce((blocks,y,j)=>{
                 blocks[j] = {

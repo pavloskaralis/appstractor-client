@@ -9,10 +9,11 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
     //access canvas state
     const {quantity, pattern, background, maxUnits} = useSelector(state => state.canvas);
     //accesss unit sizes and max limit of stripes per block and blocks per row
-    const {currentUnitSize} = useContext(CanvasContext);
+    const {currentUnitSizes} = useContext(CanvasContext);
     //generate unique id for each stripe in block
     const ids = useMemo(()=> new Array(maxUnits.stripe).fill().map(ele => uniqueid()),[maxUnits.stripe]);
     
+    //cannot be calculated at higher level given direction can be random
     const flexDirection = {
         random: randomValues.flexDirection,
         horizontal: 'column',
@@ -27,9 +28,9 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
             //return stripe background positions based on flex direction
             return flexDirection === 'column' ? {
                 x: backgroundPosition.x,
-                y: backgroundPosition.y + (i * currentUnitSize.stripe.column)
+                y: backgroundPosition.y + (i * currentUnitSizes.stripe.column)
             } : {
-                x: backgroundPosition.x + (i * currentUnitSize.stripe.row),
+                x: backgroundPosition.x + (i * currentUnitSizes.stripe.row),
                 y: backgroundPosition.y
             }
         }
@@ -37,9 +38,10 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
         return {x:'',y:''}      
     })
 
-    //background size dependant on flex direction of block; calculated here rather than stripe for faster performance
+    //background size dependant on flex direction of block
+    //calculated here rather than stripe for faster performance
     const backgroundSize = !background.stretch ? `${background.detail}%` : flexDirection === 'column' ? `
-        ${background.detail}% ${currentUnitSize.row}px` : `${currentUnitSize.block}px ${background.detail}%`
+        ${background.detail}% ${currentUnitSizes.row}px` : `${currentUnitSizes.block}px ${background.detail}%`
     
     let stripeComponents = ids.map((id,i)=>{
         //stripe is visible if its index falls within user set stripe quantity
@@ -50,7 +52,6 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
             backgroundPosition={fragmentedBackgroundPositions[randomValues.indexes[i]]}
             backgroundSize={backgroundSize}
             randomValues={randomValues.stripes[i]}
-            // rerender={rerender}
         />
     })
 

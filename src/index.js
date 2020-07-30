@@ -8,6 +8,8 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './Reducers/rootReducer.js'
 
+import CssBaseline from '@material-ui/core/CssBaseline';
+
 import * as serviceWorker from './serviceWorker';
 
 const loggerMiddleware = createLogger()
@@ -20,6 +22,7 @@ const store = createStore(
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
+      <CssBaseline/>
       <App />
     </Provider>
   </React.StrictMode>,

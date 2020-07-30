@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import uniqueid from 'lodash.uniqueid';
 import Block from './Block';
 
-//takes in visibility boolean, relevant background positions (object), relevant woven flex directions (object), and relevant random values
+//takes in visibility boolean, relevant background positions (object),
+//relevant woven flex directions (object), and relevant random values
 export default function Row({isVisible, backgroundPositions, wovenPattern, randomValues}){
     //access canvas state
     const {quantity,maxUnits} = useSelector(state => state.canvas);

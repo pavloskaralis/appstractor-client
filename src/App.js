@@ -1,11 +1,13 @@
 import React from 'react';
 import Canvas from './Components/Canvas/Canvas'
+import Box from '@material-ui/core/Box'
+import Nav from './Components/Nav/Nav'
 
 function App() {
   return (
-    <div className="App">
-      <Canvas canvasDimensions={{height: 600, width: 900}}/>
-    </div>
+    <Box height='100vh'>
+      <Nav/>
+    </Box>
   );
 }
 
