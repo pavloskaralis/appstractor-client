@@ -9,7 +9,12 @@ import '../../Styles/Canvas.scss'
 
 
 //takes in object {height, width} to allow for dynamic/responsive sizing 
-export default function Canvas({canvasDimensions}){
+export default function Canvas({canvasWidth}){
+    //calculate dimension
+    const canvasDimensions = {
+        width: `${canvasWidth}px`,
+        height: `${canvasWidth * 2/3}px`
+    }
     //access canvas state
     const {quantity,image,background,maxUnits,randomValues} = useSelector(state => state.canvas);
 
