@@ -4,15 +4,11 @@ import {makeStyles} from '@material-ui/core/styles'
 
 
 const styles = makeStyles((theme) => ({
-    outerBox: {
+    box: {
         backgroundColor: theme.palette.background.default,
         width: '100%', 
         height: '100%'
     },
-    innerBox: {
-        height: '100%',
-        width: '100%'
-    }
 }));
 
 export default function TabPanel({ children, value, index, ...other }) {
@@ -21,12 +17,12 @@ export default function TabPanel({ children, value, index, ...other }) {
       <Box
         role="tabpanel"
         hidden={value !== index}
-        className={classes.outerBox}
+        className={classes.box}
         id={`tabpanel-${index}`}
         aria-labelledby={`tab-${index}`}
         {...other}
       >
-        <Box display='flex' className={classes.innerBox}>
+        <Box display='flex' width='100%' height='100%'>
             {children}
         </Box>
       </Box>

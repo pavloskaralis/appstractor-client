@@ -9,16 +9,16 @@ class defaultCanvas {
         this.quantity = {
             row: 6,
             block: 9,
-            stripe: 3
+            stripe: 12
         };
         //radio random, horizontal, vertical, woven
-        this.pattern = 'random';
+        this.pattern = 'woven';
         this.background = {
             //slider
-            detail: 1000000,
+            detail: 100000,
             //togles
             ellipse: false,
-            stretch: false,
+            stretch: true,
             uniform: true
         };
         //sliders
