@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import { useSelector } from 'react-redux';
-import {CanvasContext} from './Canvas'
+import CanvasContext from '../../Contexts/CanvasContext'
 
 //takes in visibility boolean, background position (object {x.y}), background size css string, and relevant random values
 export default function Stripe ({isVisible, backgroundPosition, backgroundSize, randomValues}) {

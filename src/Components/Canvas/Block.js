@@ -1,6 +1,6 @@
 import React, { useMemo, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import {CanvasContext} from './Canvas'
+import CanvasContext from '../../Contexts/CanvasContext'
 import uniqueid from 'lodash.uniqueid';
 import Stripe from './Stripe'
 

@@ -10,6 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
 import {makeStyles} from '@material-ui/core/styles'
+import RenderButtons from './RenderButtons'
+import RenderTabs from './RenderTabs'
 
 const useStyles = makeStyles({
     appBar: {
@@ -27,7 +29,10 @@ const useStyles = makeStyles({
     }
 });
 
-export default function Nav({buttons,tabs}){
+const buttons=<RenderButtons/>
+const tabs=<RenderTabs/>
+
+export default function Nav(){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -39,10 +44,10 @@ export default function Nav({buttons,tabs}){
     };
  
     return (
-        <AppBar position='static' classes={{root: classes.appBar}}>
+        <AppBar position='static' className={classes.appBar}>
             <Box display='flex' width='100%'>
-                <Toolbar classes={{root: classes.buttonsToolbar}}>
-                    <IconButton classes={{root: classes.iconButton}} edge='start' aria-label='menu'>
+                <Toolbar className={classes.buttonsToolbar}>
+                    <IconButton className={classes.iconButton} edge='start' aria-label='menu'>
                         <Icon>
                             <img src={Logo} height={25} width={25} style={{ color: grey[50] }} />
                         </Icon>
@@ -50,7 +55,7 @@ export default function Nav({buttons,tabs}){
                     {buttons}
                 </Toolbar>
                 {tabs}
-                <Toolbar classes={{root: classes.menuToolbar}}>
+                <Toolbar className={classes.menuToolbar}>
                     <IconButton edge='end' aria-label='menu' onClick={handleClick}>
                         <MenuIcon style={{ color: grey[50] }}/>
                     </IconButton>       

@@ -2,12 +2,11 @@ import React, { useMemo } from 'react';
 import { useSelector } from 'react-redux'
 import uniqueid from 'lodash.uniqueid';
 import Row from './Row'
+import CanvasContext from '../../Contexts/CanvasContext'
 import '../../Styles/Canvas.scss'
 
 
-//passes canvas dimensions, max unit limits, and current unit sizes
-const CanvasContext = React.createContext();
-export {CanvasContext}
+
 
 //takes in object {height, width} to allow for dynamic/responsive sizing 
 export default function Canvas({canvasDimensions}){

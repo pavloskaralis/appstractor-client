@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Canvas from '../../Components/Canvas/Canvas'
 import Box from '@material-ui/core/Box'
 import Drawer from '@material-ui/core/Drawer';
 import {makeStyles} from '@material-ui/core/styles'
-
+import TabContext from '../../Contexts/TabContext'
+import TabPanel from './TabPanel'
 
 const styles = makeStyles((theme) => ({
     root: {
@@ -30,16 +31,21 @@ const styles = makeStyles((theme) => ({
 
 function Home() {
     const classes = styles();
+    const {tabValue} = useContext(TabContext);
 
     return (
         <Box flexGrow={1} className={classes.box}>
-            <Drawer
-                variant='permanent'
-                className={classes.drawer}
-                classes={{ paper: classes.drawerPaper }}
-            >
-            </Drawer>
-         
+            <TabPanel value={tabValue} index={0}>
+              <Drawer
+                  variant='permanent'
+                  className={classes.drawer}
+                  classes={{ paper: classes.drawerPaper }}
+              >
+              </Drawer>
+            </TabPanel>
+            <TabPanel value={tabValue} index={1}>
+              
+            </TabPanel>
         </Box>
     );
 }
