@@ -24,10 +24,10 @@ export default function Nav({children}){
                 <IconButton edge='start' aria-label='menu'>
                     <DashboardIcon/>
                 </IconButton>
-                <Box flexGrow={1}>
+                <Box flexGrow={1} display='flex' justifyContent='space-between'>
                     {children}
                 </Box>
-                <IconButton color='white' edge='end' aria-label='menu' onClick={handleClick}>
+                <IconButton edge='end' aria-label='menu' onClick={handleClick}>
                     <MenuIcon />
                 </IconButton>
             </ToolBar>

@@ -8,6 +8,8 @@ import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './Reducers/rootReducer.js'
 
+import {BrowserRouter} from 'react-router-dom'
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import * as serviceWorker from './serviceWorker';
@@ -23,7 +25,9 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <CssBaseline/>
-      <App />
+      <BrowserRouter>
+        <App />   
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

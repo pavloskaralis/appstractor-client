@@ -8,6 +8,10 @@ const homeTheme = createMuiTheme({
         primary: purple,
         secondary: blue
     },
+    text: {
+        primary: grey[50],
+        secondary: grey[500]
+    },
     background: {
         background: grey[800],
         paper: grey[900]
