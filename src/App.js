@@ -9,9 +9,8 @@ function App() {
   const handleTabChange = (event, newTabValue) => {
     setTabValue(newTabValue);
   };
-
   return (
-    <Box height='100vh' display='flex' flexDirection='column'>
+    <Box height='100vh' display='flex' flexDirection='column' >
       <TabContext.Provider value={{tabValue, handleTabChange}}>
         <Nav/>
         <Home/>

@@ -13,7 +13,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import RenderButtons from './RenderButtons'
 import RenderTabs from './RenderTabs'
 
-const useStyles = makeStyles({
+const useStyles = makeStyles( theme => ({
     appBar: {
         zIndex: 1201,
     },
@@ -26,8 +26,11 @@ const useStyles = makeStyles({
     },
     iconButton: {
         marginRight: '12px'
+    },
+    menuIcon: {
+        color: theme.palette.text.primary
     }
-});
+}));
 
 const buttons=<RenderButtons/>
 const tabs=<RenderTabs/>
@@ -57,7 +60,7 @@ export default function Nav(){
                 {tabs}
                 <Toolbar className={classes.menuToolbar}>
                     <IconButton edge='end' aria-label='menu' onClick={handleClick}>
-                        <MenuIcon style={{ color: grey[50] }}/>
+                        <MenuIcon className={classes.menuIcon}/>
                     </IconButton>       
                 </Toolbar>
             </Box>

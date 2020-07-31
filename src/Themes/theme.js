@@ -2,6 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import purple from '@material-ui/core/colors/purple'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
+import { typography } from '@material-ui/system';
 
 
 const theme = createMuiTheme({
@@ -19,7 +20,6 @@ const theme = createMuiTheme({
             paper: grey[900]
         }
     }
-   
 })
 
 export default theme

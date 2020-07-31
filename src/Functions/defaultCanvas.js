@@ -15,7 +15,7 @@ class defaultCanvas {
         this.pattern = 'woven';
         this.background = {
             //slider
-            detail: 100000,
+            detail: 5000,
             //togles
             ellipse: false,
             stretch: true,
@@ -25,7 +25,7 @@ class defaultCanvas {
         this.shadow = {
             opacity: 1,
             angle: .05,
-            size: .02
+            size: .05
         };
         //static
         this.maxUnits = {

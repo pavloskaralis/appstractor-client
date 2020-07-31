@@ -5,17 +5,14 @@ import Row from './Row'
 import CanvasContext from '../../Contexts/CanvasContext'
 import '../../Styles/Canvas.scss'
 
-
-
 export default function Canvas(){
     //use ref to get canvas height and width (determined by its container)
     const canvasRef = useRef();
-    const [height, setHeight] = useState(); 
-    const [width, setWidth] = useState();
+    const [canvasHeight, setCanvasHeight] = useState(); 
+    const [canvasWidth, setCanvasWidth] = useState();
     useEffect(()=> {
-        console.log("CHANGE")
-        setHeight(canvasRef.current.offsetHeight);
-        setWidth(canvasRef.current.offsetWidth);
+        setCanvasHeight(canvasRef.current.offsetHeight);
+        setCanvasWidth(canvasRef.current.offsetWidth);
     },[canvasRef.current])
 
     //access canvas state
@@ -40,15 +37,6 @@ export default function Canvas(){
         },{}); 
         return rows; 
     },{});
-
-    //percentage of block a single stripe takes up depending on flex direction
-    //passed to blocks through CanvasContext to fragment background
-    const stripeRowSize = blockRelativeSize/quantity.stripe
-    const stripeColumnSize = rowRelativeSize/quantity.stripe
-    //absolute height of block and width
-    //passed to blocks through CanvasContext for background.stretch
-    const rowAbsoluteHeight = height/quantity.row;
-    const blockAbsoluteWidth = width/quantity.row;
 
     //construct woven pattern for stripe direction toggle
     //passed directly to child attributes as means of deconstructing
@@ -93,8 +81,12 @@ export default function Canvas(){
     //currentUnitSizes used by blocks for backgroundSize and fragmenting background
     return (
         <CanvasContext.Provider value={{
-            canvasDimensions: {width: width, height: height}, 
-            currentUnitSizes: {row: rowAbsoluteHeight, block: blockAbsoluteWidth, stripe: {row: stripeRowSize, column: stripeColumnSize}}
+            canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
+            currentUnitSizes: {
+                row: canvasHeight/quantity.row, 
+                block: canvasWidth/quantity.block, 
+                stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
+            }
         }}>
             <div ref={canvasRef} className='canvas' style={canvasStyle}>
                 {rowComponents}
