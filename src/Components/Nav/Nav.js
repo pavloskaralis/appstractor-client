@@ -3,13 +3,18 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import DashboardIcon from '@material-ui/icons/Dashboard'
+import grey from '@material-ui/core/colors/grey'
 import Box from '@material-ui/core/Box'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
+import Icon from '@material-ui/core/Icon'
+import Logo from './logo.svg'
 import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
+    appBar: {
+        zIndex: 1201,
+    },
     buttonsToolbar: {
         flexGrow: 1,
         paddingRight: '0'
@@ -34,18 +39,20 @@ export default function Nav({buttons,tabs}){
     };
  
     return (
-        <AppBar position='static'>
+        <AppBar position='static' classes={{root: classes.appBar}}>
             <Box display='flex' width='100%'>
                 <Toolbar classes={{root: classes.buttonsToolbar}}>
                     <IconButton classes={{root: classes.iconButton}} edge='start' aria-label='menu'>
-                        <DashboardIcon/>
+                        <Icon>
+                            <img src={Logo} height={25} width={25} style={{ color: grey[50] }} />
+                        </Icon>
                     </IconButton>
                     {buttons}
                 </Toolbar>
                 {tabs}
                 <Toolbar classes={{root: classes.menuToolbar}}>
                     <IconButton edge='end' aria-label='menu' onClick={handleClick}>
-                        <MenuIcon />
+                        <MenuIcon style={{ color: grey[50] }}/>
                     </IconButton>       
                 </Toolbar>
             </Box>

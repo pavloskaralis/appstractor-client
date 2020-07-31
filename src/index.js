@@ -10,6 +10,9 @@ import rootReducer from './Reducers/rootReducer.js'
 
 import {BrowserRouter} from 'react-router-dom'
 
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './Themes/theme'
+
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import * as serviceWorker from './serviceWorker';
@@ -25,9 +28,11 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <CssBaseline/>
-      <BrowserRouter>
-        <App />   
-      </BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

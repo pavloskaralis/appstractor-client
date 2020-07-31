@@ -1,15 +1,13 @@
 import React from 'react'
-import Toolbar from '@material-ui/core/Toolbar'
 import Box from '@material-ui/core/Box'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Button from '@material-ui/core/Button'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
     label: {
-        // textTransform: 'capitalize',
+        textTransform: 'capitalize',
+        minWidth: '54px'
     },
 });
 

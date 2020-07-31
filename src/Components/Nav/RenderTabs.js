@@ -9,8 +9,8 @@ import {makeStyles} from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
     tab: {
-        minWidth: 100, // a number of your choice
-        width: 100, // a number of your choice
+        minWidth: 80, // a number of your choice
+        width: 80, // a number of your choice
         height: 64,
         minHeight: 64
     },
