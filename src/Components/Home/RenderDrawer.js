@@ -1,6 +1,6 @@
 import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
-import {makeStyles, withStyles} from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
 import QuantityControls from './Controls/QuantityControls'
 import ShadowControls from './Controls/ShadowControls'
@@ -21,7 +21,8 @@ const styles = makeStyles((theme) => ({
         '*::-webkit-scrollbar-thumb': {
             borderRadius: '10px',
             boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
-            backgroundColor: theme.palette.text.secondary,
+            opacity: 1,
+            backgroundColor: theme.palette.primary.dark,
         }
     },
     drawer: {
