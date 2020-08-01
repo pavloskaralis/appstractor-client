@@ -26,11 +26,11 @@ const styles = makeStyles((theme) => ({
         }
     },
     drawer: {
-      width: 279,
+      width: 278,
       flexShrink: 0,
     },
     drawerPaper: {
-      width: 279,
+      width: 278,
     },
     drawerContainer: {
       overflow: 'auto',

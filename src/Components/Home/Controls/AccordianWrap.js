@@ -29,7 +29,6 @@ const styles = makeStyles((theme) => ({
 }));
 
 
-
 export default function AccordionWrap({heading, children}) {
     const classes = styles();
     return (

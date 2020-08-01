@@ -18,8 +18,7 @@ const useStyles = makeStyles( theme => ({
         zIndex: 1201,
     },
     buttonsToolbar: {
-        flexGrow: 1,
-        paddingRight: '0'
+        paddingRight: 12,
     },
     menuToolbar: {
         paddingLeft: '12px'
@@ -57,6 +56,7 @@ export default function Nav(){
                     </IconButton>
                     {buttons}
                 </Toolbar>
+                <Box flexGrow={1}/>
                 {tabs}
                 <Toolbar className={classes.menuToolbar}>
                     <IconButton edge='end' aria-label='menu' onClick={handleClick}>

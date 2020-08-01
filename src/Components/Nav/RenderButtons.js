@@ -1,17 +1,16 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Button from '@material-ui/core/Button'
 import {makeStyles} from '@material-ui/core/styles'
 
-const useStyles = makeStyles({
+const styles = makeStyles({
     saveButton: {
-        marginLeft: 24
+        marginLeft: 12
     }
-});
+})
 
 export default function RenderTools(){
-    const classes = useStyles();
+    const classes = styles();
 
     return (
         <> 
@@ -20,9 +19,8 @@ export default function RenderTools(){
                 <Button>Link</Button>
                 <Button>Search</Button>
             </ButtonGroup>
-            <ButtonGroup className={classes.saveButton} size='small'>
-                <Button>Save</Button>
-            </ButtonGroup>
+         
+            <Button className={classes.saveButton} size='small' variant='outlined'>Save</Button>
         </>
     )
 }

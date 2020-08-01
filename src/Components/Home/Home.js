@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import RenderDrawer from './RenderDrawer';
 import {makeStyles} from '@material-ui/core/styles'
 import TabContext from '../../Contexts/TabContext'
-import TabPanel from './TabPanel'
+import TabPanel from '../Nav/TabPanel'
 
 const styles = makeStyles((theme) => ({
     canvasContainer: {

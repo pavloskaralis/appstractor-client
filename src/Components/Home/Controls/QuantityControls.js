@@ -4,6 +4,7 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import Tooltip from '@material-ui/core/Tooltip'
 import AccordianWrap from './AccordianWrap'
+import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../Actions/Canvas/quantityActions'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
