@@ -43,19 +43,7 @@ const styles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(14),
         marginLeft: 6
     },
-    switch: {
-        margin: '6px 0',
-        marginLeft: 3,
-    },
-    thumb: {
-        color: 'red',
-        '&$checked': {
-            color: theme.palette.secondary,
-        },
-        '&$checked + $track': {
-            backgroundColor: theme.palette.secondary,
-        }
-    }
+
 }));
 
 
@@ -84,17 +72,17 @@ export default function BackgroundControls() {
                         <FormGroup>
                             <FormControlLabel
                                 classes={{label: classes.formControlLabel}}
-                                control={<BlueSwitch className={classes.switch} size='small' checked={true}  name="Stretch" />}
+                                control={<BlueSwitch size='small' checked={true}  name="Stretch" />}
                                 label="Stretch"
                             />
                             <FormControlLabel
                                 classes={{label: classes.formControlLabel}}
-                                control={<BlueSwitch className={classes.switch} size='small' checked={false} name="Ellipse" />}
+                                control={<BlueSwitch size='small' checked={false} name="Ellipse" />}
                                 label="Ellipse"
                             />
                             <FormControlLabel
                                 classes={{label: classes.formControlLabel}}
-                                control={<BlueSwitch className={classes.switch} size='small' checked={false} name="Uniform" />}
+                                control={<BlueSwitch size='small' checked={false} name="Uniform" />}
                                 label="Uniform"
                             />
                         </FormGroup>

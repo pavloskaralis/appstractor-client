@@ -1,5 +1,5 @@
 import React from 'react';
-import {makeStyles, withStyles} from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import Accordion from '@material-ui/core/Accordion';
 import AccordionSummary from '@material-ui/core/AccordionSummary';
 import AccordionDetails from '@material-ui/core/AccordionDetails';
@@ -8,10 +8,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Divider from '@material-ui/core/Divider'
 import Tooltip from '@material-ui/core/Tooltip'
 import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
-import Radio from '@material-ui/core/Radio'
+import {BlueRadio} from './CustomColors'
 
 const styles = makeStyles((theme) => ({
   
@@ -63,10 +62,10 @@ export default function BackgroundControls() {
                 <AccordionDetails className={classes.accordionDetails}>
                    <FormControl component="fieldset">
                         <RadioGroup aria-label="pattern" name="pattern1" value={'random'}>
-                            <FormControlLabel classes={{label: classes.formControlLabel}} value="random" control={<Radio />} label="Random" />
-                            <FormControlLabel classes={{label: classes.formControlLabel}} value="horizontal" control={<Radio />} label="Horizontal" />
-                            <FormControlLabel classes={{label: classes.formControlLabel}} value="vertical" control={<Radio />} label="Vertical" />
-                            <FormControlLabel classes={{label: classes.formControlLabel}} value="woven" control={<Radio />} label="Woven" />
+                            <FormControlLabel classes={{label: classes.formControlLabel}} value="random" control={<BlueRadio />} label="Random" />
+                            <FormControlLabel classes={{label: classes.formControlLabel}} value="horizontal" control={<BlueRadio />} label="Horizontal" />
+                            <FormControlLabel classes={{label: classes.formControlLabel}} value="vertical" control={<BlueRadio />} label="Vertical" />
+                            <FormControlLabel classes={{label: classes.formControlLabel}} value="woven" control={<BlueRadio />} label="Woven" />
                         </RadioGroup>    
                     </FormControl>
                 </AccordionDetails>

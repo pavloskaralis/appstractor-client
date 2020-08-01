@@ -11,7 +11,7 @@ import RenderControls from './Controls/RenderControls'
 const styles = makeStyles((theme) => ({
     '@global': {
         '*::-webkit-scrollbar': {
-            width: '4px',
+            width: '5px',
             backgroundColor: theme.palette.background.darkPaper
         },
         '*::-webkit-scrollbar-track': {
@@ -25,11 +25,11 @@ const styles = makeStyles((theme) => ({
         }
     },
     drawer: {
-      width: 240,
+      width: 279,
       flexShrink: 0,
     },
     drawerPaper: {
-      width: 240,
+      width: 279,
     },
     drawerContainer: {
       overflow: 'auto',

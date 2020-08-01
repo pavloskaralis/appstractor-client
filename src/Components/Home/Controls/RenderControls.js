@@ -10,7 +10,12 @@ import Tooltip from '@material-ui/core/Tooltip'
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import {BlueSwitch, BlueSlider} from './CustomColors'
+import {BlueSwitch} from './CustomColors'
+import Button from '@material-ui/core/Button'
+import Select from '@material-ui/core/Select'
+import MenuItem from '@material-ui/core/MenuItem'
+import InputLabel from '@material-ui/core/InputLabel'
+import blue from '@material-ui/core/colors/blue'
 
 const styles = makeStyles((theme) => ({
   
@@ -43,19 +48,38 @@ const styles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(14),
         marginLeft: 6
     },
-    switch: {
-        margin: '6px 0',
-        marginLeft: 3,
+    button: {
+        marginBottom: 12
     },
-    thumb: {
-        color: 'red',
-        '&$checked': {
-            color: theme.palette.secondary,
+    label: {
+        textTransform: 'capitalize',
+        minWidth: '54px'
+    },
+
+    select: {
+        color: blue[600],
+        width: '50%'
+    },
+
+   
+    icon: {
+        color: theme.palette.text.primary,
+        opacity: '.9'
+    },
+    
+    formControl: {
+        marginTop: 12,
+        width: '50%',
+        '& .MuiOutlinedInput-notchedOutline': {
+            borderColor: blue[200],
+            opacity: .9,
         },
-        '&$checked + $track': {
-            backgroundColor: theme.palette.secondary,
+        '& .MuiFormLabel-colorSecondary.Mui-focused':{
+            color: theme.palette.text.secondary,
         }
+        
     }
+   
 }));
 
 
@@ -73,21 +97,35 @@ export default function RenderControls() {
                     <Typography className={classes.accordianHeading}>Render</Typography>
                 </AccordionSummary>
                 <AccordionDetails className={classes.accordionDetails}>
-                  
-                   <FormControl component="fieldset">
+                    <Button classes={{root: classes.button, label: classes.label}} color='primary' variant='contained'>Create Appstraction</Button>
+                    <FormControl component="fieldset">
                         <FormGroup>
                             <FormControlLabel
                                 classes={{label: classes.formControlLabel}}
-                                control={<BlueSwitch className={classes.switch} size='small' checked={true}  name="Stretch" />}
+                                control={<BlueSwitch size='small' checked={true}  name="Stretch" />}
                                 label="Rerender"
                             />
                             <FormControlLabel
                                 classes={{label: classes.formControlLabel}}
-                                control={<BlueSwitch className={classes.switch} size='small' checked={false} name="Ellipse" />}
+                                control={<BlueSwitch size='small' checked={false} name="Ellipse" />}
                                 label="Click Editing"
                             />
                             
                         </FormGroup>
+                    </FormControl>
+                    <FormControl variant="outlined" className={classes.formControl}>
+                        <InputLabel color='secondary' id="presets-label">Presets</InputLabel>
+                        <Select
+                            color='secondary'
+                            labelId="presets-label"
+                            id="presets-select"
+                            value='Default'
+                            label="Presets"
+                            classes={{root: classes.select, icon: classes.icon}}
+                        >
+                            <MenuItem value='Default'>Default</MenuItem>
+                            <MenuItem value='Custom'>Custom</MenuItem>
+                        </Select>
                     </FormControl>
                 </AccordionDetails>
             </Accordion>

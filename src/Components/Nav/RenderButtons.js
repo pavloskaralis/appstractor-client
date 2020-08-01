@@ -9,6 +9,9 @@ const useStyles = makeStyles({
         textTransform: 'capitalize',
         minWidth: '54px'
     },
+    saveButton: {
+        marginLeft: 24
+    }
 });
 
 export default function RenderTools(){
@@ -21,11 +24,9 @@ export default function RenderTools(){
                 <Button classes={{ label: classes.label}}>Link</Button>
                 <Button classes={{ label: classes.label}}>Search</Button>
             </ButtonGroup>
-            <Box display='flex' width='100%' justifyContent='center'>
-                <ButtonGroup size='small'>
-                    <Button classes={{ label: classes.label}}>Save</Button>
-                </ButtonGroup>
-            </Box>     
+            <ButtonGroup className={classes.saveButton} size='small'>
+                <Button classes={{ label: classes.label}}>Save</Button>
+            </ButtonGroup>
         </>
     )
 }

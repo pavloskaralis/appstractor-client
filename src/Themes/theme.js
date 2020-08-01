@@ -9,10 +9,12 @@ const theme = createMuiTheme({
         primary: {
             main: purple[700],
         },
-        secondary: blue,
+        secondary: {
+            main: blue[600]
+        },
         text: {
             primary: grey[50],
-            secondary: grey[500],
+            secondary: grey[400],
         },
         background: {
             default: grey[800],
