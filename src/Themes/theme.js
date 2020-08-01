@@ -2,7 +2,6 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import purple from '@material-ui/core/colors/purple'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
-import { typography } from '@material-ui/system';
 
 
 const theme = createMuiTheme({
@@ -17,8 +16,9 @@ const theme = createMuiTheme({
         },
         background: {
             default: grey[800],
-            paper: grey[900]
-        }
+            paper: grey[900],
+            darkPaper: '#2e2e2e'
+        },
     }
 })
 

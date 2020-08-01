@@ -9,7 +9,6 @@ import TabPanel from './TabPanel'
 const styles = makeStyles((theme) => ({
     canvasContainer: {
       background: theme.palette.background.paper,
-      boxShadow: '0 0 10px 1px rgba(0,0,0,.5)',
       margin: '0 auto',
       [theme.breakpoints.up('xs')]: {
         width: '3x',
@@ -42,7 +41,7 @@ function Home() {
             <TabPanel value={tabValue} index={0}>
               <RenderDrawer/>
               <Box flexGrow={1} display='flex' height='100%'flexDirection='column' justifyContent='center'>
-                <Box className={classes.canvasContainer}>
+                <Box boxShadow={3} className={classes.canvasContainer}>
                   <Canvas/>
                 </Box>
               </Box> 

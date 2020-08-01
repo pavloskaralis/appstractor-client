@@ -9,7 +9,7 @@ const useStyles = makeStyles((theme) => ({
         minWidth: 80, // a number of your choice
         width: 80, // a number of your choice
         height: 64,
-        minHeight: 64
+        minHeight: 64,
     },
     indicator: {
         backgroundColor: theme.palette.primary.light
