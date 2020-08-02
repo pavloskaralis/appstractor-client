@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 const styles = makeStyles((theme) => ({
     accordian: {
         boxShadow: 'none',
-        padding: '0 6px',
+        padding: '0 18px',
         overflow: 'hidden',
     },
     accordionDetails: {
@@ -26,6 +26,9 @@ const styles = makeStyles((theme) => ({
         textTransform: 'uppercase',
         fontSize: theme.typography.pxToRem(14),
     },
+    divider: {
+        backgroundColor: theme.palette.background.darkPaper
+    }
 }));
 
 
@@ -33,19 +36,19 @@ export default function AccordionWrap({heading, children}) {
     const classes = styles();
     return (
         <>
-            <Accordion defaultExpanded={heading === 'Render'? true: false} className={classes.accordian}>
+            <Accordion defaultExpanded={true} className={classes.accordian}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon className={classes.expandMoreIcon}/>}
                     aria-controls="panel1a-content"
                     id="panel1a-header"
                 >
-                    <Typography className={classes.accordianHeading}>{heading}</Typography>
+                    <Typography className={classes.heading}>{heading}</Typography>
                 </AccordionSummary>
                 <AccordionDetails className={classes.accordionDetails}>
                     {children}
                 </AccordionDetails>
             </Accordion>
-        <Divider/>
+            <Divider className={classes.divider}/>
         </>         
     );
 }

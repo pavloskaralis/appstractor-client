@@ -51,7 +51,7 @@ export default function Nav(){
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton className={classes.iconButton} edge='start' aria-label='menu'>
                         <Icon>
-                            <img src={Logo} height={25} width={25} style={{ color: grey[50] }} />
+                            <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
                         </Icon>
                     </IconButton>
                     {buttons}

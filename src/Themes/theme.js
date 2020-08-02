@@ -23,9 +23,24 @@ const theme = createMuiTheme({
         },
     },
     overrides:{
+        MuiMenuItem: {
+            root: {
+                '&:hover': {
+                    backgroundColor: '#2e2e2e',
+                    
+                },
+                '&.Mui-selected': {
+                    backgroundColor: 'transparent',
+                    color: blue[600],
+                    '&:hover':{
+                        backgroundColor: '#2e2e2e'
+                    }
+                }
+            },
+        },
         MuiButton:{
             label: {
-                textTransform: 'capitalize',
+                // textTransform: 'capitalize',
                 minWidth: '54px'
             }
         },
@@ -102,11 +117,7 @@ const theme = createMuiTheme({
            
             icon: {
                 color: grey[50],
-                opacity: '.9'
             },
-        },
-        MuiDivider: {
-            backgroundColor: '#2e2e2e',
         },
         MuiFormControlLabel: {
             label: {

@@ -13,7 +13,7 @@ export default function Canvas(){
     useEffect(()=> {
         setCanvasHeight(canvasRef.current.offsetHeight);
         setCanvasWidth(canvasRef.current.offsetWidth);
-    },[canvasRef.current])
+    },[canvasRef])
 
     //access canvas state
     const {quantity,image,background,maxUnits,randomValues} = useSelector(state => state.canvas);

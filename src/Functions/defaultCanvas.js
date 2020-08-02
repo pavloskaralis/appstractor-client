@@ -7,25 +7,25 @@ class defaultCanvas {
         this.image = 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg';
         //sliders
         this.quantity = {
-            row: 6,
-            block: 9,
-            stripe: 12
+            row: 1,
+            block: 1,
+            stripe: 3
         };
         //radio random, horizontal, vertical, woven
         this.pattern = 'woven';
         this.background = {
             //slider
-            detail: 5000,
+            detail: 1000,
             //togles
             ellipse: false,
-            stretch: true,
-            uniform: true
+            stretch: false,
+            uniform: false
         };
         //sliders
         this.shadow = {
-            opacity: 1,
-            angle: .05,
-            size: .05
+            opacity: 0,
+            angle: 0,
+            size: 0
         };
         //static
         this.maxUnits = {

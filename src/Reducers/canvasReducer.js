@@ -44,9 +44,9 @@ export default function canvasReducer(state = defaultCanvas, action){
         case 'TOGGLE_BACKGROUND_STRETCH':
             return {...state, background: {...state.background, stretch: action.payload}}
         case 'TOGGLE_BACKGROUND_UNIFORM':
-            return {...state, background: {...state.background, stretch: action.payload}}
+            return {...state, background: {...state.background, uniform: action.payload}}
         case 'SET_SHADOW_OPACITY':
-            return {...state, shadow: {...state.shadow, opacity: action.payload}}
+            return {...state, shadow: {...state.shadow, opacity: action.payload} }
         case 'SET_SHADOW_ANGLE':
             return {...state, shadow: {...state.shadow, angle: action.payload}}
         case 'SET_SHADOW_SIZE':

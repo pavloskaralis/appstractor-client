@@ -18,7 +18,7 @@ export default function Stripe ({isVisible, backgroundPosition, backgroundSize, 
         display: isVisible ? 'flex' : 'none',
         flexBasis: `calc(100%/${maxUnits.stripe})`,
         borderRadius: background.ellipse ? `${canvasDimensions.width}px` : '',
-        boxShadow: `0px ${canvasDimensions.width * shadow.angle}px ${canvasDimensions.width * shadow.size}px ${canvasDimensions.width * .0015}px rgba(0,0,0,${shadow.opacity})`
+        boxShadow: `${canvasDimensions.width * -shadow.angle/2}px ${canvasDimensions.width * shadow.angle}px ${canvasDimensions.width * shadow.size}px ${canvasDimensions.width * .0025}px rgba(0,0,0,${shadow.opacity})`
     }
 
     return <div 
