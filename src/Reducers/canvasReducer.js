@@ -9,7 +9,7 @@ const maxUnits = {
 
 const initialState = {
     ...defaultPreset, 
-    image: 'https://cdn.pixabay.com/photo/2016/11/29/12/16/buildings-1869425_1280.jpg', 
+    image: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg', 
     randomValues: createRandomValues(defaultPreset.quantity, maxUnits),
     maxUnits: maxUnits
 }

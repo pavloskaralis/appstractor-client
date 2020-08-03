@@ -46,7 +46,7 @@ export default function RenderControls() {
         setTimeout(()=>{
             dispatch(renderAppstraction); 
             dispatch(toggleRender(true));
-        },270)
+        },280)
         
     }
 

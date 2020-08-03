@@ -3,11 +3,10 @@ import { useSelector } from 'react-redux';
 import CanvasContext from '../../Contexts/CanvasContext'
 
 //takes in visibility boolean, background position (object {x.y}), background size css string, and relevant random values
-export default function Stripe ({isVisible, backgroundPosition, backgroundSize, randomValues}) {
+export default function Stripe ({isVisible, backgroundPosition, backgroundSize, randomValues, context}) {
     //access canvas state
-    const {image,background,shadow,maxUnits} = useSelector(state => state.canvas);
-    //access max limit of stripes per block and canvas width
-    const {canvasDimensions, render} = useContext(CanvasContext);
+    //access max limit of stripes per block, canvas width, and relevant context
+    const {canvasDimensions, stripeContext:{image,background,shadow,maxUnits,render}} = context;
 
     const stripeStyle = {
         backgroundImage: `url(${image})`,

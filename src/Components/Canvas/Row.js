@@ -5,7 +5,7 @@ import Block from './Block';
 
 //takes in visibility boolean, relevant background positions (object),
 //relevant alternate flex directions (object), and relevant random values
-export default function Row({isVisible, backgroundPositions, alternatePattern, randomValues}){
+export default function Row({isVisible, backgroundPositions, alternatePattern, randomValues, context}){
     //access canvas state
     const {quantity,maxUnits} = useSelector(state => state.canvas);
     //generate unique id for each block in row
@@ -19,6 +19,8 @@ export default function Row({isVisible, backgroundPositions, alternatePattern, r
             backgroundPosition={backgroundPositions[i]}
             alternateDirection={alternatePattern[i]}
             randomValues={randomValues[i]}
+            context={context}
+            
         />
     });
 

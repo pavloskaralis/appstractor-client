@@ -21,8 +21,7 @@ export default function Canvas(){
     //access render state
     const render = useSelector(state => state.render.render)
     //access canvas state
-    const {quantity,image,background,maxUnits,randomValues} = useSelector(state => state.canvas);
-
+    const {quantity,image,shadow, background,maxUnits,randomValues} = useSelector(state => state.canvas);
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100
     const rowRelativeSize = 1/quantity.row * 100;
@@ -67,12 +66,22 @@ export default function Canvas(){
     const rowComponents = ids.map((id,i) => {
         //row is visible if its index falls within user set quantity.row
         //each row is passed relevant background positions, alternate pattern, and randomValues
+        //context is passed through attributes rather than useContext/useSelector to boost performance
         return <Row 
             key={id} 
             isVisible={i + 1 <= quantity.row}
             backgroundPositions={backgroundPositions[i]}
             alternatePattern={alternatePattern[i]}
             randomValues={randomValues[i]}
+            context={{
+                canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
+                currentUnitSizes: {
+                    row: canvasHeight/quantity.row, 
+                    block: canvasWidth/quantity.block, 
+                    stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
+                },
+                stripeContext:{image,background,shadow,maxUnits,render}
+            }}
         />
     })
 
@@ -88,7 +97,9 @@ export default function Canvas(){
 
     //canvasDimensions used by stripes for boxShadow and borderRadius
     //currentUnitSizes used by blocks for backgroundSize and fragmenting background
+    //render used to pass render to stripes for animation; avoids multiple useSelector calls
     //rows only render after create appstraction button is clicked
+    //static layer exists for animation background 
     return (
         <CanvasContext.Provider value={{
             canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
