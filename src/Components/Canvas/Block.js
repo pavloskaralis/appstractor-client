@@ -4,8 +4,8 @@ import CanvasContext from '../../Contexts/CanvasContext'
 import uniqueid from 'lodash.uniqueid';
 import Stripe from './Stripe'
 
-//takes in visibility boolean, relevant background position (object {x,y}), woven flex direction string, and relevant random values
-export default function Block({isVisible, backgroundPosition, wovenDirection,randomValues}){
+//takes in visibility boolean, relevant background position (object {x,y}), alternate flex direction string, and relevant random values
+export default function Block({isVisible, backgroundPosition, alternateDirection,randomValues}){
     //access canvas state
     const {quantity, pattern, background, maxUnits} = useSelector(state => state.canvas);
     //accesss unit sizes and max limit of stripes per block and blocks per row
@@ -18,7 +18,7 @@ export default function Block({isVisible, backgroundPosition, wovenDirection,ran
         random: randomValues.flexDirection,
         horizontal: 'column',
         vertical: 'row',
-        woven: wovenDirection
+        alternate: alternateDirection
     }[pattern]
     
     //calculate fragmented background positions

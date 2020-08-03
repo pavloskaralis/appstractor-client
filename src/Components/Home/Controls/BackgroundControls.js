@@ -1,8 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
-import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch'
@@ -20,32 +19,56 @@ const styles = makeStyles((theme) => ({
 }));
 
 export default function BackgroundControls() {
+    const classes = styles();
     const background = useSelector(state => state.canvas.background)
     const dispatch = useDispatch(); 
-    
-    const classes = styles();
+    //local state prevents control lag
+    //store state too slow to directly connect to controllers 
+    const [state,setState] = useState({
+        stretch: background.stretch,
+        ellipse: background.ellipse,
+        uniform: background.uniform,
+        detail: Math.round(Math.pow(background.detail - 99, 1/3))
+    })
 
-    const handleDetailChange = (event,value) => {
-        const convertedValue = background.stretch ? 
-            Math.pow(value, 2.99997851) + 99 : Math.pow(value, 2.99978296) + 999
-        return dispatch(setBackgroundDetail(convertedValue))
+    console.log(Math.lo)
+    
+    //slider onChange
+    const handleSliderChange = (event, value) => {
+        setState(state=>({
+            ...state,
+            detail: value
+        }))
     }
 
+    //slider onChangeSubmitted 
+    //seperation prevents control animation lag
+    const dispatchDetailChange = (event,value) => {
+        return dispatch(setBackgroundDetail(Math.round(Math.pow(value,2.99997851)+99)))
+    }
+
+    //toggle on change
     const handleToggleChange = (event) => {
         const name = event.target.name;
         const checked = event.target.checked;
-
-        switch (name) {
-            case "ellipse": 
-                return dispatch(toggleBackgroundEllipse(checked));
-            case "stretch":
-                return dispatch(toggleBackgroundStretch(checked));
-            case "uniform":
-                return dispatch(toggleBackgroundUniform(checked));
-            default:
-                return
-        }
-      };
+        setState(state=>({
+            ...state,
+            [name]: checked
+        }))
+        //prevents control animation lag
+        setTimeout(()=>{
+            switch (name) {
+                case "ellipse": 
+                    return dispatch(toggleBackgroundEllipse(checked));
+                case "stretch":
+                    return dispatch(toggleBackgroundStretch(checked));
+                case "uniform":
+                    return dispatch(toggleBackgroundUniform(checked));
+                default:
+                    return
+            }
+        },150) 
+    };
 
     return (
         <AccordianWrap heading='Background'>
@@ -53,28 +76,27 @@ export default function BackgroundControls() {
             <Slider
                 aria-label='detail-slider'
                 color='secondary'
-                defaultValue={1}
+                defaultValue={state.detail}
                 ValueLabelComponent={ValueLabel}
-                onChangeCommitted={handleDetailChange}
+                onChange={handleSliderChange}
+                onChangeCommitted={dispatchDetailChange}
                 max={100}
                 min={1}
             />
-            <FormControl component="fieldset">
-                <FormGroup>
-                    <FormControlLabel
-                        control={<Switch size='small' onChange={handleToggleChange} checked={background.stretch}  name="stretch" />}
-                        label="Stretch"
-                    />
-                    <FormControlLabel
-                        control={<Switch size='small' onChange={handleToggleChange} checked={background.ellipse} name="ellipse" />}
-                        label="Ellipse"
-                    />
-                    <FormControlLabel
-                        control={<Switch size='small' onChange={handleToggleChange} checked={background.uniform} name="uniform" />}
-                        label="Uniform"
-                    />
-                </FormGroup>
-            </FormControl>         
+            <FormGroup>
+                <FormControlLabel
+                    control={<Switch size='small' onChange={handleToggleChange} checked={state.stretch}  name="stretch" />}
+                    label="Stretch"
+                />
+                <FormControlLabel
+                    control={<Switch size='small' onChange={handleToggleChange} checked={state.ellipse} name="ellipse" />}
+                    label="Ellipse"
+                />
+                <FormControlLabel
+                    control={<Switch size='small' onChange={handleToggleChange} checked={state.uniform} name="uniform" />}
+                    label="Uniform"
+                />
+            </FormGroup>
         </AccordianWrap>           
     );
 }

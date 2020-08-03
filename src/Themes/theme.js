@@ -10,7 +10,7 @@ const theme = createMuiTheme({
             main: purple[700],
         },
         secondary: {
-            main: blue[600]
+            main: blue[500]
         },
         text: {
             primary: grey[50],
@@ -31,7 +31,7 @@ const theme = createMuiTheme({
                 },
                 '&.Mui-selected': {
                     backgroundColor: 'transparent',
-                    color: blue[600],
+                    color: blue[500],
                     '&:hover':{
                         backgroundColor: '#2e2e2e'
                     }
@@ -66,10 +66,10 @@ const theme = createMuiTheme({
         },
         MuiSlider: {
             root: {
-                color: blue[600],
+                color: blue[500],
             },
             thumb: {
-                backgroundColor: blue[600],
+                backgroundColor: blue[500],
             },
             track: {
                 height: 3
@@ -89,10 +89,10 @@ const theme = createMuiTheme({
                 opacity: .9,
                 color: blue[200],
                 '&$checked': {
-                    color: blue[600],
+                    color: blue[500],
                 },
                 '&$checked + $track': {
-                    backgroundColor: blue[600],
+                    backgroundColor: blue[500],
                 },
             },
             checked: {},
@@ -105,14 +105,14 @@ const theme = createMuiTheme({
                 color: blue[200],
                 opacity: .9,
                 '&$checked': {
-                    color: blue[600],
+                    color: blue[500],
                     opacity: 1
                 },
             },         
         },
         MuiSelect: {
             root: {
-                color: blue[600],
+                color: blue[500],
             },
            
             icon: {

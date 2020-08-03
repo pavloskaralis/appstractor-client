@@ -4,8 +4,8 @@ import uniqueid from 'lodash.uniqueid';
 import Block from './Block';
 
 //takes in visibility boolean, relevant background positions (object),
-//relevant woven flex directions (object), and relevant random values
-export default function Row({isVisible, backgroundPositions, wovenPattern, randomValues}){
+//relevant alternate flex directions (object), and relevant random values
+export default function Row({isVisible, backgroundPositions, alternatePattern, randomValues}){
     //access canvas state
     const {quantity,maxUnits} = useSelector(state => state.canvas);
     //generate unique id for each block in row
@@ -17,7 +17,7 @@ export default function Row({isVisible, backgroundPositions, wovenPattern, rando
             key={id} 
             isVisible={i + 1 <= quantity.block && isVisible} 
             backgroundPosition={backgroundPositions[i]}
-            wovenDirection={wovenPattern[i]}
+            alternateDirection={alternatePattern[i]}
             randomValues={randomValues[i]}
         />
     });

@@ -8,7 +8,7 @@ import TabPanel from '../Nav/TabPanel'
 
 const styles = makeStyles((theme) => ({
     canvasContainer: {
-      background: theme.palette.background.paper,
+      background: theme.palette.background.darkPaper,
       margin: '0 auto',
       [theme.breakpoints.up('xs')]: {
         width: '3x',

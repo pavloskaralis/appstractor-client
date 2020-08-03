@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
@@ -15,54 +15,81 @@ const styles = makeStyles((theme) => ({
 }));
 
 export default function QuantityControls() {
-    const quantity = useSelector(state => state.canvas.quantity);
-    const dispatch = useDispatch(); 
-
     const classes = styles();
+    const shadow = useSelector(state => state.canvas.shadow);
+    const dispatch = useDispatch(); 
+    //local state prevents control lag
+    //store state too slow to directly connect to controllers 
+    const [state,setState] = useState({
+        opacity: shadow.opacity / .01,
+        angle: shadow.angle / .0005,
+        size: shadow.size / .0005
+    })
 
-    const handleChange = (event,value) => {
-        const ariaLabel = event.target.ariaLabel
-        switch (ariaLabel) {
-            case 'opacity-slider': 
-                return dispatch(setShadowOpacity(value * .01))
-            case 'angle-slider': 
-                return dispatch(setShadowAngle(value * .0005))
-            case 'size-slider': 
-                return dispatch(setShadowSize(value * .0005))
-            default:
-                return
-        }
+    //must be 3 as there is no simple way to check which slider was clicked 
+    //if mouse is released over a non slider element
+    const dispatchOpacityChange = (event,value) => {
+        dispatch(setShadowOpacity(value * .01))
     }
+    const dispatchAngleChange = (event,value) => {
+        return dispatch(setShadowAngle(value * .0005))
+    }
+
+    const dispatchSizeChange = (event,value) => {
+        return dispatch(setShadowSize(value * .0005))
+    }
+
+    //slider onChange
+    //must be 3 otherwise slider animation lags
+    const handleOpacityChange = (event, value) => {
+        setState(state=>({
+            ...state,
+            opacity: value
+        }))
+    }
+    const handleAngleChange = (event, value) => {
+        setState(state=>({
+            ...state,
+            angle: value
+        }))
+    }
+    const handleSizeChange = (event, value) => {
+        setState(state=>({
+            ...state,
+            size: value
+        }))
+    }
+
 
     return (
         <AccordianWrap heading='Shadow'>
             <Typography gutterBottom className={classes.controlHeading}>Opacity</Typography>
             <Slider
-               aria-label='opacity-slider'
                color='secondary'
-               defaultValue={0}
+               value={state.opacity}
                ValueLabelComponent={ValueLabel}
-               onChangeCommitted={handleChange}
+               onChange={handleOpacityChange}
+               onChangeCommitted={dispatchOpacityChange}
                max={100}
                min={0}
             />
             <Typography gutterBottom className={classes.controlHeading}>Angle</Typography>
             <Slider
-               aria-label='angle-slider'
                color='secondary'
-               defaultValue={0}
+               value={state.angle}
                ValueLabelComponent={ValueLabel}
-               onChangeCommitted={handleChange}
+               onChange={handleAngleChange}
+               onChangeCommitted={dispatchAngleChange}
                max={100}
                min={0}
             />
             <Typography gutterBottom className={classes.controlHeading}>Size</Typography>
             <Slider
-               aria-label='size-slider'
                color='secondary'
-               defaultValue={0}
+               value={state.size}
                ValueLabelComponent={ValueLabel}
-               onChangeCommitted={handleChange}
+               onChange={handleSizeChange}
+               onChangeCommitted={dispatchSizeChange}
                max={100}
                min={0}
             />

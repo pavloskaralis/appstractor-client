@@ -22,7 +22,7 @@ const styles = makeStyles((theme) => ({
             borderRadius: '10px',
             boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
             opacity: 1,
-            backgroundColor: theme.palette.primary.dark,
+            backgroundColor: theme.palette.secondary.dark,
         }
     },
     drawer: {

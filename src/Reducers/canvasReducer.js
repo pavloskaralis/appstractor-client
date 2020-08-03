@@ -1,32 +1,27 @@
-import defaultCanvas from '../Functions/defaultCanvas'
-import shuffleArray from '../Functions/shuffleArray'
+import createRandomValues from '../Functions/createRandomValues'
+import defaultPreset from '../Presets/defaultPreset'
 
-export default function canvasReducer(state = defaultCanvas, action){
+const maxUnits = {
+    row: 12, 
+    block: 18, 
+    stripe: 24
+}
+
+const initialState = {
+    ...defaultPreset, 
+    image: 'https://cdn.pixabay.com/photo/2016/11/29/12/16/buildings-1869425_1280.jpg', 
+    randomValues: createRandomValues(defaultPreset.quantity, maxUnits),
+    maxUnits: maxUnits
+}
+
+console.log(initialState)
+//initial state merges blank canvas with default preset
+export default function canvasReducer(state = initialState, action){
     switch(action.type){
-        case 'LOAD_APPSTRACTION' :
-            return action.payload
-        case 'RERENDER_APPSTRACTION':
-            //incomplete
-            return state
-        case 'RERENDER_BLOCK': {
-            return {
-                ...state, randomValues: {
-                    ...state.randomValues, [action.payload.row]: {
-                        ...state.randomValues[action.payload.row],[action.payload.block]: {
-                            ...state.randomValues[action.payload.row][action.payload.block],
-                            flexDirection: ['row','column'][Math.floor(Math.random() * 2)],
-                            indexes: shuffleArray(new Array(state.maxUnits.stripe).fill().map((ele,i) => i),state.quantity.stripe),
-                            stripes: new Array(state.maxUnits.stripe).fill().reduce((stripes,z,k)=> {
-                                stripes[k] = {
-                                    flexGrow: [1,3,5][Math.floor(Math.random() * 3)],
-                                }
-                                return stripes
-                            },{})
-                        }
-                    }
-                }
-            }
-        }
+        case 'LOAD_PRESET' :
+            return {...state, ...action.payload}
+        case 'RENDER_APPSTRACTION':
+            return {...state, randomValues: createRandomValues(state.quantity, state.maxUnits)}
         case 'SET_IMAGE':
             return {...state, image: action.payload}
         case 'SET_ROW_QUANTITY':

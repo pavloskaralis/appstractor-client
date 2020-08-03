@@ -11,10 +11,13 @@ export default function Canvas(){
     const [canvasHeight, setCanvasHeight] = useState(); 
     const [canvasWidth, setCanvasWidth] = useState();
     useEffect(()=> {
+        console.log('canvasRef Change')
         setCanvasHeight(canvasRef.current.offsetHeight);
         setCanvasWidth(canvasRef.current.offsetWidth);
     },[canvasRef])
 
+    //access render state
+    const render = useSelector(state => state.render.render)
     //access canvas state
     const {quantity,image,background,maxUnits,randomValues} = useSelector(state => state.canvas);
 
@@ -38,9 +41,9 @@ export default function Canvas(){
         return rows; 
     },{});
 
-    //construct woven pattern for stripe direction toggle
+    //construct alternate pattern for stripe direction toggle
     //passed directly to child attributes as means of deconstructing
-    const wovenPattern =  Array(maxUnits.row).fill().reduce((rows,x,i)=>{
+    const alternatePattern =  Array(maxUnits.row).fill().reduce((rows,x,i)=>{
         rows[i] = Array(maxUnits.block).fill().reduce((blocks,y,j)=>{
             //x and y background position for each visible block within a visible row
             if(maxUnits.block%2 === 0) {
@@ -61,12 +64,12 @@ export default function Canvas(){
     const ids = useMemo(()=>new Array(maxUnits.row).fill().map(ele => uniqueid()),[maxUnits.row]);
     const rowComponents = ids.map((id,i) => {
         //row is visible if its index falls within user set quantity.row
-        //each row is passed relevant background positions, woven pattern, and randomValues
+        //each row is passed relevant background positions, alternate pattern, and randomValues
         return <Row 
             key={id} 
             isVisible={i + 1 <= quantity.row}
             backgroundPositions={backgroundPositions[i]}
-            wovenPattern={wovenPattern[i]}
+            alternatePattern={alternatePattern[i]}
             randomValues={randomValues[i]}
         />
     })
@@ -74,11 +77,13 @@ export default function Canvas(){
     const canvasStyle = {
         //user can alter
         backgroundImage: `url(${image})`,
-        backgroundSize: !background.stretch ? `${background.detail}%` : `${background.detail}% 100%`
+        backgroundSize: !render ? 'cover' : !background.stretch ? 
+            `${background.detail}%` : `${background.detail}% 100%`
     }
 
     //canvasDimensions used by stripes for boxShadow and borderRadius
     //currentUnitSizes used by blocks for backgroundSize and fragmenting background
+    //rows only render after create appstraction button is clicked
     return (
         <CanvasContext.Provider value={{
             canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
@@ -89,7 +94,7 @@ export default function Canvas(){
             }
         }}>
             <div ref={canvasRef} className='canvas' style={canvasStyle}>
-                {rowComponents}
+                {render && rowComponents}
             </div>
         </CanvasContext.Provider>
     )
