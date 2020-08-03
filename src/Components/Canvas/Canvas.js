@@ -10,6 +10,8 @@ export default function Canvas(){
     const canvasRef = useRef();
     const [canvasHeight, setCanvasHeight] = useState(); 
     const [canvasWidth, setCanvasWidth] = useState();
+
+    //retrieve new canvas size on browser resize;  better performance than event listener
     useEffect(()=> {
         console.log('canvasRef Change')
         setCanvasHeight(canvasRef.current.offsetHeight);
@@ -74,10 +76,13 @@ export default function Canvas(){
         />
     })
 
-    const canvasStyle = {
+    const backgroundStyle = {
+        //animation on render only
+        transition: `opacity .5s linear 2s`,
+        opacity: !render ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
-        backgroundSize: !render ? 'cover' : !background.stretch ? 
+        backgroundSize: !background.stretch ? 
             `${background.detail}%` : `${background.detail}% 100%`
     }
 
@@ -91,10 +96,13 @@ export default function Canvas(){
                 row: canvasHeight/quantity.row, 
                 block: canvasWidth/quantity.block, 
                 stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
-            }
+            },
+            render: render
         }}>
-            <div ref={canvasRef} className='canvas' style={canvasStyle}>
-                {render && rowComponents}
+            <div ref={canvasRef} className='canvas'>
+                <div className='static' style={{backgroundImage:`url(${image})`}} />
+                <div className='background' style={backgroundStyle} />
+                {rowComponents}
             </div>
         </CanvasContext.Provider>
     )

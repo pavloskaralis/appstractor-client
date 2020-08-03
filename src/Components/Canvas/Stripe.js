@@ -7,13 +7,16 @@ export default function Stripe ({isVisible, backgroundPosition, backgroundSize, 
     //access canvas state
     const {image,background,shadow,maxUnits} = useSelector(state => state.canvas);
     //access max limit of stripes per block and canvas width
-    const {canvasDimensions} = useContext(CanvasContext);
+    const {canvasDimensions, render} = useContext(CanvasContext);
 
     const stripeStyle = {
         backgroundImage: `url(${image})`,
         backgroundSize: backgroundSize,
         backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
         flexGrow: randomValues.flexGrow,
+        //animation on render only; better performance than keyframes
+        transition: `opacity .25s linear ${Math.random() * 1.25}s`,
+        opacity: !render ? '0' : '1',
         //hides stripe if not visible
         display: isVisible ? 'flex' : 'none',
         flexBasis: `calc(100%/${maxUnits.stripe})`,

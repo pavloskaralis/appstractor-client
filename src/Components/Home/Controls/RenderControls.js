@@ -41,10 +41,13 @@ export default function RenderControls() {
     const dispatch = useDispatch();
     //access render state
     const {preset, custom} = useSelector(state => state.render);
-
+    //prevent animation lag
     const dispatchToggleRender = () => {
-        dispatch(renderAppstraction); 
-        dispatch(toggleRender(true));
+        setTimeout(()=>{
+            dispatch(renderAppstraction); 
+            dispatch(toggleRender(true));
+        },270)
+        
     }
 
     return (

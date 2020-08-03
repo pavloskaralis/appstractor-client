@@ -30,8 +30,6 @@ export default function BackgroundControls() {
         uniform: background.uniform,
         detail: Math.round(Math.pow(background.detail - 99, 1/3))
     })
-
-    console.log(Math.lo)
     
     //slider onChange
     const handleSliderChange = (event, value) => {
@@ -76,7 +74,7 @@ export default function BackgroundControls() {
             <Slider
                 aria-label='detail-slider'
                 color='secondary'
-                defaultValue={state.detail}
+                value={state.detail}
                 ValueLabelComponent={ValueLabel}
                 onChange={handleSliderChange}
                 onChangeCommitted={dispatchDetailChange}
