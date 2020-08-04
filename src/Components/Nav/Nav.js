@@ -10,8 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
 import {makeStyles} from '@material-ui/core/styles'
-import RenderButtons from './RenderButtons'
-import RenderTabs from './RenderTabs'
+import RenderButtons from './RenderNav/RenderButtons'
+import RenderTabs from './RenderNav/RenderTabs'
 
 const useStyles = makeStyles( theme => ({
     appBar: {

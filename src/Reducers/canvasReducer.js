@@ -14,16 +14,20 @@ const initialState = {
     maxUnits: maxUnits
 }
 
-console.log(initialState)
 //initial state merges blank canvas with default preset
+//all properties required to replicate a canvas
 export default function canvasReducer(state = initialState, action){
     switch(action.type){
+        //triggered by preset selection
         case 'LOAD_PRESET' :
             return {...state, ...action.payload}
+        //triggered by create button
         case 'RENDER_APPSTRACTION':
             return {...state, randomValues: createRandomValues(state.quantity, state.maxUnits)}
+        //triggered by upload, link, or stock search
         case 'SET_IMAGE':
             return {...state, image: action.payload}
+        //all below triggered by render drawer controls
         case 'SET_ROW_QUANTITY':
             return {...state, quantity: {...state.quantity, row: action.payload}}
         case 'SET_BLOCK_QUANTITY':

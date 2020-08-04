@@ -12,10 +12,11 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Tooltip from '@material-ui/core/Tooltip'
 import blue from '@material-ui/core/colors/blue'
 import AccordianWrap from './AccordianWrap'
-import toggleRender from '../../../Actions/Render/toggleRender'
-import loadPreset from '../../../Actions/Canvas/loadPreset'
-import renderAppstraction from '../../../Actions/Canvas/renderAppstraction'
-import {defaultPreset} from '../../../Presets/allPresets'
+import toggleRender from '../../../../Actions/Render/toggleRender'
+import loadPreset from '../../../../Actions/Canvas/loadPreset'
+import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
+import {defaultPreset} from '../../../../Presets/allPresets'
+import toggleRendering from '../../../../Actions/Render/toggleRendering';
 
 const styles = makeStyles((theme) => ({
     button: {
@@ -43,11 +44,11 @@ export default function RenderControls() {
     const {preset, custom} = useSelector(state => state.render);
     //prevent animation lag
     const dispatchToggleRender = () => {
+        dispatch(toggleRendering(true))
         setTimeout(()=>{
             dispatch(renderAppstraction); 
-            dispatch(toggleRender(true));
-        },280)
-        
+            dispatch(toggleRender(true)); 
+        },0)
     }
 
     return (

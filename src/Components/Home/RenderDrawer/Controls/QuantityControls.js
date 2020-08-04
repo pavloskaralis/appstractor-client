@@ -5,7 +5,8 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
-import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../Actions/Canvas/quantityActions'
+import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
+import toggleRendering from '../../../../Actions/Render/toggleRendering'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -18,7 +19,7 @@ const styles = makeStyles((theme) => ({
 
 export default function QuantityControls() {
     const classes = styles();
-    const quantity = useSelector(state => state.canvas.quantity);
+    const {quantity, maxUnits} = useSelector(state => state.canvas);
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -40,13 +41,16 @@ export default function QuantityControls() {
     //must be 3 as there is no simple way to check which slider was clicked 
     //if mouse is released over a non slider element
     const dispatchRowChange = (event,value) => {
-        return dispatch(setRowQuantity(value))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setRowQuantity(value)),0);
     }
     const dispatchBlockChange = (event,value) => {
-        return dispatch(setBlockQuantity(value))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setBlockQuantity(value)),0)
     }
     const dispatchStripeChange = (event,value) => {
-        return dispatch(setStripeQuantity(value))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setStripeQuantity(value)),0)
     }
 
     //slider onChange
@@ -80,7 +84,7 @@ export default function QuantityControls() {
                 ValueLabelComponent={ValueLabel}
                 onChange={handleRowChange}
                 onChangeCommitted={dispatchRowChange}
-                max={12}
+                max={maxUnits.row}
                 min={1}
             />
             <Typography gutterBottom className={classes.controlHeading}>Block</Typography>
@@ -90,7 +94,7 @@ export default function QuantityControls() {
                 value={state.block}
                 onChange={handleBlockChange}
                 onChangeCommitted={dispatchBlockChange}
-                max={18}
+                max={maxUnits.block}
                 min={1}
             />
             <Typography gutterBottom className={classes.controlHeading}>Stripe</Typography>
@@ -100,7 +104,7 @@ export default function QuantityControls() {
                 value={state.stripe}
                 onChange={handleStripeChange}
                 onChangeCommitted={dispatchStripeChange}
-                max={24}
+                max={maxUnits.stripe}
                 min={1}
             />
         </AccordianWrap>       

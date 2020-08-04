@@ -1,16 +1,21 @@
 import React, { useMemo, useRef, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import uniqueid from 'lodash.uniqueid';
-import Row from './Row'
+import Row from './Units/Row'
 import CanvasContext from '../../Contexts/CanvasContext'
 import '../../Styles/Canvas.scss'
+import toggleRendering from '../../Actions/Render/toggleRendering'
 
 export default function Canvas(){
     //use ref to get canvas height and width (determined by its container)
     const canvasRef = useRef();
     const [canvasHeight, setCanvasHeight] = useState(); 
     const [canvasWidth, setCanvasWidth] = useState();
-
+    //useSelector called once to improve performance
+    const {quantity,image,shadow, pattern, background,maxUnits,randomValues} = useSelector(state => state.canvas);
+    //access render state
+    const render = useSelector(state => state.render.render)
+    const dispatch = useDispatch(); 
     //retrieve new canvas size on browser resize;  better performance than event listener
     useEffect(()=> {
         console.log('canvasRef Change')
@@ -18,10 +23,10 @@ export default function Canvas(){
         setCanvasWidth(canvasRef.current.offsetWidth);
     },[canvasRef])
 
-    //access render state
-    const render = useSelector(state => state.render.render)
-    //access canvas state
-    const {quantity,image,shadow, background,maxUnits,randomValues} = useSelector(state => state.canvas);
+    useEffect(()=> {    
+        dispatch(toggleRendering(false))
+    },[quantity,image,shadow, pattern, background,maxUnits,randomValues, render])
+
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100
     const rowRelativeSize = 1/quantity.row * 100;
@@ -64,24 +69,14 @@ export default function Canvas(){
     //generate unique id for each row
     const ids = useMemo(()=>new Array(maxUnits.row).fill().map(ele => uniqueid()),[maxUnits.row]);
     const rowComponents = ids.map((id,i) => {
-        //row is visible if its index falls within user set quantity.row
+        //do not render if row is not visible
+        if(i >= quantity.row) return; 
         //each row is passed relevant background positions, alternate pattern, and randomValues
-        //context is passed through attributes rather than useContext/useSelector to boost performance
         return <Row 
             key={id} 
-            isVisible={i + 1 <= quantity.row}
             backgroundPositions={backgroundPositions[i]}
             alternatePattern={alternatePattern[i]}
             randomValues={randomValues[i]}
-            context={{
-                canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
-                currentUnitSizes: {
-                    row: canvasHeight/quantity.row, 
-                    block: canvasWidth/quantity.block, 
-                    stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
-                },
-                stripeContext:{image,background,shadow,maxUnits,render}
-            }}
         />
     })
 
@@ -95,20 +90,28 @@ export default function Canvas(){
             `${background.detail}%` : `${background.detail}% 100%`
     }
 
-    //canvasDimensions used by stripes for boxShadow and borderRadius
-    //currentUnitSizes used by blocks for backgroundSize and fragmenting background
-    //render used to pass render to stripes for animation; avoids multiple useSelector calls
+    //context divided by unit
     //rows only render after create appstraction button is clicked
     //static layer exists for animation background 
     return (
         <CanvasContext.Provider value={{
-            canvasDimensions: {width: canvasWidth, height: canvasHeight}, 
-            currentUnitSizes: {
-                row: canvasHeight/quantity.row, 
-                block: canvasWidth/quantity.block, 
-                stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
+            rowContext: {quantity, maxUnits},
+            blockContext: {
+                quantity, pattern, background, maxUnits,
+                flexBasis: `calc(100%/${maxUnits.block})`,
+                currentUnitSizes: {
+                    row: canvasHeight/quantity.row, 
+                    block: canvasWidth/quantity.block, 
+                    stripe: {row: blockRelativeSize/quantity.stripe, column: rowRelativeSize/quantity.stripe}
+                },
             },
-            render: render
+            stripeContext:{
+                backgroundImage: `url(${image})`,
+                opacity: !render ? '0' : '1',
+                flexBasis: `calc(100%/${maxUnits.stripe})`,
+                borderRadius: background.ellipse ? `${canvasWidth}px` : '',
+                boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`
+            },
         }}>
             <div ref={canvasRef} className='canvas'>
                 <div className='static' style={{backgroundImage:`url(${image})`}} />

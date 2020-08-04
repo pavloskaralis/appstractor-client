@@ -11,7 +11,7 @@ export default function createRandomValues(quantity, maxUnits) {
                 indexes: shuffleArray(new Array(maxUnits.stripe).fill().map((ele,i) => i),quantity.stripe),
                 stripes: new Array(maxUnits.stripe).fill().reduce((stripes,z,k)=> {
                     stripes[k] = {
-                        flexGrow: [1,3,5][Math.floor(Math.random() * 3)],
+                        flexGrow: [1,6,10][Math.floor(Math.random() * 3)],
                     }
                     return stripes
                 },{})

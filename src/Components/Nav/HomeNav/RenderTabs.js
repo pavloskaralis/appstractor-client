@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import TabContext from '../../Contexts/TabContext'
+import TabContext from '../../../Contexts/TabContext'
 
 
 function a11yProps(index) {

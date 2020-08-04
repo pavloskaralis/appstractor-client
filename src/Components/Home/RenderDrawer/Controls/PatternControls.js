@@ -4,7 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import AccordionWrap from './AccordianWrap'
-import setPattern from '../../../Actions/Canvas/setPattern'
+import setPattern from '../../../../Actions/Canvas/setPattern'
 
 
 export default function PatternControls() {

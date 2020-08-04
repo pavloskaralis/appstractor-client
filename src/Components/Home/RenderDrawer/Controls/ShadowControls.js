@@ -5,7 +5,7 @@ import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
-import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../Actions/Canvas/shadowActions'
+import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {

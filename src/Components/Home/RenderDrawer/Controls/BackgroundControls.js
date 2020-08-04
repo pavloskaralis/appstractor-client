@@ -8,7 +8,7 @@ import Switch from '@material-ui/core/Switch'
 import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
 import AccordianWrap from './AccordianWrap'
-import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../Actions/Canvas/backgroundActions'
+import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
 
 
 const styles = makeStyles((theme) => ({
