@@ -13,28 +13,22 @@ export default function Canvas(){
     const canvasRef = useRef();
     const [canvasHeight, setCanvasHeight] = useState(); 
     const [canvasWidth, setCanvasWidth] = useState();
-    //useSelector called once to improve performance
+    //useSelectors called once from canvas to improve performance; uses context to pass values
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
-    //access interface state
     const {createClicked,rerenderClicked,firstRender, animation} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
-    //retrieve new canvas size on browser resize;  better performance than event listener
+
+    //retrieve new canvas size (determined by container @media) on browser resize;  better performance than event listener
     useEffect(()=> {
         setCanvasHeight(canvasRef.current.offsetHeight);
         setCanvasWidth(canvasRef.current.offsetWidth);
     },[canvasRef])
-    //stop loading animation
+    //stop loading spinner animation
     useEffect(()=> {    
         dispatch(toggleRendering(false))
     },[randomValues, swapPattern])
-    //disable rerender animation 
-    useEffect(()=>{
-        if(rerenderClicked)setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
-    },[rerenderClicked])
-    //change animation effect
-    useEffect(()=> {
-        if(firstRender && createClicked)setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
-    },[createClicked])
+ 
+  
 
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100

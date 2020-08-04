@@ -9,16 +9,13 @@ import Button from '@material-ui/core/Button'
 import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
-import Tooltip from '@material-ui/core/Tooltip'
 import blue from '@material-ui/core/colors/blue'
 import AccordianWrap from './AccordianWrap'
-import toggleCreateClicked from '../../../../Actions/Render/toggleCreateClicked'
-import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
+import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import {defaultPreset} from '../../../../Presets/allPresets'
-import toggleRendering from '../../../../Actions/Render/toggleRendering';
-import toggleRerenderClicked from '../../../../Actions/Interface/toggleRerenderClicked';
-import toggleAnimation from '../../../../Actions/Interface/toggleAnimation'
+import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
+
 
 const styles = makeStyles((theme) => ({
     button: {
@@ -44,30 +41,42 @@ const styles = makeStyles((theme) => ({
 export default function RenderControls() {
     const classes = styles();
     const dispatch = useDispatch();
-    //access render state
+    //access interface state
     const {preset, custom, createClicked, firstRender, animation} = useSelector(state => state.interface);
-    
+    //switch values
     const [state,setState] = useState({
         rerender: false,
         animation: animation
     })
     
-    //prevent animation lag with set timeout
-    const dispatchToggleCreateClicked = () => {
-        //add loader here only 
+    //create appstraction on click
+    const handleButtonClick = () => {
+        //add spinning loader; resets to false after canvas after canvas receives new random values and swap pattern 
         dispatch(toggleRendering(true))
-        if(!firstRender)dispatch(toggleRerenderClicked(true))
+        //enable rerender animation; resets to false after animation completes
+        if(!firstRender){
+            dispatch(toggleRerenderClicked(true))
+            setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
+        }
         setTimeout(()=>{
+            //create new random values and swap pattern
             dispatch(renderAppstraction()); 
-            dispatch(toggleCreateClicked(true)); 
+            //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
+            if(firstRender){
+                dispatch(toggleCreateClicked(true)); 
+                //change animation effect after animation completes; resets to false when new image gets selected 
+                //first render transitions opacity, while rerender transitions background
+                setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
+            }
         },0)
     }
 
+    //switch button on click
     const handleSwitchClick = (event, value) => {
         const name = event.target.name
-        console.log(name, state.rerender)
         setState(state => ({...state, [name]: !state[name]}));
         if(name === 'animation'){
+            //timeout prevents switch animation lag
             setTimeout(()=>{
                 dispatch(toggleAnimation(!animation))
             },150)
@@ -76,7 +85,7 @@ export default function RenderControls() {
 
     return (
         <AccordianWrap heading='Render' >
-            <Button disabled={createClicked && !state.rerender} onClick={dispatchToggleCreateClicked} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
+            <Button disabled={createClicked && !state.rerender} onClick={handleButtonClick} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
                 <FormGroup>
                     <FormControlLabel
                         control={<Switch size='small' checked={state.rerender} onClick={handleSwitchClick} name="rerender" />}
