@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux'
 import canvasReducer from './canvasReducer'
-import renderReducer from './renderReducer'
+import interfaceReducer from './interfaceReducer'
 
 export default combineReducers({
     firebase: '',
     user: '',
     canvas: canvasReducer,
-    render: renderReducer
+    interface: interfaceReducer
 })

@@ -1,12 +1,12 @@
 const initialState = {
-    //enables visibility
-    createClicked: false, 
+    //enables animation
+    animation: true, 
     //changes animation effect
     firstRender: true, 
     //allows animation during rerender only
     rerenderClicked: false,
-    //enables full rerender of loaded image
-    allowRerender: false,
+    //enables visibility
+    createClicked: false, 
     //loading status
     rendering: false,
     //tracks user preset
@@ -18,17 +18,17 @@ const initialState = {
 //all properties which relate to the render interface, but not required to replicate a canvas
 export default function canvasReducer(state = initialState, action){
     switch(action.type){  
-        //toggled after first create button click
+        case 'TOGGLE_ANIMATION':
+            return {...state, animation: action.payload}
+        //toggled 1.5 seconds after first create button click
         case 'TOGGLE_FIRST_RENDER': 
             return {...state, firstRender: action.payload}
-        //toggled when an image is uploaded, linked, or selected
+        //toggled on first rerender when create is clicked
         case 'TOGGLE_CREATE_CLICKED':
             return {...state, createClicked: action.payload}
+        //toggled on subsequent renders when create is clicked 
         case 'TOGGLE_RERENDER_CLICKED':
             return {...state, rerenderClicked: action.payload}
-        //toggled by rerender switch; allows full rerender of image
-        case 'TOGGLE_ALLOW_RERENDER':
-            return {...state, allowRerender: action.payload}
         //toggled by any editing action
         //currently not in use; adds to the delay 
         //which is already not long enough to warrent a spinner

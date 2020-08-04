@@ -40,9 +40,8 @@ const theme = createMuiTheme({
         },
         MuiButton:{
             label: {
-                // textTransform: 'capitalize',
                 minWidth: '54px'
-            }
+            },  
         },
         MuiTabs: {
             indicator: {
@@ -51,13 +50,13 @@ const theme = createMuiTheme({
         },
         MuiTab:{
             root: {
-                minWidth: 80, // a number of your choice
-                width: 80, // a number of your choice
+                minWidth: 80,
+                width: 80,
                 height: 64,
                 minHeight: 64,
                 '@media (min-width: 600px)': {
-                    minWidth: 80, // a number of your choice
-                    width: 80, // a number of your choice
+                    minWidth: 80,
+                    width: 80,
                     height: 64,
                     minHeight: 64,
                 }

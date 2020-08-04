@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import spinnerGif from './spinner.gif'
 
 export default function Spinner() {
-    const rendering = useSelector(state => state.render.rendering);
+    const rendering = useSelector(state => state.interface.rendering);
   
     const spinnerStyle = {
         height: '100px', 

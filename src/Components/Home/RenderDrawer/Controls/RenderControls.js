@@ -17,13 +17,16 @@ import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
 import {defaultPreset} from '../../../../Presets/allPresets'
 import toggleRendering from '../../../../Actions/Render/toggleRendering';
-import toggleRerenderClicked from '../../../../Actions/Render/toggleRerenderClicked';
+import toggleRerenderClicked from '../../../../Actions/Interface/toggleRerenderClicked';
+import toggleAnimation from '../../../../Actions/Interface/toggleAnimation'
 
 const styles = makeStyles((theme) => ({
     button: {
         marginBottom: 12
     },
-
+    disabled: {
+        backgroundColor: `${theme.palette.primary.dark} !important`
+    },
     formControl: {
         marginTop: 12,
         width: '50%',
@@ -42,7 +45,13 @@ export default function RenderControls() {
     const classes = styles();
     const dispatch = useDispatch();
     //access render state
-    const {preset, custom, firstRender} = useSelector(state => state.render);
+    const {preset, custom, createClicked, firstRender, animation} = useSelector(state => state.interface);
+    
+    const [state,setState] = useState({
+        rerender: false,
+        animation: animation
+    })
+    
     //prevent animation lag with set timeout
     const dispatchToggleCreateClicked = () => {
         //add loader here only 
@@ -54,13 +63,28 @@ export default function RenderControls() {
         },0)
     }
 
+    const handleSwitchClick = (event, value) => {
+        const name = event.target.name
+        console.log(name, state.rerender)
+        setState(state => ({...state, [name]: !state[name]}));
+        if(name === 'animation'){
+            setTimeout(()=>{
+                dispatch(toggleAnimation(!animation))
+            },150)
+        }
+    }
+
     return (
         <AccordianWrap heading='Render' >
-            <Button onClick={dispatchToggleCreateClicked} className={classes.button} color='primary' variant='contained'>Create Appstraction</Button>
+            <Button disabled={createClicked && !state.rerender} onClick={dispatchToggleCreateClicked} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
                 <FormGroup>
                     <FormControlLabel
-                        control={<Switch size='small' checked={true}  name="Stretch" />}
+                        control={<Switch size='small' checked={state.rerender} onClick={handleSwitchClick} name="rerender" />}
                         label="Rerender"
+                    />
+                    <FormControlLabel
+                        control={<Switch size='small' checked={state.animation} onClick={handleSwitchClick} name="animation" />}
+                        label="Animation"
                     />
                 </FormGroup>
             <FormControl variant="outlined" className={classes.formControl}>

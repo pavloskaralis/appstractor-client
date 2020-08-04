@@ -39,7 +39,7 @@ const styles = makeStyles((theme) => ({
 function Home() {
     const classes = styles();
     const {tabValue} = useContext(TabContext);
-    const rendering = useSelector(state => state.render.rendering);
+    const rendering = useSelector(state => state.interface.rendering);
     
     return (
         <>

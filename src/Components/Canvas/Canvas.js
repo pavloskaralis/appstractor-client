@@ -15,8 +15,8 @@ export default function Canvas(){
     const [canvasWidth, setCanvasWidth] = useState();
     //useSelector called once to improve performance
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
-    //access render state
-    const {createClicked,rerenderClicked,firstRender} = useSelector(state => state.render)
+    //access interface state
+    const {createClicked,rerenderClicked,firstRender, animation} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
     //retrieve new canvas size on browser resize;  better performance than event listener
     useEffect(()=> {
@@ -107,7 +107,7 @@ export default function Canvas(){
 
     const backgroundStyle = {
         //animation on render only
-        transition: `opacity .5s linear 1.8s`,
+        transition: animation? `opacity .5s linear 1.8s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
@@ -123,6 +123,7 @@ export default function Canvas(){
             rowContext: {quantity, maxUnits},
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
+                transition: animation && (firstRender || rerenderClicked) ? `1.5s linear 0s` : '',
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 
@@ -136,7 +137,8 @@ export default function Canvas(){
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `${canvasWidth}px` : '',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
-                rerenderClicked
+                rerenderClicked,
+                animation
             },
         }}>
             <div ref={canvasRef} className='canvas'>

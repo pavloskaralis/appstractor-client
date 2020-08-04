@@ -6,7 +6,7 @@ import Stripe from './Stripe'
 //takes in  relevant background position (object {x,y}), alternate flex direction string, and relevant random values
 export default function Block({backgroundPosition, alternateDirection,randomValues}){
     //access canvas state
-    const {blockContext: {quantity, pattern, background, maxUnits, currentUnitSizes, flexBasis, randomIndexes}} = useContext(CanvasContext);
+    const {blockContext: {quantity, pattern, background, maxUnits, currentUnitSizes, flexBasis, randomIndexes, transition}} = useContext(CanvasContext);
     //generate unique id for each stripe in block
     const ids = useMemo(()=> new Array(maxUnits.stripe).fill().map(ele => uniqueid()),[maxUnits.stripe]);
     
@@ -54,7 +54,7 @@ export default function Block({backgroundPosition, alternateDirection,randomValu
         flexGrow: background.uniform ? 1 : randomValues.flexGrow,
         flexDirection: flexDirection,
         flexBasis: flexBasis,
-        transition: `1.5s linear 0s`  
+        transition: transition  
     }
 
     return (
