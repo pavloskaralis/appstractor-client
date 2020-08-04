@@ -5,6 +5,8 @@ import Row from './Units/Row'
 import CanvasContext from '../../Contexts/CanvasContext'
 import '../../Styles/Canvas.scss'
 import toggleRendering from '../../Actions/Render/toggleRendering'
+import toggleFirstRender from '../../Actions/Render/toggleFirstRender'
+import toggleRerenderClicked from '../../Actions/Render/toggleRerenderClicked';
 
 export default function Canvas(){
     //use ref to get canvas height and width (determined by its container)
@@ -12,20 +14,27 @@ export default function Canvas(){
     const [canvasHeight, setCanvasHeight] = useState(); 
     const [canvasWidth, setCanvasWidth] = useState();
     //useSelector called once to improve performance
-    const {quantity,image,shadow, pattern, background,maxUnits,randomValues} = useSelector(state => state.canvas);
+    const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
     //access render state
-    const render = useSelector(state => state.render.render)
+    const {createClicked,rerenderClicked,firstRender} = useSelector(state => state.render)
     const dispatch = useDispatch(); 
     //retrieve new canvas size on browser resize;  better performance than event listener
     useEffect(()=> {
-        console.log('canvasRef Change')
         setCanvasHeight(canvasRef.current.offsetHeight);
         setCanvasWidth(canvasRef.current.offsetWidth);
     },[canvasRef])
-
+    //stop loading animation
     useEffect(()=> {    
         dispatch(toggleRendering(false))
-    },[quantity,image,shadow, pattern, background,maxUnits,randomValues, render])
+    },[randomValues, swapPattern])
+    //disable rerender animation 
+    useEffect(()=>{
+        if(rerenderClicked)setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
+    },[rerenderClicked])
+    //change animation effect
+    useEffect(()=> {
+        if(firstRender && createClicked)setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
+    },[createClicked])
 
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100
@@ -52,7 +61,7 @@ export default function Canvas(){
     const alternatePattern =  Array(maxUnits.row).fill().reduce((rows,x,i)=>{
         rows[i] = Array(maxUnits.block).fill().reduce((blocks,y,j)=>{
             //x and y background position for each visible block within a visible row
-            if(maxUnits.block%2 === 0) {
+            if(maxUnits.block%2 === 1) {
                 if(i%2 === 0){
                     blocks[j] = j%2 === 0 ? 'column' : 'row'
                 }else{
@@ -65,6 +74,22 @@ export default function Canvas(){
         },{}); 
         return rows; 
     },{});
+
+    //generate random indexes to fragmented background based on swap pattern; sent to blocks through context
+    let temp; 
+    const randomIndexes = Object.values(swapPattern).reduce((indexes, booleans, i) => {
+        if(i < quantity.stripe){ 
+            booleans.forEach((boolean, j) => {
+                if(boolean && j < quantity.stripe - 1) {
+                    temp = indexes[j];
+                    indexes[j] = indexes[j + 1];
+                    indexes[j + 1] = temp;
+                }
+            })
+        }
+        return indexes
+    }, new Array(quantity.stripe).fill().map((ele, i) => i));
+    
 
     //generate unique id for each row
     const ids = useMemo(()=>new Array(maxUnits.row).fill().map(ele => uniqueid()),[maxUnits.row]);
@@ -82,8 +107,8 @@ export default function Canvas(){
 
     const backgroundStyle = {
         //animation on render only
-        transition: `opacity .5s linear 2s`,
-        opacity: !render ? '0' : '1',
+        transition: `opacity .5s linear 1.8s`,
+        opacity: !createClicked ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
         backgroundSize: !background.stretch ? 
@@ -97,7 +122,7 @@ export default function Canvas(){
         <CanvasContext.Provider value={{
             rowContext: {quantity, maxUnits},
             blockContext: {
-                quantity, pattern, background, maxUnits,
+                quantity, pattern, background, maxUnits, randomIndexes, firstRender,
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 
@@ -107,10 +132,11 @@ export default function Canvas(){
             },
             stripeContext:{
                 backgroundImage: `url(${image})`,
-                opacity: !render ? '0' : '1',
+                opacity: !createClicked ? '0' : '1',
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `${canvasWidth}px` : '',
-                boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`
+                boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
+                rerenderClicked
             },
         }}>
             <div ref={canvasRef} className='canvas'>

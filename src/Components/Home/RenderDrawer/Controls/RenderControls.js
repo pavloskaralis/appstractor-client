@@ -12,11 +12,12 @@ import InputLabel from '@material-ui/core/InputLabel'
 import Tooltip from '@material-ui/core/Tooltip'
 import blue from '@material-ui/core/colors/blue'
 import AccordianWrap from './AccordianWrap'
-import toggleRender from '../../../../Actions/Render/toggleRender'
+import toggleCreateClicked from '../../../../Actions/Render/toggleCreateClicked'
 import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
 import {defaultPreset} from '../../../../Presets/allPresets'
 import toggleRendering from '../../../../Actions/Render/toggleRendering';
+import toggleRerenderClicked from '../../../../Actions/Render/toggleRerenderClicked';
 
 const styles = makeStyles((theme) => ({
     button: {
@@ -41,19 +42,21 @@ export default function RenderControls() {
     const classes = styles();
     const dispatch = useDispatch();
     //access render state
-    const {preset, custom} = useSelector(state => state.render);
-    //prevent animation lag
-    const dispatchToggleRender = () => {
+    const {preset, custom, firstRender} = useSelector(state => state.render);
+    //prevent animation lag with set timeout
+    const dispatchToggleCreateClicked = () => {
+        //add loader here only 
         dispatch(toggleRendering(true))
+        if(!firstRender)dispatch(toggleRerenderClicked(true))
         setTimeout(()=>{
-            dispatch(renderAppstraction); 
-            dispatch(toggleRender(true)); 
+            dispatch(renderAppstraction()); 
+            dispatch(toggleCreateClicked(true)); 
         },0)
     }
 
     return (
         <AccordianWrap heading='Render' >
-            <Button onClick={dispatchToggleRender} className={classes.button} color='primary' variant='contained'>Create Appstraction</Button>
+            <Button onClick={dispatchToggleCreateClicked} className={classes.button} color='primary' variant='contained'>Create Appstraction</Button>
                 <FormGroup>
                     <FormControlLabel
                         control={<Switch size='small' checked={true}  name="Stretch" />}

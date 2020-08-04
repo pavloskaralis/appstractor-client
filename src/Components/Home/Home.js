@@ -5,8 +5,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import TabContext from '../../Contexts/TabContext'
 import Canvas from '../../Components/Canvas/Canvas'
 import Box from '@material-ui/core/Box'
-import TabPanel from '../Nav/TabPanel'
-import Spinner from './spinner.gif'
+import TabPanel from '../Nav/TablePanel/TabPanel'
+import Spinner from './Spinner/Spinner'
 
 const styles = makeStyles((theme) => ({
     canvasContainer: {
@@ -34,12 +34,6 @@ const styles = makeStyles((theme) => ({
         height: '600px'
       }
     },
-    circularProgress: {
-      margin: '0 auto',
-      color: theme.palette.text.primary,
-      // width: '60px !important',
-      // height: '60px !important'
-    }
 }));
 
 function Home() {
@@ -54,9 +48,7 @@ function Home() {
               <Box flexGrow={1} display='flex' height='100%'flexDirection='column' justifyContent='center'>
                 <Box boxShadow={3} className={classes.canvasContainer}>
                   <Canvas/>
-                  <Box position='absolute' zIndex={1} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
-                    {rendering && <img src={Spinner} style={{height: '100px', width: '100px', margin: '0 auto'}}/>}
-                  </Box>
+                  <Spinner/>
                 </Box>
               </Box> 
             </TabPanel>

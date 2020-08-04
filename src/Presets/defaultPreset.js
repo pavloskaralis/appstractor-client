@@ -1,12 +1,12 @@
 const defaultPreset = {
     quantity: {
         row: 12,
-        block: 12,
+        block: 9,
         stripe: 3
     },
     pattern: 'random',
     background: {
-        detail: 2000,
+        detail: 1000000,
         ellipse: false,
         stretch: false,
         uniform: false

@@ -1,16 +1,19 @@
 import createRandomValues from '../Functions/createRandomValues'
 import defaultPreset from '../Presets/defaultPreset'
+import createSwapPattern from '../Functions/createSwapPattern'
 
 const maxUnits = {
-    row: 12, 
-    block: 18, 
-    stripe: 24
+    row: 10, 
+    block: 15, 
+    stripe: 15
 }
+//10.9 1.6 1.4; 7.4 1.2 .9; 5.4 1 .7
 
 const initialState = {
     ...defaultPreset, 
     image: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg', 
-    randomValues: createRandomValues(defaultPreset.quantity, maxUnits),
+    randomValues: createRandomValues(maxUnits),
+    swapPattern: createSwapPattern(maxUnits.stripe),
     maxUnits: maxUnits
 }
 
@@ -23,7 +26,7 @@ export default function canvasReducer(state = initialState, action){
             return {...state, ...action.payload}
         //triggered by create button
         case 'RENDER_APPSTRACTION':
-            return {...state, randomValues: createRandomValues(state.quantity, state.maxUnits)}
+            return {...state, swapPattern: createSwapPattern(maxUnits.stripe), randomValues: createRandomValues(state.maxUnits) }
         //triggered by upload, link, or stock search
         case 'SET_IMAGE':
             return {...state, image: action.payload}

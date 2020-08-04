@@ -6,7 +6,7 @@ import Stripe from './Stripe'
 //takes in  relevant background position (object {x,y}), alternate flex direction string, and relevant random values
 export default function Block({backgroundPosition, alternateDirection,randomValues}){
     //access canvas state
-    const {blockContext: {quantity, pattern, background, maxUnits, currentUnitSizes, flexBasis}} = useContext(CanvasContext);
+    const {blockContext: {quantity, pattern, background, maxUnits, currentUnitSizes, flexBasis, randomIndexes}} = useContext(CanvasContext);
     //generate unique id for each stripe in block
     const ids = useMemo(()=> new Array(maxUnits.stripe).fill().map(ele => uniqueid()),[maxUnits.stripe]);
     
@@ -18,21 +18,18 @@ export default function Block({backgroundPosition, alternateDirection,randomValu
         alternate: alternateDirection
     }[pattern]
     
-    //calculate fragmented background positions
-    const fragmentedBackgroundPositions = new Array(ids.length).fill().map((ele,i)=>{
-        //if stripe is visible
-        if(i < quantity.stripe) {
-            //return stripe background positions based on flex direction
-            return flexDirection === 'column' ? {
-                x: backgroundPosition.x,
-                y: backgroundPosition.y + (i * currentUnitSizes.stripe.column)
-            } : {
-                x: backgroundPosition.x + (i * currentUnitSizes.stripe.row),
-                y: backgroundPosition.y
-            }
+    //calculate fragmented background positions; dependant on flex direction 
+    const fragmentedBackgroundPositions = new Array(quantity.stripe).fill().map((ele,i)=>{
+  
+        //return stripe background positions based on flex direction
+        return flexDirection === 'column' ? {
+            x: backgroundPosition.x,
+            y: backgroundPosition.y + (i * currentUnitSizes.stripe.column)
+        } : {
+            x: backgroundPosition.x + (i * currentUnitSizes.stripe.row),
+            y: backgroundPosition.y
         }
-        //otherwise return empty positions
-        return {x:'',y:''}      
+    
     })
 
     //background size dependant on flex direction of block
@@ -46,7 +43,7 @@ export default function Block({backgroundPosition, alternateDirection,randomValu
         //each stripe is passed a random fragmented background position 
         return <Stripe  
             key={id} 
-            backgroundPosition={fragmentedBackgroundPositions[randomValues.indexes[i]]}
+            backgroundPosition={fragmentedBackgroundPositions[randomIndexes[i]]}
             backgroundSize={backgroundSize}
             randomValues={randomValues.stripes[i]}
         />
@@ -56,7 +53,8 @@ export default function Block({backgroundPosition, alternateDirection,randomValu
         //toggles between random and uniform flexGrow 
         flexGrow: background.uniform ? 1 : randomValues.flexGrow,
         flexDirection: flexDirection,
-        flexBasis: flexBasis
+        flexBasis: flexBasis,
+        transition: `1.5s linear 0s`  
     }
 
     return (

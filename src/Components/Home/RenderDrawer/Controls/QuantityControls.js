@@ -41,16 +41,13 @@ export default function QuantityControls() {
     //must be 3 as there is no simple way to check which slider was clicked 
     //if mouse is released over a non slider element
     const dispatchRowChange = (event,value) => {
-        dispatch(toggleRendering(true))
-        setTimeout(()=>dispatch(setRowQuantity(value)),0);
+        dispatch(setRowQuantity(value));
     }
     const dispatchBlockChange = (event,value) => {
-        dispatch(toggleRendering(true))
-        setTimeout(()=>dispatch(setBlockQuantity(value)),0)
+        dispatch(setBlockQuantity(value));
     }
     const dispatchStripeChange = (event,value) => {
-        dispatch(toggleRendering(true))
-        setTimeout(()=>dispatch(setStripeQuantity(value)),0)
+        dispatch(setStripeQuantity(value));
     }
 
     //slider onChange
