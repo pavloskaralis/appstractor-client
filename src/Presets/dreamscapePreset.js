@@ -6,13 +6,13 @@ const dreamscapePreset = {
     },
     pattern: 'horizontal',
     background: {
-        detail: 800,
+        detail: 1000,
         ellipse: false,
         stretch: true,
         uniform: false
     },
     shadow: {
-        opacity: 0.25,
+        opacity: 0.3,
         angle: 0.05,
         size: 0.05
     }

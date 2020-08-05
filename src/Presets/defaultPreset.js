@@ -12,7 +12,7 @@ const defaultPreset = {
         uniform: false
     },
     shadow: {
-        opacity: 0.15,
+        opacity: 0.2,
         angle: 0.0125,
         size: 0.025
     }
