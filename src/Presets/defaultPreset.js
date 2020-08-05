@@ -1,6 +1,6 @@
 const defaultPreset = {
     quantity: {
-        row: 6,
+        row: 7,
         block: 10,
         stripe: 3
     },

@@ -36,7 +36,7 @@ export default function AccordionWrap({heading, children}) {
     const classes = styles();
     return (
         <>
-            <Accordion defaultExpanded={true} className={classes.accordian}>
+            <Accordion defaultExpanded={heading === 'Render' ? true : false} className={classes.accordian}>
                 <AccordionSummary
                     expandIcon={<ExpandMoreIcon className={classes.expandMoreIcon}/>}
                     aria-controls="panel1a-content"
