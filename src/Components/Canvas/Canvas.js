@@ -117,7 +117,7 @@ export default function Canvas(){
             rowContext: {quantity, maxUnits},
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
-                transition: animation && (firstRender || rerenderClicked) ? `1.5s linear 0s` : '',
+                transition: animation && rerenderClicked ? `1.5s linear 0s` : '',
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 

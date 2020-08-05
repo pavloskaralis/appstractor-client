@@ -13,7 +13,7 @@ import blue from '@material-ui/core/colors/blue'
 import AccordianWrap from './AccordianWrap'
 import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
 import loadPreset from '../../../../Actions/Canvas/loadPreset'
-import {defaultPreset} from '../../../../Presets/allPresets'
+import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../../Presets/allPresets'
 import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../../Actions/Interface/allInterfaceActions'
 
 
@@ -26,7 +26,7 @@ const styles = makeStyles((theme) => ({
     },
     formControl: {
         marginTop: 12,
-        width: '55%',
+        // width: '55%',
         '& .MuiOutlinedInput-notchedOutline': {
             borderColor: blue[200],
             opacity: .9,
@@ -90,6 +90,15 @@ export default function RenderControls() {
             case 'default':
                 dispatch(loadPreset(defaultPreset))
                 break
+            case 'cubic':
+                dispatch(loadPreset(cubicPreset))
+                break
+            case 'dreamscape':
+                dispatch(loadPreset(dreamscapePreset))
+                break
+            case 'patchwork':
+                dispatch(loadPreset(patchworkPreset))
+                break
             case 'custom':
                 dispatch(loadPreset(customPreset))
                 break
@@ -122,6 +131,9 @@ export default function RenderControls() {
                     onChange={handleSelectChange}
                 >
                     <MenuItem value='default'>Default</MenuItem>
+                    <MenuItem value='cubic'>Cubic</MenuItem>
+                    <MenuItem value='dreamscape'>Dreamscape</MenuItem>
+                    <MenuItem value='patchwork'>Patchwork</MenuItem>
                     <MenuItem value='custom'>Custom</MenuItem>
                 </Select>
             </FormControl>

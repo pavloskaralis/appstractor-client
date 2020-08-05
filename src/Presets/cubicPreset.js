@@ -1,21 +1,21 @@
-const defaultPreset = {
+const cubicPreset = {
     quantity: {
-        row: 6,
-        block: 10,
-        stripe: 3
+        row: 8,
+        block: 11,
+        stripe: 2
     },
     pattern: 'random',
     background: {
-        detail: 1700,
+        detail: 1000000,
         ellipse: false,
         stretch: false,
         uniform: false
     },
     shadow: {
         opacity: 0.15,
-        angle: 0.0125,
+        angle: 0.005,
         size: 0.025
     }
 }
 
-export default defaultPreset; 
+export default cubicPreset; 

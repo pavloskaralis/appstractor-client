@@ -6,13 +6,14 @@ export default function Stripe ({backgroundPosition, backgroundSize, randomValue
 
     const {stripeContext:{backgroundImage, opacity, flexBasis, borderRadius, boxShadow, rerenderClicked, animation}} = useContext(CanvasContext);
     
+    const randomDelay = Math.random() * 1.5;
 
     const stripeStyle = {
         backgroundSize: backgroundSize,
         backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
         flexGrow: randomValues.flexGrow,
         //animation on render only
-        transition: !animation ? '' : rerenderClicked ? `1.5s ease-in-out 0s`: `opacity .125s ease-out ${Math.random() * 1.5}s`,
+        transition: !animation ? '' : rerenderClicked ? `1.5s ease-in-out 0s`: `opacity .125s ease-out ${randomDelay}s`,
         //hides stripe if not visible
         backgroundImage: backgroundImage,
         opacity: opacity,
