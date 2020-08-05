@@ -3,15 +3,15 @@ import defaultPreset from '../Presets/defaultPreset'
 import createSwapPattern from '../Functions/createSwapPattern'
 
 const maxUnits = {
-    row: 10, 
-    block: 15, 
-    stripe: 15
+    row: 12, 
+    block: 18, 
+    stripe: 24
 }
 //10.9 1.6 1.4; 7.4 1.2 .9; 5.4 1 .7
 
 const initialState = {
     ...defaultPreset, 
-    image: 'https://cdn.pixabay.com/photo/2017/01/28/02/24/japan-2014618_1280.jpg',
+    image: 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
     // image: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg', 
     randomValues: createRandomValues(maxUnits),
     swapPattern: createSwapPattern(maxUnits.stripe),

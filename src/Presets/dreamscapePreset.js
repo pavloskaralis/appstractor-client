@@ -1,12 +1,12 @@
 const dreamscapePreset = {
     quantity: {
-        row: 8,
+        row: 7,
         block: 5,
-        stripe: 15
+        stripe: 23
     },
     pattern: 'horizontal',
     background: {
-        detail: 1000,
+        detail: 1200,
         ellipse: false,
         stretch: true,
         uniform: false

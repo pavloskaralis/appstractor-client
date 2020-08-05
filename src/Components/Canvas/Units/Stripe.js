@@ -19,7 +19,7 @@ export default function Stripe ({backgroundPosition, backgroundSize, randomValue
         opacity: opacity,
         flexBasis: flexBasis,
         borderRadius: borderRadius,
-        boxShadow: boxShadow
+        boxShadow: boxShadow,
     }
 
     return <div 

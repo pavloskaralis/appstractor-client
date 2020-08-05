@@ -55,7 +55,7 @@ export default function Canvas(){
     const alternatePattern =  Array(maxUnits.row).fill().reduce((rows,x,i)=>{
         rows[i] = Array(maxUnits.block).fill().reduce((blocks,y,j)=>{
             //x and y background position for each visible block within a visible row
-            if(maxUnits.block%2 === 1) {
+            if(maxUnits.block%2 === 0) {
                 if(i%2 === 0){
                     blocks[j] = j%2 === 0 ? 'column' : 'row'
                 }else{
@@ -117,7 +117,7 @@ export default function Canvas(){
             rowContext: {quantity, maxUnits},
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
-                transition: animation && rerenderClicked ? `1.5s linear 0s` : '',
+                transition: animation && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 
