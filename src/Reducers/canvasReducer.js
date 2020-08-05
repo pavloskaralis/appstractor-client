@@ -11,7 +11,7 @@ const maxUnits = {
 
 const initialState = {
     ...defaultPreset, 
-    image: 'https://cdn.pixabay.com/photo/2016/05/15/15/12/hepatica-1393813_1280.jpg',
+    image: 'https://cdn.pixabay.com/photo/2017/01/28/02/24/japan-2014618_1280.jpg',
     // image: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg', 
     randomValues: createRandomValues(maxUnits),
     swapPattern: createSwapPattern(maxUnits.stripe),
