@@ -4,9 +4,7 @@ import uniqueid from 'lodash.uniqueid';
 import Row from './Units/Row'
 import CanvasContext from '../../Contexts/CanvasContext'
 import '../../Styles/Canvas.scss'
-import toggleRendering from '../../Actions/Render/toggleRendering'
-import toggleFirstRender from '../../Actions/Render/toggleFirstRender'
-import toggleRerenderClicked from '../../Actions/Render/toggleRerenderClicked';
+import {toggleRendering, saveCustomPreset}from '../../Actions/Interface/allInterfaceActions'
 
 export default function Canvas(){
     //use ref to get canvas height and width (determined by its container)
@@ -15,7 +13,7 @@ export default function Canvas(){
     const [canvasWidth, setCanvasWidth] = useState();
     //useSelectors called once from canvas to improve performance; uses context to pass values
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
-    const {createClicked,rerenderClicked,firstRender, animation} = useSelector(state => state.interface)
+    const {createClicked,rerenderClicked,firstRender, animation, preset, rendering} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
 
     //retrieve new canvas size (determined by container @media) on browser resize;  better performance than event listener
@@ -25,10 +23,12 @@ export default function Canvas(){
     },[canvasRef])
     //stop loading spinner animation
     useEffect(()=> {    
-        dispatch(toggleRendering(false))
+        if(rendering)dispatch(toggleRendering(false))
     },[randomValues, swapPattern])
- 
-  
+    //save custom settings incase presets toggled; also set custom to default on first load
+    useEffect(()=>{   
+        if(preset === 'custom' || firstRender)dispatch(saveCustomPreset({quantity,shadow, pattern, background}))
+    },[quantity,shadow, pattern, background])
 
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100

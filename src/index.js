@@ -21,7 +21,7 @@ const loggerMiddleware = createLogger()
 
 const store = createStore(
     rootReducer,
-    applyMiddleware(thunkMiddleware)
+    applyMiddleware(thunkMiddleware, loggerMiddleware)
 )
   
 ReactDOM.render(

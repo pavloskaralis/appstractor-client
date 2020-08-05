@@ -14,7 +14,7 @@ import AccordianWrap from './AccordianWrap'
 import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
 import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import {defaultPreset} from '../../../../Presets/allPresets'
-import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../../Actions/Interface/allInterfaceActions'
 
 
 const styles = makeStyles((theme) => ({
@@ -26,7 +26,7 @@ const styles = makeStyles((theme) => ({
     },
     formControl: {
         marginTop: 12,
-        width: '50%',
+        width: '55%',
         '& .MuiOutlinedInput-notchedOutline': {
             borderColor: blue[200],
             opacity: .9,
@@ -51,7 +51,7 @@ export default function RenderControls() {
     
     //create appstraction on click
     const handleButtonClick = () => {
-        //add spinning loader; resets to false after canvas after canvas receives new random values and swap pattern 
+        //add spinning loader; resets to false after canvas receives new random values and swap pattern 
         dispatch(toggleRendering(true))
         //enable rerender animation; resets to false after animation completes
         if(!firstRender){
@@ -83,6 +83,10 @@ export default function RenderControls() {
         }
     }
 
+    const handleSelectChange = (event) => {
+        dispatch(setPreset(event.target.value))
+    }
+
     return (
         <AccordianWrap heading='Render' >
             <Button disabled={createClicked && !state.rerender} onClick={handleButtonClick} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
@@ -102,11 +106,12 @@ export default function RenderControls() {
                     color='secondary'
                     labelId="presets-label"
                     id="presets-select"
-                    value='Default'
+                    value={preset}
                     label="Presets"
+                    onChange={handleSelectChange}
                 >
-                    <MenuItem value='Default'>Default</MenuItem>
-                    <MenuItem value='Custom'>Custom</MenuItem>
+                    <MenuItem value='default'>Default</MenuItem>
+                    <MenuItem value='custom'>Custom</MenuItem>
                 </Select>
             </FormControl>
         </AccordianWrap>

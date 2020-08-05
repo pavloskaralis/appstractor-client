@@ -12,7 +12,7 @@ const initialState = {
     //tracks user preset
     preset: 'default',
     //stores custom preset
-    customPresent: null
+    customPreset: null
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -38,8 +38,8 @@ export default function canvasReducer(state = initialState, action){
         case 'SET_PRESET':
                 return {...state, preset: action.payload}
         //toggled by any editing action; saves custom preset
-        case 'SET_CUSTOM_PRESET':
-            return {...state, custom: action.payload}
+        case 'SAVE_CUSTOM_PRESET':
+            return {...state, customPreset: action.payload}
         default:
             return state        
     }
