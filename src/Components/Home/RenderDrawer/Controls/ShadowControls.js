@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider'
 import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
 import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -17,6 +18,7 @@ const styles = makeStyles((theme) => ({
 export default function QuantityControls() {
     const classes = styles();
     const shadow = useSelector(state => state.canvas.shadow);
+    const preset = useSelector(state => state.interface.preset)
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -26,17 +28,29 @@ export default function QuantityControls() {
         size: shadow.size / .0005
     })
 
+    //change controls when preset is loaded
+    useEffect(()=> { 
+        setState({
+            opacity: shadow.opacity / .01,
+            angle: shadow.angle / .0005,
+            size: shadow.size / .0005
+        })
+    },[shadow])
+
     //must be 3 as there is no simple way to check which slider was clicked 
     //if mouse is released over a non slider element
     const dispatchOpacityChange = (event,value) => {
+        if(preset !== 'custom')dispatch(setPreset('custom'))
         dispatch(setShadowOpacity(value * .01))
     }
     const dispatchAngleChange = (event,value) => {
-        return dispatch(setShadowAngle(value * .0005))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
+        dispatch(setShadowAngle(value * .0005))
     }
 
     const dispatchSizeChange = (event,value) => {
-        return dispatch(setShadowSize(value * .0005))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
+        dispatch(setShadowSize(value * .0005))
     }
 
     //slider onChange

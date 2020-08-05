@@ -6,7 +6,7 @@ import Slider from '@material-ui/core/Slider'
 import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
 import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
-import {setPreset, saveCustomPreset}from '../../../../Actions/Interface/allInterfaceActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -20,7 +20,7 @@ const styles = makeStyles((theme) => ({
 export default function QuantityControls() {
     const classes = styles();
     const {quantity, maxUnits} = useSelector(state => state.canvas);
-    const {preset} = useSelector(state => state.interface.preset)
+    const preset = useSelector(state => state.interface.preset)
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -47,11 +47,11 @@ export default function QuantityControls() {
     }
 
     const dispatchBlockChange = (event,value) => {
-        dispatch(setPreset('custom'))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
         dispatch(setBlockQuantity(value));
     }
     const dispatchStripeChange = (event,value) => {
-        dispatch(setPreset('custom'))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
         dispatch(setStripeQuantity(value));
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useSelector, useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
@@ -9,6 +9,7 @@ import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
 import AccordianWrap from './AccordianWrap'
 import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 
 const styles = makeStyles((theme) => ({
@@ -21,6 +22,7 @@ const styles = makeStyles((theme) => ({
 export default function BackgroundControls() {
     const classes = styles();
     const background = useSelector(state => state.canvas.background)
+    const preset = useSelector(state => state.interface.preset)
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -31,6 +33,17 @@ export default function BackgroundControls() {
         detail: Math.round(Math.pow(background.detail - 99, 1/3))
     })
     
+
+    //change controls when preset is loaded
+    useEffect(()=> { 
+        setState({
+            stretch: background.stretch,
+        ellipse: background.ellipse,
+            uniform: background.uniform,
+            detail: Math.round(Math.pow(background.detail - 99, 1/3))
+        })
+    },[background])
+
     //slider onChange
     const handleSliderChange = (event, value) => {
         setState(state=>({
@@ -42,7 +55,8 @@ export default function BackgroundControls() {
     //slider onChangeSubmitted 
     //seperation prevents control animation lag
     const dispatchDetailChange = (event,value) => {
-        return dispatch(setBackgroundDetail(Math.round(Math.pow(value,2.99997851)+99)))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
+        dispatch(setBackgroundDetail(Math.round(Math.pow(value,2.99997851)+99)))
     }
 
     //toggle on change
@@ -53,6 +67,7 @@ export default function BackgroundControls() {
             ...state,
             [name]: checked
         }))
+        if(preset !== 'custom')dispatch(setPreset('custom'))
         //prevents control animation lag
         setTimeout(()=>{
             switch (name) {

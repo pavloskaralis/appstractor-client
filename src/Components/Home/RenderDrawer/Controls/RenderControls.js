@@ -42,7 +42,7 @@ export default function RenderControls() {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {preset, custom, createClicked, firstRender, animation} = useSelector(state => state.interface);
+    const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
     //switch values
     const [state,setState] = useState({
         rerender: false,
@@ -84,7 +84,18 @@ export default function RenderControls() {
     }
 
     const handleSelectChange = (event) => {
-        dispatch(setPreset(event.target.value))
+        const value = event.target.value; 
+        dispatch(setPreset(value))
+        switch(value){
+            case 'default':
+                dispatch(loadPreset(defaultPreset))
+                break
+            case 'custom':
+                dispatch(loadPreset(customPreset))
+                break
+            default:
+                break
+        }
     }
 
     return (
