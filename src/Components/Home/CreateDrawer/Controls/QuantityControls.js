@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import React, {useState, useEffect, useContext} from 'react';
+import { useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
@@ -7,6 +7,7 @@ import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
 import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -19,8 +20,8 @@ const styles = makeStyles((theme) => ({
 
 export default function QuantityControls() {
     const classes = styles();
-    const {quantity, maxUnits} = useSelector(state => state.canvas);
-    const preset = useSelector(state => state.interface.preset)
+    const {quantityContext:{quantity, maxUnits}, preset} = useContext(CreateDrawerContext)
+
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 

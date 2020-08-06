@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -10,8 +10,9 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
 import {makeStyles} from '@material-ui/core/styles'
-import RenderButtons from './HomeNav/RenderButtons'
-import RenderTabs from './HomeNav/RenderTabs'
+import HomeButtons from './HomeNav/HomeButtons'
+import HomeTabs from './HomeNav/HomeTabs'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles( theme => ({
     appBar: {
@@ -24,19 +25,22 @@ const useStyles = makeStyles( theme => ({
         paddingLeft: '12px'
     },
     iconButton: {
-        marginRight: '12px'
+        [theme.breakpoints.up('sm')]: {
+            marginRight: '12px',
+        }
     },
     menuIcon: {
         color: theme.palette.text.primary
     }
 }));
 
-const buttons=<RenderButtons/>
-const tabs=<RenderTabs/>
+const buttons=<HomeButtons/>
+const tabs=<HomeTabs/>
 
 export default function Nav(){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
+    
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -44,16 +48,19 @@ export default function Nav(){
     const handleClose = () => {
         setAnchorEl(null);
     };
+
  
     return (
         <AppBar position='static' className={classes.appBar}>
             <Box display='flex' width='100%'>
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton className={classes.iconButton} edge='start' aria-label='menu'>
-                        <Icon>
-                            <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
-                        </Icon>
-                    </IconButton>
+                        <Tooltip  title="Home" aria-label="home">
+                            <Icon>
+                                <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
+                            </Icon>
+                        </Tooltip>
+                     </IconButton>
                     {buttons}
                 </Toolbar>
                 <Box flexGrow={1}/>

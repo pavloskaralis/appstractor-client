@@ -1,5 +1,5 @@
-import React, {useState, useEffect} from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import React, {useState, useEffect, useContext} from 'react';
+import { useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
@@ -7,6 +7,7 @@ import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
 import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -17,8 +18,7 @@ const styles = makeStyles((theme) => ({
 
 export default function QuantityControls() {
     const classes = styles();
-    const shadow = useSelector(state => state.canvas.shadow);
-    const preset = useSelector(state => state.interface.preset)
+    const {shadowContext:{shadow}, preset} = useContext(CreateDrawerContext)
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -80,7 +80,7 @@ export default function QuantityControls() {
             <Typography gutterBottom className={classes.controlHeading}>Opacity</Typography>
             <Slider
                color='secondary'
-               value={state.opacity}
+               value={Math.round(state.opacity)}
                ValueLabelComponent={ValueLabel}
                onChange={handleOpacityChange}
                onChangeCommitted={dispatchOpacityChange}
@@ -90,7 +90,7 @@ export default function QuantityControls() {
             <Typography gutterBottom className={classes.controlHeading}>Angle</Typography>
             <Slider
                color='secondary'
-               value={state.angle}
+               value={Math.round(state.angle)}
                ValueLabelComponent={ValueLabel}
                onChange={handleAngleChange}
                onChangeCommitted={dispatchAngleChange}
@@ -100,7 +100,7 @@ export default function QuantityControls() {
             <Typography gutterBottom className={classes.controlHeading}>Size</Typography>
             <Slider
                color='secondary'
-               value={state.size}
+               value={Math.round(state.size)}
                ValueLabelComponent={ValueLabel}
                onChange={handleSizeChange}
                onChangeCommitted={dispatchSizeChange}

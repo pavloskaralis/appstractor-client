@@ -1,4 +1,4 @@
-import React, { useMemo, useContext } from 'react';
+import React, { useMemo, useContext, useEffect } from 'react';
 import CanvasContext from '../../../Contexts/CanvasContext'
 import uniqueid from 'lodash.uniqueid';
 import Stripe from './Stripe'

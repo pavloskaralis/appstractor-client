@@ -27,7 +27,7 @@ const styles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(14),
     },
     divider: {
-        backgroundColor: theme.palette.background.darkPaper
+        backgroundColor: theme.palette.background.darkDefault
     }
 }));
 

@@ -19,12 +19,13 @@ const theme = createMuiTheme({
         background: {
             default: grey[800],
             paper: grey[900],
-            darkPaper: '#2e2e2e'
+            darkDefault: '#2e2e2e'
         },
     },
     overrides:{
         MuiMenuItem: {
             root: {
+                minWidth: 102,
                 '&:hover': {
                     backgroundColor: '#2e2e2e',
                     
@@ -50,8 +51,8 @@ const theme = createMuiTheme({
         },
         MuiTab:{
             root: {
-                minWidth: 80,
-                width: 80,
+                minWidth: 48,
+                width: 48,
                 height: 64,
                 minHeight: 64,
                 '@media (min-width: 600px)': {

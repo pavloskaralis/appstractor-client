@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import React, { useState, useEffect, useContext } from 'react';
+import {useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -10,6 +10,7 @@ import ValueLabel from './ValueLabel'
 import AccordianWrap from './AccordianWrap'
 import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
 
 
 const styles = makeStyles((theme) => ({
@@ -21,8 +22,7 @@ const styles = makeStyles((theme) => ({
 
 export default function BackgroundControls() {
     const classes = styles();
-    const background = useSelector(state => state.canvas.background)
-    const preset = useSelector(state => state.interface.preset)
+    const {backgroundContext:{background}, preset}= useContext(CreateDrawerContext)
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 

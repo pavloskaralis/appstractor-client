@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import {useDispatch, useSelector} from 'react-redux'
+import React, { useState, useContext } from 'react';
+import {useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
@@ -15,6 +15,7 @@ import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
 import loadPreset from '../../../../Actions/Canvas/loadPreset'
 import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../../Presets/allPresets'
 import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../../Actions/Interface/allInterfaceActions'
+import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
 
 
 const styles = makeStyles((theme) => ({
@@ -26,7 +27,6 @@ const styles = makeStyles((theme) => ({
     },
     formControl: {
         marginTop: 12,
-        // width: '55%',
         '& .MuiOutlinedInput-notchedOutline': {
             borderColor: blue[200],
             opacity: .9,
@@ -42,7 +42,7 @@ export default function RenderControls() {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
+    const {renderContext:{customPreset, createClicked, firstRender, animation}, preset} = useContext(CreateDrawerContext)
     //switch values
     const [state,setState] = useState({
         rerender: false,

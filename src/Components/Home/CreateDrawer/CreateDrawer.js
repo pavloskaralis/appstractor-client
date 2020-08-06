@@ -7,24 +7,10 @@ import ShadowControls from './Controls/ShadowControls'
 import BackgroundControls from './Controls/BackgroundControls'
 import PatternControls from './Controls/PatternControls'
 import RenderControls from './Controls/RenderControls'
+import CreateDrawerContext from '../../../Contexts/CreateDrawerContext'
+import {useSelector} from 'react-redux'
 
 const styles = makeStyles((theme) => ({
-    '@global': {
-        '*::-webkit-scrollbar': {
-            width: '5px',
-            backgroundColor: theme.palette.background.darkPaper
-        },
-        '*::-webkit-scrollbar-track': {
-            boxshadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
-            borderRadius: '10px',
-        },
-        '*::-webkit-scrollbar-thumb': {
-            borderRadius: '10px',
-            boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
-            opacity: 1,
-            backgroundColor: theme.palette.secondary.dark,
-        }
-    },
     drawer: {
       width: 278,
       flexShrink: 0,
@@ -62,8 +48,11 @@ const styles = makeStyles((theme) => ({
 }));
 
 
-export default function RenderDrawer() {
+export default function CreateDrawer() {
     const classes = styles();
+    const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
+    const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
+
     return (
         <Drawer
             variant='permanent'
@@ -71,12 +60,21 @@ export default function RenderDrawer() {
             classes={{ paper: classes.drawerPaper }}
         >
             <div className={classes.drawerContainer}>
-                <Toolbar/>
-                <RenderControls/>
-                <QuantityControls/>
-                <BackgroundControls/>
-                <PatternControls/>               
-                <ShadowControls/>    
+                <CreateDrawerContext.Provider value={{
+                    renderContext: {customPreset, createClicked, firstRender, animation},
+                    backgroundContext:{background},
+                    patternContext: {pattern},
+                    shadowContext: {shadow},
+                    quantityContext: {quantity, maxUnits},
+                    preset
+                }}>
+                    <Toolbar/>
+                    <RenderControls/>
+                    <QuantityControls/>
+                    <BackgroundControls/>
+                    <PatternControls/>               
+                    <ShadowControls/>   
+                </CreateDrawerContext.Provider> 
             </div>
         </Drawer>         
     );

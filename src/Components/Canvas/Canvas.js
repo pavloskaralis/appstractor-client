@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState, useEffect } from 'react';
+import React, { useMemo, useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import uniqueid from 'lodash.uniqueid';
 import Row from './Units/Row'
@@ -7,20 +7,27 @@ import '../../Styles/Canvas.scss'
 import {toggleRendering, saveCustomPreset}from '../../Actions/Interface/allInterfaceActions'
 
 export default function Canvas(){
-    //use ref to get canvas height and width (determined by its container)
-    const canvasRef = useRef();
-    const [canvasHeight, setCanvasHeight] = useState(); 
-    const [canvasWidth, setCanvasWidth] = useState();
     //useSelectors called once from canvas to improve performance; uses context to pass values
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
     const {createClicked,rerenderClicked,firstRender, animation, preset, rendering} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
 
-    //retrieve new canvas size (determined by container @media) on browser resize;  better performance than event listener
-    useEffect(()=> {
+    const canvasRef = useRef();
+    const [canvasHeight, setCanvasHeight] = useState(); 
+    const [canvasWidth, setCanvasWidth] = useState();
+    //allows useEffect to call current ref since outside the scope
+    const updateCanvasSize = () => {
         setCanvasHeight(canvasRef.current.offsetHeight);
         setCanvasWidth(canvasRef.current.offsetWidth);
-    },[canvasRef])
+    }
+    //retrieve new canvas size (determined by container @media) on browser resize
+    useEffect(()=> {
+        window.addEventListener('resize', updateCanvasSize);
+        updateCanvasSize();
+        return ()=> window.removeEventListener('resize', updateCanvasSize)
+    },[]);
+
+
     //stop loading spinner animation
     useEffect(()=> {    
         if(rendering)dispatch(toggleRendering(false))

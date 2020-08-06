@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import {useSelector, useDispatch} from 'react-redux'
+import React, { useState, useEffect, useContext } from 'react';
+import {useDispatch} from 'react-redux'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import AccordionWrap from './AccordianWrap'
 import setPattern from '../../../../Actions/Canvas/setPattern'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
 
 
 export default function PatternControls() {
-    const pattern = useSelector(state => state.canvas.pattern);
-    const preset = useSelector(state => state.interface.preset)
+    const {patternContext:{pattern}, preset} = useContext(CreateDrawerContext)
+   
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
