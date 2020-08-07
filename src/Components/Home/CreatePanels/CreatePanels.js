@@ -29,16 +29,13 @@ function a11yProps(index) {
 const styles = makeStyles(theme => ({
   appBar: {
     top: 'auto',
-    bottom: 0,
-    backgroundColor: theme.palette.background.paper,
+    bottom: 0
   },
   tab: {
     width: 'initial',
     flexGrow: 1
-  },
-  indicator: {
-    backgroundColor: theme.palette.secondary.dark
   }
+
 }))
 
 export default function CreatePanels() {
@@ -74,8 +71,8 @@ export default function CreatePanels() {
       <CreatePanel value={tabValue} index={4}>
         <ShadowControls context={{preset, shadow}}/> 
       </CreatePanel>
-      <AppBar position='fixed' className={classes.appBar}>
-          <Tabs classes={{indicator: classes.indicator}} value={tabValue} onChange={handleTabChange} >
+      <AppBar   className={classes.appBar}>
+          <Tabs value={tabValue} onChange={handleTabChange} >
             <Tab icon={renderIcon} aria-label='render' className={classes.tab}  {...a11yProps(0)} />
             <Tab icon={quantityIcon} aria-label='quantity' className={classes.tab}  {...a11yProps(1)} />
             <Tab icon={backgroundIcon} aria-label='background' className={classes.tab}  {...a11yProps(2)} />

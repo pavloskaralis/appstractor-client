@@ -9,7 +9,7 @@ const styles = makeStyles((theme) => ({
     box: {
         backgroundColor: theme.palette.background.paper,
         width: '100%', 
-        height:'258px',
+        height:'266px',
         justifyContent: 'center',
     },
     accordionDetails: {

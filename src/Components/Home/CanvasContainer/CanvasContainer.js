@@ -47,11 +47,11 @@ const styles = makeStyles((theme) => ({
         width: '300px',
         height: '200px'
       },
-      '@media (max-height: 702px) and (min-width: 500px) ':{
+      '@media (max-height: 694px) and (min-width: 500px) ':{
         width: '360px',
         height: '240px'
       },
-      '@media (max-height: 642px) and (min-width: 400px) ':{
+      '@media (max-height: 634px) and (min-width: 400px) ':{
         width: '300px',
         height: '200px'
       }
