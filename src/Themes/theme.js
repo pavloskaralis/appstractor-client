@@ -103,7 +103,6 @@ const theme = createMuiTheme({
         MuiRadio: {
             root: {
                 color: blue[200],
-                padding: 7,
                 opacity: .9,
                 '&$checked': {
                     color: blue[500],

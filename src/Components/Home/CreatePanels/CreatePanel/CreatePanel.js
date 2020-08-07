@@ -10,11 +10,11 @@ const styles = makeStyles((theme) => ({
     box: {
         backgroundColor: theme.palette.background.paper,
         width: '100%', 
-        height:'287px',
+        height:'291px',
         justifyContent: 'center',
     },
     heading: {
-      padding: '16px 16px 8px 16px',
+      padding: '16px 16px 12px 16px',
       textTransform: 'uppercase',
       fontSize: theme.typography.pxToRem(14),
       fontWeight: theme.typography.fontWeightMedium,
