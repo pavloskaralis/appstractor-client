@@ -2,6 +2,7 @@ import React from 'react'
 import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
+import Typography from '@material-ui/core/Typography';
 
 
 
@@ -9,22 +10,20 @@ const styles = makeStyles((theme) => ({
     box: {
         backgroundColor: theme.palette.background.paper,
         width: '100%', 
-        height:'266px',
+        height:'287px',
         justifyContent: 'center',
     },
-    accordionDetails: {
-      width: '100%',
-      display: 'flex',
-      flexDirection: 'column',
-    },
     heading: {
+      padding: '16px 16px 8px 16px',
       textTransform: 'uppercase',
       fontSize: theme.typography.pxToRem(14),
+      fontWeight: theme.typography.fontWeightMedium,
       color: theme.palette.text.primary,
+      // background: theme.palette.primary.main
     }
 }));
 
-export default function CreatePanel({ children, value, index, ...other }) {
+export default function CreatePanel({heading, children, value, index, ...other }) {
     const classes = styles(); 
     return (
       <Box
@@ -37,7 +36,8 @@ export default function CreatePanel({ children, value, index, ...other }) {
       >
         <Box  width='100%' height='100%'> 
             <Box width='278px' padding='0 18px' margin='0 auto'>
-              <Box width='100%' padding='16px' display='flex' flexDirection='column'>
+              {heading !== 'Render' && <Typography className={classes.heading}>{heading}</Typography>}
+              <Box width='100%' padding={heading === 'Render' ? '16px' : '0 16px 16px 16px'} display='flex' flexDirection='column'>
                 {children}
               </Box>
             </Box>

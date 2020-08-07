@@ -103,6 +103,7 @@ const theme = createMuiTheme({
         MuiRadio: {
             root: {
                 color: blue[200],
+                padding: 7,
                 opacity: .9,
                 '&$checked': {
                     color: blue[500],
@@ -113,12 +114,6 @@ const theme = createMuiTheme({
         MuiSelect: {
             root: {
                 color: blue[500],
-                paddingTop: 8.5,
-                paddingBottom: 8.5,
-                '@media (min-width: 600px)': {
-                    paddingTop: 18.5,
-                    paddingBottom: 18.5,
-                },
             },
            
             icon: {

@@ -7,7 +7,7 @@ import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 import WallpaperIcon from '@material-ui/icons/Wallpaper'
-import CloudIcon from '@material-ui/icons/Cloud'
+import Brightness6Icon from '@material-ui/icons/Brightness6'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import LineStyleIcon from '@material-ui/icons/LineStyle'
 import BuildIcon from '@material-ui/icons/Build'
@@ -53,22 +53,22 @@ export default function CreatePanels() {
   const quantityIcon = <Tooltip title="Quantity" aria-label="quantity"><LineStyleIcon/></Tooltip>
   const backgroundIcon = <Tooltip title="Background" aria-label="background"><WallpaperIcon/></Tooltip>
   const patternIcon = <Tooltip title="Pattern" aria-label="pattern"><FingerprintIcon/></Tooltip>
-  const shadowIcon = <Tooltip title="Shadow" aria-label="shadow"><CloudIcon/></Tooltip>
+  const shadowIcon = <Tooltip title="Shadow" aria-label="shadow"><Brightness6Icon/></Tooltip>
   return (
     <Box>
-      <CreatePanel value={tabValue} index={0}>
+      <CreatePanel heading='Render' value={tabValue} index={0}>
         <RenderControls context={{preset, customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>
-      <CreatePanel value={tabValue} index={1}>
+      <CreatePanel heading='Quantity' value={tabValue} index={1}>
         <QuantityControls context={{preset, quantity, maxUnits}}/>
       </CreatePanel>
-      <CreatePanel value={tabValue} index={2}>
+      <CreatePanel heading='Background' value={tabValue} index={2}>
         <BackgroundControls context={{preset, background}}/>
       </CreatePanel>
-      <CreatePanel value={tabValue} index={3}>
+      <CreatePanel heading='Pattern' value={tabValue} index={3}>
         <PatternControls context={{preset, pattern}}/>               
       </CreatePanel>
-      <CreatePanel value={tabValue} index={4}>
+      <CreatePanel heading='Shadow' value={tabValue} index={4}>
         <ShadowControls context={{preset, shadow}}/> 
       </CreatePanel>
       <AppBar   className={classes.appBar}>
