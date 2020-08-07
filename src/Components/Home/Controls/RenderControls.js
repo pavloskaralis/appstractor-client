@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import {useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import FormControl from '@material-ui/core/FormControl';
@@ -10,12 +10,10 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import blue from '@material-ui/core/colors/blue'
-import AccordianWrap from './AccordianWrap'
-import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
-import loadPreset from '../../../../Actions/Canvas/loadPreset'
-import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../../Presets/allPresets'
-import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../../Actions/Interface/allInterfaceActions'
-import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
+import renderAppstraction from '../../../Actions/Canvas/renderAppstraction'
+import loadPreset from '../../../Actions/Canvas/loadPreset'
+import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../Presets/allPresets'
+import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../Actions/Interface/allInterfaceActions'
 
 
 const styles = makeStyles((theme) => ({
@@ -34,15 +32,16 @@ const styles = makeStyles((theme) => ({
         '& .MuiFormLabel-colorSecondary.Mui-focused':{
             color: theme.palette.text.secondary,
         }    
+        
     }
 
 }));
 
-export default function RenderControls() {
+export default function RenderControls({context}) {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {renderContext:{customPreset, createClicked, firstRender, animation}, preset} = useContext(CreateDrawerContext)
+    const {customPreset, createClicked, firstRender, animation, preset} = context;
     //switch values
     const [state,setState] = useState({
         rerender: false,
@@ -108,7 +107,7 @@ export default function RenderControls() {
     }
 
     return (
-        <AccordianWrap heading='Render' >
+        <>
             <Button disabled={createClicked && !state.rerender} onClick={handleButtonClick} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
                 <FormGroup>
                     <FormControlLabel
@@ -137,7 +136,7 @@ export default function RenderControls() {
                     <MenuItem value='custom'>Custom</MenuItem>
                 </Select>
             </FormControl>
-        </AccordianWrap>
+        </>
     );
 }
 

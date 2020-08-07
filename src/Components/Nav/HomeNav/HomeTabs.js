@@ -9,12 +9,10 @@ import Tooltip from '@material-ui/core/Tooltip'
 
 function a11yProps(index) {
     return {
-      id: `tab-${index}`,
-      'aria-controls': `tabpanel-${index}`,
+      id: `hometab-${index}`,
+      'aria-controls': `hometabpanel-${index}`,
     };
 }
-
-
 
 export default function HomeTabs(){
     const viewportWidth = useContext(ViewportContext);

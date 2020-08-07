@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
@@ -7,10 +7,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch'
 import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
-import AccordianWrap from './AccordianWrap'
-import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
-import setPreset from '../../../../Actions/Interface/setPreset'
-import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
+import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../Actions/Canvas/backgroundActions'
+import setPreset from '../../../Actions/Interface/setPreset'
 
 
 const styles = makeStyles((theme) => ({
@@ -20,9 +18,9 @@ const styles = makeStyles((theme) => ({
     }, 
 }));
 
-export default function BackgroundControls() {
+export default function BackgroundControls({context}) {
     const classes = styles();
-    const {backgroundContext:{background}, preset}= useContext(CreateDrawerContext)
+    const {background, preset}= context;
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -84,7 +82,7 @@ export default function BackgroundControls() {
     };
 
     return (
-        <AccordianWrap heading='Background'>
+        <>
             <Typography gutterBottom className={classes.heading}>Detail</Typography>
             <Slider
                 aria-label='detail-slider'
@@ -110,7 +108,7 @@ export default function BackgroundControls() {
                     label="Uniform"
                 />
             </FormGroup>
-        </AccordianWrap>           
+        </>
     );
 }
 

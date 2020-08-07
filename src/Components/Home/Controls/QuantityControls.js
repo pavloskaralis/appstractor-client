@@ -1,13 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
-import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
-import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
-import setPreset from '../../../../Actions/Interface/setPreset'
-import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
+import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../Actions/Canvas/quantityActions'
+import setPreset from '../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -18,9 +16,9 @@ const styles = makeStyles((theme) => ({
 
 //MAY REQUIRE ONCHANGE AND ONCHANGECOMMITED FOR PRESETS
 
-export default function QuantityControls() {
+export default function QuantityControls({context}) {
     const classes = styles();
-    const {quantityContext:{quantity, maxUnits}, preset} = useContext(CreateDrawerContext)
+    const {quantity, maxUnits, preset} = context;
 
     const dispatch = useDispatch(); 
     //local state prevents control lag
@@ -79,7 +77,7 @@ export default function QuantityControls() {
 
    
     return (
-        <AccordianWrap heading='Quantity'>
+        <>
             <Typography gutterBottom className={classes.controlHeading}>Row</Typography>
             <Slider
                 color='secondary'
@@ -110,7 +108,7 @@ export default function QuantityControls() {
                 max={maxUnits.stripe}
                 min={1}
             />
-        </AccordianWrap>       
+        </>       
     );
 }
 

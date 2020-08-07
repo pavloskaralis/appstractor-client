@@ -1,13 +1,11 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 import { useDispatch} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
-import AccordianWrap from './AccordianWrap'
 import ValueLabel from './ValueLabel'
-import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
-import setPreset from '../../../../Actions/Interface/setPreset'
-import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
+import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../Actions/Canvas/shadowActions'
+import setPreset from '../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -16,9 +14,9 @@ const styles = makeStyles((theme) => ({
     },
 }));
 
-export default function QuantityControls() {
+export default function QuantityControls({context}) {
     const classes = styles();
-    const {shadowContext:{shadow}, preset} = useContext(CreateDrawerContext)
+    const {shadow, preset} = context;
     const dispatch = useDispatch(); 
     //local state prevents control lag
     //store state too slow to directly connect to controllers 
@@ -76,7 +74,7 @@ export default function QuantityControls() {
 
 
     return (
-        <AccordianWrap heading='Shadow'>
+        <>
             <Typography gutterBottom className={classes.controlHeading}>Opacity</Typography>
             <Slider
                color='secondary'
@@ -107,7 +105,7 @@ export default function QuantityControls() {
                max={100}
                min={0}
             />
-        </AccordianWrap> 
+        </> 
     );
 }
 

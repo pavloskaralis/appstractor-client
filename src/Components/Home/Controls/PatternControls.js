@@ -1,16 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import {useDispatch} from 'react-redux'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
-import AccordionWrap from './AccordianWrap'
-import setPattern from '../../../../Actions/Canvas/setPattern'
-import setPreset from '../../../../Actions/Interface/setPreset'
-import CreateDrawerContext from '../../../../Contexts/CreateDrawerContext'
+import setPattern from '../../../Actions/Canvas/setPattern'
+import setPreset from '../../../Actions/Interface/setPreset'
 
 
-export default function PatternControls() {
-    const {patternContext:{pattern}, preset} = useContext(CreateDrawerContext)
+export default function PatternControls({context}) {
+    const {pattern, preset} = context;
    
     const dispatch = useDispatch(); 
     //local state prevents control lag
@@ -33,14 +31,14 @@ export default function PatternControls() {
     };
    
     return (
-        <AccordionWrap heading='Pattern'>
+        <>
             <RadioGroup aria-label="pattern" onChange={handleChange} value={state}>
                 <FormControlLabel value="random" control={<Radio />} label="Random" />
                 <FormControlLabel value="horizontal" control={<Radio />} label="Horizontal" />
                 <FormControlLabel value="vertical" control={<Radio />} label="Vertical" />
                 <FormControlLabel value="alternate" control={<Radio />} label="Alternate" />
             </RadioGroup>    
-        </AccordionWrap>
+        </>
     );
 }
 

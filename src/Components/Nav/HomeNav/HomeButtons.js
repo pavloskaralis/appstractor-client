@@ -35,7 +35,7 @@ export default function HomeButtons(){
     
     return (
         <> 
-            {viewportWidth >= 504 ? 
+            {viewportWidth >= 512 ? 
                 <>
                     <ButtonGroup variant='text' size='small' aria-label='text primary button group'>
                         <Button>Upload</Button>

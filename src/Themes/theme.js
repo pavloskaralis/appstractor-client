@@ -51,8 +51,8 @@ const theme = createMuiTheme({
         },
         MuiTab:{
             root: {
-                minWidth: 48,
-                width: 48,
+                minWidth: 56,
+                width: 56,
                 height: 64,
                 minHeight: 64,
                 '@media (min-width: 600px)': {
@@ -113,6 +113,12 @@ const theme = createMuiTheme({
         MuiSelect: {
             root: {
                 color: blue[500],
+                paddingTop: 8.5,
+                paddingBottom: 8.5,
+                '@media (min-width: 600px)': {
+                    paddingTop: 18.5,
+                    paddingBottom: 18.5,
+                },
             },
            
             icon: {

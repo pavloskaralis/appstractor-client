@@ -19,10 +19,16 @@ const useStyles = makeStyles( theme => ({
         zIndex: 1201,
     },
     buttonsToolbar: {
-        paddingRight: 12,
+        paddingRight: '4px',
+        [theme.breakpoints.up('sm')]: {
+           paddingRight: '12px',
+        }
     },
     menuToolbar: {
-        paddingLeft: '12px'
+        paddingLeft: '4px',
+        [theme.breakpoints.up('sm')]: {
+           paddingLeft: '12px',
+        }
     },
     iconButton: {
         [theme.breakpoints.up('sm')]: {

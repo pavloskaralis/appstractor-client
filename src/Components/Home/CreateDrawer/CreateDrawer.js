@@ -2,12 +2,12 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
-import QuantityControls from './Controls/QuantityControls'
-import ShadowControls from './Controls/ShadowControls'
-import BackgroundControls from './Controls/BackgroundControls'
-import PatternControls from './Controls/PatternControls'
-import RenderControls from './Controls/RenderControls'
-import CreateDrawerContext from '../../../Contexts/CreateDrawerContext'
+import QuantityControls from '../Controls/QuantityControls'
+import ShadowControls from '../Controls/ShadowControls'
+import BackgroundControls from '../Controls/BackgroundControls'
+import PatternControls from '../Controls/PatternControls'
+import RenderControls from '../Controls/RenderControls'
+import AccordianWrap from '../AccordianWrap/AccordianWrap'
 import {useSelector} from 'react-redux'
 
 const styles = makeStyles((theme) => ({
@@ -60,21 +60,22 @@ export default function CreateDrawer() {
             classes={{ paper: classes.drawerPaper }}
         >
             <div className={classes.drawerContainer}>
-                <CreateDrawerContext.Provider value={{
-                    renderContext: {customPreset, createClicked, firstRender, animation},
-                    backgroundContext:{background},
-                    patternContext: {pattern},
-                    shadowContext: {shadow},
-                    quantityContext: {quantity, maxUnits},
-                    preset
-                }}>
-                    <Toolbar/>
-                    <RenderControls/>
-                    <QuantityControls/>
-                    <BackgroundControls/>
-                    <PatternControls/>               
-                    <ShadowControls/>   
-                </CreateDrawerContext.Provider> 
+                <Toolbar/>
+                <AccordianWrap heading='Render'>
+                    <RenderControls context={{preset, customPreset, createClicked, firstRender, animation}}/>
+                </AccordianWrap>
+                <AccordianWrap heading='Quantity'>
+                    <QuantityControls context={{preset, quantity, maxUnits}}/>
+                </AccordianWrap>
+                <AccordianWrap heading='Background'>
+                    <BackgroundControls context={{preset, background}}/>
+                </AccordianWrap>
+                <AccordianWrap heading='Pattern'>
+                    <PatternControls context={{preset, pattern}}/>   
+                 </AccordianWrap>            
+                <AccordianWrap heading='Shadow'>
+                    <ShadowControls context={{preset, shadow}}/>
+                </AccordianWrap>
             </div>
         </Drawer>         
     );

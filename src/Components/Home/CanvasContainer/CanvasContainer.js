@@ -8,8 +8,16 @@ const styles = makeStyles((theme) => ({
       background: theme.palette.background.darkDefault,
       margin: '0 auto',
       [theme.breakpoints.up('xs')]: {
-        width: '3x',
-        height: '2px'
+        width: '300px',
+        height: '200px'
+      },
+      [theme.breakpoints.up(400)]: {
+        width: '360px',
+        height: '240px'
+      },
+      [theme.breakpoints.up(500)]: {
+        width: '450px',
+        height: '300px'
       },
       [theme.breakpoints.up('sm')]: {
         width: '300px',
@@ -35,7 +43,15 @@ const styles = makeStyles((theme) => ({
         width: '450px',
         height: '300px'
       },
-      '@media (max-height: 464px) and (min-width: 600px) ':{
+      '@media (max-height: 444px) and (min-width: 600px) ':{
+        width: '300px',
+        height: '200px'
+      },
+      '@media (max-height: 702px) and (min-width: 500px) ':{
+        width: '360px',
+        height: '240px'
+      },
+      '@media (max-height: 642px) and (min-width: 400px) ':{
         width: '300px',
         height: '200px'
       }
