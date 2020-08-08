@@ -1,20 +1,20 @@
 const cubicPreset = {
     quantity: {
-        row: 10,
-        block: 10,
-        stripe: 3
+        row: 9,
+        block: 12,
+        stripe: 2
     },
     pattern: 'alternate',
     background: {
-        detail: 125000,
+        detail: 420000,
         ellipse: false,
         stretch: false,
         uniform: false
     },
     shadow: {
-        opacity: 0.15,
-        angle: 0.01,
-        size: 0.015
+        opacity: 0.10,
+        angle: 0.005,
+        size: 0.04
     }
 }
 

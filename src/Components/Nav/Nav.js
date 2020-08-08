@@ -20,7 +20,7 @@ const useStyles = makeStyles( theme => ({
     },
     buttonsToolbar: {
         paddingRight: '4px',
-        [theme.breakpoints.up('sm')]: {
+        [theme.breakpoints.up(512)]: {
            paddingRight: '12px',
         }
     },
@@ -83,8 +83,9 @@ export default function Nav(){
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Feedback</MenuItem>
+                <MenuItem onClick={handleClose}>Home</MenuItem>
                 <MenuItem onClick={handleClose}>Account</MenuItem>
+                <MenuItem onClick={handleClose}>Feedback</MenuItem>
                 <MenuItem onClick={handleClose}>Log Out</MenuItem>
             </Menu>
         </AppBar>

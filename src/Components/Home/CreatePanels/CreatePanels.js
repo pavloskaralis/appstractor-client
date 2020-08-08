@@ -17,6 +17,8 @@ import BackgroundControls from '../Controls/BackgroundControls'
 import PatternControls from '../Controls/PatternControls'
 import RenderControls from '../Controls/RenderControls'
 import {useSelector} from 'react-redux'
+import BottomNavigation from '@material-ui/core/BottomNavigation'
+import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 
 function a11yProps(index) {
   return {
@@ -34,6 +36,9 @@ const styles = makeStyles(theme => ({
   tab: {
     width: 'initial',
     flexGrow: 1
+  },
+  indicator: {
+    top: 0
   }
 
 }))
@@ -44,9 +49,9 @@ export default function CreatePanels() {
   const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
   const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
   
-  const [tabValue, setTabValue] = useState(0);
-  const handleTabChange = (event, newTabValue) => {
-    setTabValue(newTabValue);
+  const [bottomNavValue, setBottomNavValue] = useState(0);
+  const handleTabChange = (event, newBottomNavValue) => {
+    setBottomNavValue(newBottomNavValue);
   };
 
   const renderIcon =  <Tooltip title="Render" aria-label="render"><BuildIcon/></Tooltip>
@@ -56,30 +61,28 @@ export default function CreatePanels() {
   const shadowIcon = <Tooltip title="Shadow" aria-label="shadow"><Brightness6Icon/></Tooltip>
   return (
     <Box>
-      <CreatePanel heading='Render' value={tabValue} index={0}>
+      <CreatePanel heading='Render' value={bottomNavValue} index={0}>
         <RenderControls context={{preset, customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>
-      <CreatePanel heading='Quantity' value={tabValue} index={1}>
+      <CreatePanel heading='Quantity' value={bottomNavValue} index={1}>
         <QuantityControls context={{preset, quantity, maxUnits}}/>
       </CreatePanel>
-      <CreatePanel heading='Background' value={tabValue} index={2}>
+      <CreatePanel heading='Background' value={bottomNavValue} index={2}>
         <BackgroundControls context={{preset, background}}/>
       </CreatePanel>
-      <CreatePanel heading='Pattern' value={tabValue} index={3}>
+      <CreatePanel heading='Pattern' value={bottomNavValue} index={3}>
         <PatternControls context={{preset, pattern}}/>               
       </CreatePanel>
-      <CreatePanel heading='Shadow' value={tabValue} index={4}>
+      <CreatePanel heading='Shadow' value={bottomNavValue} index={4}>
         <ShadowControls context={{preset, shadow}}/> 
       </CreatePanel>
-      <AppBar   className={classes.appBar}>
-          <Tabs value={tabValue} onChange={handleTabChange} >
-            <Tab icon={renderIcon} aria-label='render' className={classes.tab}  {...a11yProps(0)} />
-            <Tab icon={quantityIcon} aria-label='quantity' className={classes.tab}  {...a11yProps(1)} />
-            <Tab icon={backgroundIcon} aria-label='background' className={classes.tab}  {...a11yProps(2)} />
-            <Tab icon={patternIcon} aria-label='pattern' className={classes.tab}  {...a11yProps(3)} />
-            <Tab icon={shadowIcon} aria-label='shadow' className={classes.tab}  {...a11yProps(4)} />
-          </Tabs>
-      </AppBar>
+      <BottomNavigation value={bottomNavValue}  onChange={handleTabChange}>
+        <BottomNavigationAction icon={renderIcon} label='Render' aria-label='render' className={classes.tab}  {...a11yProps(0)} />
+        <BottomNavigationAction icon={quantityIcon} label='Quantity' aria-label='quantity' className={classes.tab}  {...a11yProps(1)} />
+        <BottomNavigationAction icon={backgroundIcon} label='Background' aria-label='background' className={classes.tab}  {...a11yProps(2)} />
+        <BottomNavigationAction icon={patternIcon} label='Pattern' aria-label='pattern' className={classes.tab}  {...a11yProps(3)} />
+        <BottomNavigationAction icon={shadowIcon} label='Shadow' aria-label='shadow' className={classes.tab}  {...a11yProps(4)} />
+      </BottomNavigation>
     </Box>
   )
 }

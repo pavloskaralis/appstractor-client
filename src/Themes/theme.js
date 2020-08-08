@@ -23,6 +23,20 @@ const theme = createMuiTheme({
         },
     },
     overrides:{
+        MuiBottomNavigation:{
+            root: {
+                backgroundColor: purple[700],
+
+            }
+        },
+        MuiBottomNavigationAction:{
+            root: {
+                minWidth: 64,
+                '&.Mui-selected': {
+                    color: grey[50],
+                }
+            }
+        },
         MuiMenuItem: {
             root: {
                 minWidth: 102,
@@ -45,6 +59,9 @@ const theme = createMuiTheme({
             },  
         },
         MuiTabs: {
+            root:{
+                flexShrink: 2,
+            },
             indicator: {
                 backgroundColor: purple[400]
             }
@@ -52,12 +69,14 @@ const theme = createMuiTheme({
         MuiTab:{
             root: {
                 minWidth: 56,
-                width: 56,
-                height: 64,
-                minHeight: 64,
+                width: 120,
+                flexShrink: 1,
+                height: 56,
+                minHeight: 56,
                 '@media (min-width: 600px)': {
                     minWidth: 80,
-                    width: 80,
+                    width: 160,
+                    flexShrink: 1,
                     height: 64,
                     minHeight: 64,
                 }
@@ -104,6 +123,7 @@ const theme = createMuiTheme({
             root: {
                 color: blue[200],
                 opacity: .9,
+                padding: 8.5,
                 '&$checked': {
                     color: blue[500],
                     opacity: 1

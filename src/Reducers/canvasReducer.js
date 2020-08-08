@@ -7,9 +7,10 @@ const maxUnits = {
     block: 18, 
     stripe: 24
 }
-
+//aerial neon cityscape sky graffiti texture experimental
 const initialState = {
     ...defaultPreset, 
+    // image: 'https://images.unsplash.com/photo-1596113358672-71c897d1787c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2550&q=80',
     image: 'https://images.unsplash.com/photo-1500462918059-b1a0cb512f1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=934&q=80',
     // image: 'https://cdn.pixabay.com/photo/2016/11/23/15/18/amsterdam-1853459_1280.jpg', 
     randomValues: createRandomValues(maxUnits),

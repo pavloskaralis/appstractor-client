@@ -60,5 +60,4 @@ function App() {
   );
 }
 
-export {TabContext}
 export default App;

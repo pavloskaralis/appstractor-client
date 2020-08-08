@@ -1,7 +1,6 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
-import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography';
 
 
@@ -10,7 +9,7 @@ const styles = makeStyles((theme) => ({
     box: {
         backgroundColor: theme.palette.background.paper,
         width: '100%', 
-        height:'291px',
+        height:'220px',
         justifyContent: 'center',
     },
     heading: {
@@ -19,7 +18,6 @@ const styles = makeStyles((theme) => ({
       fontSize: theme.typography.pxToRem(14),
       fontWeight: theme.typography.fontWeightMedium,
       color: theme.palette.text.primary,
-      // background: theme.palette.primary.main
     }
 }));
 
@@ -41,7 +39,6 @@ export default function CreatePanel({heading, children, value, index, ...other }
                 {children}
               </Box>
             </Box>
-            <Toolbar/>
         </Box>
       </Box>
     );
