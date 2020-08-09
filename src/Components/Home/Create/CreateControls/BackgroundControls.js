@@ -7,8 +7,8 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch'
 import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
-import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../Actions/Canvas/backgroundActions'
-import setPreset from '../../../Actions/Interface/setPreset'
+import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 
 const styles = makeStyles((theme) => ({

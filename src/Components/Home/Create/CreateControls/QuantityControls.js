@@ -4,8 +4,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
-import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../Actions/Canvas/quantityActions'
-import setPreset from '../../../Actions/Interface/setPreset'
+import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {

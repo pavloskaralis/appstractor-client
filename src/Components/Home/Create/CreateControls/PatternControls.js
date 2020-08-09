@@ -3,8 +3,8 @@ import {useDispatch} from 'react-redux'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
-import setPattern from '../../../Actions/Canvas/setPattern'
-import setPreset from '../../../Actions/Interface/setPreset'
+import setPattern from '../../../../Actions/Canvas/setPattern'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 
 export default function PatternControls({context}) {

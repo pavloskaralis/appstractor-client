@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
-import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const styles = makeStyles((theme) => ({
     box: {
@@ -13,7 +12,6 @@ const styles = makeStyles((theme) => ({
 
 export default function TabPanel({ children, value, index, ...other }) {
     const classes = styles(); 
-    const matches = useMediaQuery('(min-width:600px)');
 
     return (
       <Box
@@ -24,9 +22,7 @@ export default function TabPanel({ children, value, index, ...other }) {
         aria-labelledby={`tab-${index}`}
         {...other}
       >
-        <Box display='flex' width='100%' height='100%' flexDirection={matches ? 'row' : 'column'}>
-            {children}
-        </Box>
+        {children}
       </Box>
     );
 }

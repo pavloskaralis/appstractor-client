@@ -10,10 +10,10 @@ import Select from '@material-ui/core/Select'
 import MenuItem from '@material-ui/core/MenuItem'
 import InputLabel from '@material-ui/core/InputLabel'
 import blue from '@material-ui/core/colors/blue'
-import renderAppstraction from '../../../Actions/Canvas/renderAppstraction'
-import loadPreset from '../../../Actions/Canvas/loadPreset'
-import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../Presets/allPresets'
-import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../Actions/Interface/allInterfaceActions'
+import renderAppstraction from '../../../../Actions/Canvas/renderAppstraction'
+import loadPreset from '../../../../Actions/Canvas/loadPreset'
+import {defaultPreset, cubicPreset, patchworkPreset, dreamscapePreset} from '../../../../Presets/allPresets'
+import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimation, toggleFirstRender, setPreset} from '../../../../Actions/Interface/allInterfaceActions'
 
 
 const styles = makeStyles((theme) => ({

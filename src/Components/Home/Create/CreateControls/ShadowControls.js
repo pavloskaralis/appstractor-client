@@ -4,8 +4,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
-import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../Actions/Canvas/shadowActions'
-import setPreset from '../../../Actions/Interface/setPreset'
+import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
+import setPreset from '../../../../Actions/Interface/setPreset'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {

@@ -2,12 +2,12 @@ import React from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
-import QuantityControls from '../Controls/QuantityControls'
-import ShadowControls from '../Controls/ShadowControls'
-import BackgroundControls from '../Controls/BackgroundControls'
-import PatternControls from '../Controls/PatternControls'
-import RenderControls from '../Controls/RenderControls'
-import AccordianWrap from '../AccordianWrap/AccordianWrap'
+import QuantityControls from '../CreateControls/QuantityControls'
+import ShadowControls from '../CreateControls/ShadowControls'
+import BackgroundControls from '../CreateControls/BackgroundControls'
+import PatternControls from '../CreateControls/PatternControls'
+import RenderControls from '../CreateControls/RenderControls'
+import AccordianWrap from './AccordianWrap/AccordianWrap'
 import {useSelector} from 'react-redux'
 
 const styles = makeStyles((theme) => ({

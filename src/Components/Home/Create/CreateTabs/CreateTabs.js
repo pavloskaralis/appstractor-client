@@ -1,8 +1,5 @@
 import React, {useState} from 'react'
 import CreatePanel from './CreatePanel/CreatePanel'
-import AppBar from '@material-ui/core/AppBar'
-import Tabs from '@material-ui/core/Tabs'
-import Tab from '@material-ui/core/Tab'
 import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -11,11 +8,11 @@ import Brightness6Icon from '@material-ui/icons/Brightness6'
 import FingerprintIcon from '@material-ui/icons/Fingerprint'
 import LineStyleIcon from '@material-ui/icons/LineStyle'
 import BuildIcon from '@material-ui/icons/Build'
-import QuantityControls from '../Controls/QuantityControls'
-import ShadowControls from '../Controls/ShadowControls'
-import BackgroundControls from '../Controls/BackgroundControls'
-import PatternControls from '../Controls/PatternControls'
-import RenderControls from '../Controls/RenderControls'
+import QuantityControls from '../CreateControls/QuantityControls'
+import ShadowControls from '../CreateControls/ShadowControls'
+import BackgroundControls from '../CreateControls/BackgroundControls'
+import PatternControls from '../CreateControls/PatternControls'
+import RenderControls from '../CreateControls/RenderControls'
 import {useSelector} from 'react-redux'
 import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
@@ -43,7 +40,7 @@ const styles = makeStyles(theme => ({
 
 }))
 
-export default function CreatePanels() {
+export default function CreateTabs() {
   const classes = styles();
   
   const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);

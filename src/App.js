@@ -4,6 +4,7 @@ import Home from './Components/Home/Home'
 import Nav from './Components/Nav/Nav'
 import TabContext from './Contexts/TabContext'
 import {makeStyles} from '@material-ui/core/styles'
+import * as ROUTES from './Routes/routes'
 
 const styles = makeStyles(theme => ({
   '@global': {

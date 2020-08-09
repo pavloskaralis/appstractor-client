@@ -3,7 +3,7 @@ import {useSelector} from 'react-redux'
 import Box from '@material-ui/core/Box'
 import spinnerGif from './spinner.gif'
 
-export default function Spinner() {
+export default function CanvasSpinner() {
     const rendering = useSelector(state => state.interface.rendering);
   
     const spinnerStyle = {
