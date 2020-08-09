@@ -13,6 +13,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
+import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles( theme => ({
     appBar: {
@@ -40,20 +41,45 @@ const useStyles = makeStyles( theme => ({
     }
 }));
 
-const buttons=<CreateTools/>
-const tabs=<HomeTabs/>
-
 export default function Nav(){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    
+    const location = useLocation();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+
+    const buttons={
+        'create': <CreateTools/>,   
+        'gallery': null, 
+        'demo': null, 
+        'signup': null, 
+        'recover': null, 
+        'login': null, 
+        'feedback': null, 
+        'account': null, 
+        '404': null,
+        '': null,
+    }[location.pathname.split('/')[1]]
+
+    const tabs={
+        'create': <HomeTabs/>,   
+        'gallery': <HomeTabs/>, 
+        'demo': null, 
+        'signup': null, 
+        'recover': null, 
+        'login': null, 
+        'feedback': null, 
+        'account': null, 
+        '404': null,
+        '': null,
+    }[location.pathname.split('/')[1]]
 
  
     return (
@@ -84,9 +110,18 @@ export default function Nav(){
                 onClose={handleClose}
             >
                 <MenuItem onClick={handleClose}>Home</MenuItem>
-                <MenuItem onClick={handleClose}>Account</MenuItem>
-                <MenuItem onClick={handleClose}>Feedback</MenuItem>
-                <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                {false ? 
+                    <>
+                        <MenuItem onClick={handleClose}>Account</MenuItem>
+                        <MenuItem onClick={handleClose}>Feedback</MenuItem>
+                        <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                    </>:
+                    <>
+                        <MenuItem onClick={handleClose}>Demo</MenuItem>
+                        <MenuItem onClick={handleClose}>Signup</MenuItem>
+                        <MenuItem onClick={handleClose}>Login</MenuItem>
+                    </>
+                }
             </Menu>
         </AppBar>
     )

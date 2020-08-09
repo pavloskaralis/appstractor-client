@@ -10,11 +10,12 @@ import Gallery from './Components/Home/Gallery/Gallery'
 import Email from './Components/Account/Email/Email'
 import Password from './Components/Account/Password/Password'
 import Delete from './Components/Account/Delete/Delete'
+import Demo from './Components/Demo/Demo'
 import Signup from './Components/Signup/Signup'
 import Login from './Components/Login/Login'
-import PasswordForget from './Components/PasswordForget/PasswordForget'
+import Recover from './Components/Recover/Recover'
 import Feedback from './Components/Feedback/Feedback'
-import NotFound from './Components/NotFound/NotFound'
+import PageNotFound from './Components/PageNotFound/PageNotFound'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -42,24 +43,23 @@ function App() {
   return (
     <Box height='100vh' display='flex' flexDirection='column' >
       <Nav/>
-      <Switch>
-        <Route exact path={ROUTES.HOME} component={false ? Create : Landing}/>
-        <Route exact path={ROUTES.SIGNUP}>
-          {false ? <Redirect to={ROUTES.HOME}/> : <Signup/>}
-        </Route>
-        <Route exact path={ROUTES.LOGIN}>
-          {false ? <Redirect to={ROUTES.HOME}/> : <Login/>}
-        </Route>
-        <Route exact path={ROUTES.PASSWORD_FORGET}>
-          {false ? <Redirect to={ROUTES.HOME}/> : <PasswordForget/>}
-        </Route>
+      <Switch>        
+        <Route exact path={ROUTES.HOME} component={false ? Create : Landing}/>             
+        <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
+
         <Route exact path={ROUTES.CREATE} component={Create}/>
         <Route exact path={ROUTES.GALLERY} component={Gallery}/>
         <Route exact path={ROUTES.FEEDBACK} component={Feedback}/>
         <Route exact path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
-        <Route exact path={ ROUTES.ACCOUNT_PASSWORD} component={Password}/>
-        <Route exact path={ ROUTES.ACCOUNT_DELETE} component={Delete}/>
-        <Route component={NotFound}/>
+        <Route exact path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
+        <Route exact path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
+        
+        <Route exact path={ROUTES.DEMO} component={Demo}/>
+        <Route exact path={ROUTES.SIGNUP} component={Signup}/>
+        <Route exact path={ROUTES.LOGIN} component={Login}/>
+        <Route exact path={ROUTES.RECOVER} component={Recover}/>
+
+        <Redirect from='*' to={ROUTES.PAGE_NOT_FOUND}/> 
       </Switch>
       
     </Box>
