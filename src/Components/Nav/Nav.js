@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
@@ -10,8 +10,8 @@ import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
 import {makeStyles} from '@material-ui/core/styles'
-import HomeButtons from './HomeNav/HomeButtons'
-import HomeTabs from './HomeNav/HomeTabs'
+import CreateTools from './Tools/CreateTools'
+import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
 
 const useStyles = makeStyles( theme => ({
@@ -40,7 +40,7 @@ const useStyles = makeStyles( theme => ({
     }
 }));
 
-const buttons=<HomeButtons/>
+const buttons=<CreateTools/>
 const tabs=<HomeTabs/>
 
 export default function Nav(){

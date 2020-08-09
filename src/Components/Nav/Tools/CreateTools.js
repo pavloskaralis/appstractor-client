@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useState } from 'react'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
@@ -7,8 +7,8 @@ import ImageIcon from '@material-ui/icons/Image'
 import SaveIcon from '@material-ui/icons/Save'
 import MenuItem from '@material-ui/core/MenuItem'
 import {makeStyles} from '@material-ui/core/styles'
-import ViewportContext from '../../../Contexts/ViewportContext'
 import Tooltip from '@material-ui/core/Tooltip'
+import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const styles = makeStyles(theme => ({
     saveButton: {
@@ -19,9 +19,9 @@ const styles = makeStyles(theme => ({
     }, 
 }))
 
-export default function HomeButtons(){
+export default function CreateTools(){
     const classes = styles();
-    const viewportWidth = useContext(ViewportContext);
+    const matches = useMediaQuery('(min-width:512px)');
 
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -35,7 +35,7 @@ export default function HomeButtons(){
     
     return (
         <> 
-            {viewportWidth >= 512 ? 
+            {matches ? 
                 <>
                     <ButtonGroup variant='text' size='small' aria-label='text primary button group'>
                         <Button>Upload</Button>
@@ -43,7 +43,7 @@ export default function HomeButtons(){
                         <Button>Search</Button>      
                      </ButtonGroup>
          
-                    <Button className={classes.saveButton} size='small' variant='outlined'>Save</Button>
+                    <Button className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
                 </> :
                 <>
                     <IconButton className={classes.iconButton} aria-label='select' onClick={handleClick}>

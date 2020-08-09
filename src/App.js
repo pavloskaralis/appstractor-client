@@ -1,8 +1,7 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState} from 'react';
 import Box from '@material-ui/core/Box'
 import Home from './Components/Home/Home'
 import Nav from './Components/Nav/Nav'
-import ViewportContext from './Contexts/ViewportContext'
 import TabContext from './Contexts/TabContext'
 import {makeStyles} from '@material-ui/core/styles'
 
@@ -34,28 +33,12 @@ function App() {
     setTabValue(newTabValue);
   };
 
-  //track viewport width for conditional layouts
-  const viewportRef = useRef();
-  const [viewportWidth, setViewportWidth] = useState();
-  //allows useEffect to call current ref since outside the scope
-  const updateViewportSize = () => {
-    setViewportWidth(viewportRef.current.offsetWidth);
-  }
-  //retrieve new viewport size on browser resize
-  useEffect(()=> {
-    window.addEventListener('resize', updateViewportSize);
-    updateViewportSize();
-    return ()=> window.removeEventListener('resize', updateViewportSize)
-  },[]);
-
   return (
-    <Box ref={viewportRef} height='100vh' display='flex' flexDirection='column' >
-      <ViewportContext.Provider value={viewportWidth}>
+    <Box height='100vh' display='flex' flexDirection='column' >
       <TabContext.Provider value={{tabValue, handleTabChange}}>
         <Nav/>
         <Home/>
       </TabContext.Provider> 
-      </ViewportContext.Provider>         
     </Box>
   );
 }
