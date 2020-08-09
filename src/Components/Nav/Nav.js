@@ -16,8 +16,9 @@ import Tooltip from '@material-ui/core/Tooltip'
 import {useLocation} from 'react-router-dom'
 
 const useStyles = makeStyles( theme => ({
-    appBar: {
-        zIndex: 1201,
+    landingBar: {
+        backgroundColor:'transparent',
+        boxShadow:'none'
     },
     buttonsToolbar: {
         paddingRight: '4px',
@@ -83,7 +84,7 @@ export default function Nav(){
 
  
     return (
-        <AppBar position='static' className={classes.appBar}>
+        <AppBar position='static' className={true && location.pathname==='/' ? classes.landingBar : ''}>
             <Box display='flex' width='100%'>
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton className={classes.iconButton} edge='start' aria-label='menu'>

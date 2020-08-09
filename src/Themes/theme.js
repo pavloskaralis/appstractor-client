@@ -23,6 +23,11 @@ const theme = createMuiTheme({
         },
     },
     overrides:{
+        MuiAppBar: {
+            root: {
+                zIndex: 1201
+            }
+        },
         MuiBottomNavigation:{
             root: {
                 backgroundColor: purple[700],
