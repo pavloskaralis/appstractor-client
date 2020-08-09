@@ -1,11 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
-import TabContext from '../../../Contexts/TabContext'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
 import CreateIcon from '@material-ui/icons/Create'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useLocation, useHistory} from 'react-router-dom'
 
 function a11yProps(index) {
     return {
@@ -15,16 +15,32 @@ function a11yProps(index) {
 }
 
 export default function HomeTabs(){
-    const {tabValue, handleTabChange} = useContext(TabContext)
     const matches = useMediaQuery('(min-width:600px)');
+    const {pathname} = useLocation();
+    const history = useHistory();
+
+    const tabValue = {
+        'create': 0,
+        'gallery': 1
+    }[pathname.split('/')[1]]
 
     const create = <Tooltip title="Create" aria-label="create"><CreateIcon/></Tooltip>
     const gallery = <Tooltip title="Gallery" aria-label="gallery"><PhotoLibraryIcon/></Tooltip>
 
+    
+    const handleTabChange = (event, newTabValue) => {
+        const route = {
+            0: '/create',
+            1: '/gallery'
+        }[newTabValue]
+
+        history.push(route)
+    };
+  
     return (     
         <Tabs 
             value={tabValue} 
-            onChange={handleTabChange} 
+            onChange={handleTabChange}
         >
             <Tab icon={matches ? 'Create' : create} {...a11yProps(0)}/>
             <Tab icon={matches ? 'Gallery' : gallery} {...a11yProps(1)}/>

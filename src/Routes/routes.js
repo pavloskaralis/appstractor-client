@@ -1,7 +1,11 @@
-export const LANDING = '/';
+export const HOME = '/';
 export const SIGNUP = '/signup';
 export const LOGIN = '/login';
 export const PASSWORD_FORGET = '/pw-forget';
-export const HOME = '/home';
+export const CREATE = '/create';
+export const GALLERY = '/gallery/(:id)?';
 export const FEEDBACK = '/feedback';
 export const ACCOUNT = '/account';
+export const ACCOUNT_EMAIL = '/account/email';
+export const ACCOUNT_PASSWORD = '/account/password';
+export const ACCOUNT_DELETE = '/account/delete';
