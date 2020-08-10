@@ -28,7 +28,7 @@ export default function Landing(){
 
     return (
         <Box display='flex' minHeight='568px' width='100%' height='100%' justifyContent='space-evenly' flexDirection={'column'}>
-            <Box minHeight='568px' width='100%' height='100%' position='absolute'>
+            <Box zIndex={0} minHeight='568px' width='100%' height='100%' position='absolute'>
                 <Canvas/>
             </Box>
             <Box minHeight='568px' className={classes.blackGradient}/>

@@ -13,7 +13,8 @@ import {makeStyles} from '@material-ui/core/styles'
 import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
-import {useLocation} from 'react-router-dom'
+import {useLocation, Link as RouterLink} from 'react-router-dom'
+import * as ROUTES from '../../Routes/routes'
 
 const useStyles = makeStyles( theme => ({
     landingBar: {
@@ -87,7 +88,7 @@ export default function Nav(){
         <AppBar position={true && pathname==='/' ? 'fixed' : 'static'} className={true && pathname==='/' ? classes.landingBar : ''}>
             <Box display='flex' width='100%'>
                 <Toolbar className={classes.buttonsToolbar}>
-                    <IconButton className={classes.iconButton} edge='start' aria-label='menu'>
+                    <IconButton component={RouterLink} to={ROUTES.HOME} className={classes.iconButton} edge='start' aria-label='menu'>
                         <Tooltip  title="Home" aria-label="home">
                             <Icon>
                                 <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
@@ -110,17 +111,17 @@ export default function Nav(){
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem onClick={handleClose}>Home</MenuItem>
+                <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
                 {false ? 
                     <>
-                        <MenuItem onClick={handleClose}>Account</MenuItem>
-                        <MenuItem onClick={handleClose}>Feedback</MenuItem>
+                        <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose}>Account</MenuItem>
+                        <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose}>Feedback</MenuItem>
                         <MenuItem onClick={handleClose}>Log Out</MenuItem>
                     </>:
                     <>
-                        <MenuItem onClick={handleClose}>Demo</MenuItem>
-                        <MenuItem onClick={handleClose}>Signup</MenuItem>
-                        <MenuItem onClick={handleClose}>Login</MenuItem>
+                        <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose}>Demo</MenuItem>
+                        <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose}>Signup</MenuItem>
+                        <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose}>Login</MenuItem>
                     </>
                 }
             </Menu>

@@ -3,8 +3,9 @@ import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
-import {Link} from 'react-router-dom';
-import {LOGIN} from '../../../Routes/routes'
+import {Link as RouterLink} from 'react-router-dom';
+import Link from '@material-ui/core/Link'
+import {LOGIN,SIGNUP,DEMO} from '../../../Routes/routes'
 
 const styles = makeStyles(theme => ({
     slogan: {
@@ -64,21 +65,18 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary,
         textAlign: 'center',
         marginTop: 8,
-        textDecorationLine: 'none',
         [theme.breakpoints.up(450)]: {
             marginTop: 12,
         },
         [theme.breakpoints.up('md')]: {
             marginTop: 20,
         } ,
-        '&:hover':{
-            textDecorationLine: 'underline',
-        }
     }
 }))
 
 export default function GroupB(){
     const classes = styles(); 
+  
 
     return (
         <Box zIndex={1} width='100%' display='flex' flexDirection='column'>
@@ -89,14 +87,15 @@ export default function GroupB(){
                 Easily download your creations and share with friends.
             </Typography>
             <Box className={classes.buttonContainer}>
-                <Button variant='contained' color='secondary' className={classes.button}>
+                <Button component={RouterLink} to={SIGNUP} variant='contained' color='secondary' className={classes.button}>
                     Sign Up
                 </Button>
-                <Button  variant='contained' color='default' className={classes.button} style={{backgroundColor:'#fafafa'}}>
+                <Button component={RouterLink} to={DEMO} variant='contained' color='default' className={classes.button} style={{backgroundColor:'#fafafa'}}>
                     Try Demo
                 </Button>
+
             </Box>
-            <Link to={LOGIN} className={classes.link}>
+            <Link component={RouterLink} to={LOGIN} className={classes.link}>
                 Already have an account? Log In
             </Link>
         </Box>
