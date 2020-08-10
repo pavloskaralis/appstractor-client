@@ -20,18 +20,20 @@ import PageNotFound from './Components/PageNotFound/PageNotFound'
 const styles = makeStyles(theme => ({
   '@global': {
     '*::-webkit-scrollbar': {
-        width: '6px',
+        width: 8,
         backgroundColor: theme.palette.background.darkDefault,
     },
     '*::-webkit-scrollbar-track': {
         boxshadow: 'inset 0 0 6px rgba(0,0,0,0.3)',
         borderRadius: '10px',
+
     },
     '*::-webkit-scrollbar-thumb': {
         borderRadius: '10px',
         boxShadow: 'inset 0 0 6px rgba(0,0,0,.3)',
         opacity: 1,
         backgroundColor: theme.palette.secondary.dark,
+        border: `1px solid ${theme.palette.background.darkDefault}`
     },
   },
 }))
@@ -41,7 +43,7 @@ function App() {
 
 
   return (
-    <Box height='100vh' display='flex' flexDirection='column' >
+    <Box height='100vh' display='flex' minHeight='568px' flexDirection='column' >
       <Nav/>
       <Switch>        
         <Route exact path={ROUTES.HOME} component={false ? Create : Landing}/>             

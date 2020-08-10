@@ -6,6 +6,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useLocation, useHistory} from 'react-router-dom'
+import {CREATE, GALLERY} from '../../../Routes/routes'
 
 function a11yProps(index) {
     return {
@@ -16,21 +17,21 @@ function a11yProps(index) {
 
 export default function HomeTabs(){
     const matches = useMediaQuery('(min-width:600px)');
-    const location = useLocation();
+    const {pathname} = useLocation();
     const history = useHistory();
 
     const tabValue = {
-        'create': 0,
-        'gallery': 1
-    }[location.pathname.split('/')[1]]
+        [CREATE]: 0,
+        [GALLERY]: 1
+    }[pathname.match(/^\/\w+/)[0]]
 
     const create = <Tooltip title="Create" aria-label="create"><CreateIcon/></Tooltip>
     const gallery = <Tooltip title="Gallery" aria-label="gallery"><PhotoLibraryIcon/></Tooltip>
 
     const handleTabChange = (event, newTabValue) => {
         const route = {
-            0: '/create',
-            1: '/gallery'
+            0: CREATE,
+            1: GALLERY,
         }[newTabValue]
 
         history.push(route)

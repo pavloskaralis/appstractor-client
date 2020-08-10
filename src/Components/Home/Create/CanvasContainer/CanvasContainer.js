@@ -34,26 +34,6 @@ const styles = makeStyles((theme) => ({
       [theme.breakpoints.up('lg')]: {
         width: '900px',
         height: '600px'
-      },
-      '@media (max-height: 744px) and (min-width: 960px) ':{
-        width: '600px',
-        height: '400px'
-      },
-      '@media (max-height: 544px) and (min-width: 780px) ':{
-        width: '450px',
-        height: '300px'
-      },
-      '@media (max-height: 444px) and (min-width: 600px) ':{
-        width: '300px',
-        height: '200px'
-      },
-      '@media (max-height: 672px) and (min-width: 500px) and (max-width: 600px) ':{
-        width: '360px',
-        height: '240px'
-      },
-      '@media (max-height: 612px) and (min-width: 400px) and (max-width: 600px) ':{
-        width: '300px',
-        height: '200px'
       }
     },
 }));
