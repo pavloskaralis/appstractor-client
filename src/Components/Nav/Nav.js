@@ -45,7 +45,7 @@ const useStyles = makeStyles( theme => ({
 export default function Nav(){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
-    const location = useLocation();
+    const {pathname} = useLocation();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -67,7 +67,7 @@ export default function Nav(){
         'account': null, 
         '404': null,
         '': null,
-    }[location.pathname.split('/')[1]]
+    }[pathname.split('/')[1]]
 
     const tabs={
         'create': <HomeTabs/>,   
@@ -80,11 +80,11 @@ export default function Nav(){
         'account': null, 
         '404': null,
         '': null,
-    }[location.pathname.split('/')[1]]
+    }[pathname.split('/')[1]]
 
  
     return (
-        <AppBar position='static' className={true && location.pathname==='/' ? classes.landingBar : ''}>
+        <AppBar position={true && pathname==='/' ? 'fixed' : 'static'} className={true && pathname==='/' ? classes.landingBar : ''}>
             <Box display='flex' width='100%'>
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton className={classes.iconButton} edge='start' aria-label='menu'>
