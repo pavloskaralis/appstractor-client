@@ -95,7 +95,7 @@ export default function GroupA(){
                 //first render transitions opacity, while rerender transitions background
                 setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
             }
-        },150)
+        },230)
     }
 
     return (

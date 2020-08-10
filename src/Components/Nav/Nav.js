@@ -13,6 +13,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
+import Typography from '@material-ui/core/Typography'
 import {useLocation, Link as RouterLink} from 'react-router-dom'
 import * as ROUTES from '../../Routes/routes'
 
@@ -60,27 +61,19 @@ export default function Nav(){
     const buttons={
         'create': <CreateTools/>,   
         'gallery': null, 
-        'demo': null, 
-        'signup': null, 
-        'recover': null, 
-        'login': null, 
-        'feedback': null, 
-        'account': null, 
-        '404': null,
-        '': null,
+        'demo':  <Typography variant="h5">Demo</Typography>, 
+        'signup':  <Typography variant="h6">Signup</Typography>, 
+        'recover': <Typography variant="h6">Password Recovery</Typography>, 
+        'login':   <Typography variant="h6">Login</Typography>, 
+        'feedback': <Typography variant="h6">Feedback</Typography>, 
+        'account':  <Typography variant="h6">Account</Typography>, 
+        '404':   <Typography variant="h6">404 Error</Typography>,
     }[pathname.split('/')[1]]
 
     const tabs={
         'create': <HomeTabs/>,   
         'gallery': <HomeTabs/>, 
-        'demo': null, 
-        'signup': null, 
-        'recover': null, 
-        'login': null, 
-        'feedback': null, 
         'account': null, 
-        '404': null,
-        '': null,
     }[pathname.split('/')[1]]
 
  

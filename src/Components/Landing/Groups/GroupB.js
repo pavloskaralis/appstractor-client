@@ -49,6 +49,19 @@ const styles = makeStyles(theme => ({
             fontSize: 15
         } 
     },
+    demoButton: {
+        backgroundColor: theme.palette.text.primary,
+        minWidth: 105,
+        maxWidth: 105,
+        height: 36,
+        fontSize: 13,
+        [theme.breakpoints.up('md')]: {
+            minWidth: 120,
+            maxWidth: 120, 
+            height: 42,
+            fontSize: 15
+        } 
+    },
     buttonContainer:{
         display: 'flex',
         justifyContent: 'space-evenly',
@@ -90,7 +103,7 @@ export default function GroupB(){
                 <Button component={RouterLink} to={SIGNUP} variant='contained' color='secondary' className={classes.button}>
                     Sign Up
                 </Button>
-                <Button component={RouterLink} to={DEMO} variant='contained' color='default' className={classes.button} style={{backgroundColor:'#fafafa'}}>
+                <Button component={RouterLink} to={DEMO} variant='contained' color='default' className={classes.demoButton}>
                     Try Demo
                 </Button>
 
