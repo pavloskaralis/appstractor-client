@@ -61,7 +61,7 @@ export default function Nav(){
     const buttons={
         'create': <CreateTools/>,   
         'gallery': null, 
-        'demo':  <Typography variant="h5">Demo</Typography>, 
+        'demo':  <Typography variant="h6">Demo</Typography>, 
         'signup':  <Typography variant="h6">Signup</Typography>, 
         'recover': <Typography variant="h6">Password Recovery</Typography>, 
         'login':   <Typography variant="h6">Login</Typography>, 
