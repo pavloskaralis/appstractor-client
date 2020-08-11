@@ -87,7 +87,7 @@ export default function Login(){
             </form>
             <Box display='flex' width='296px' margin='0 auto' justifyContent='space-between'>
                 <Link component={RouterLink} to={RECOVER} className={classes.link}>
-                    Forgot Password?
+                    Forgot password?
                 </Link>
                 <Link component={RouterLink} to={SIGNUP} className={classes.link}>
                     Need an account? Sign Up

@@ -14,6 +14,7 @@ import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import AccountTabs from './Tabs/AccountTabs'
 import {useLocation, Link as RouterLink} from 'react-router-dom'
 import * as ROUTES from '../../Routes/routes'
 
@@ -41,6 +42,13 @@ const useStyles = makeStyles( theme => ({
     },
     menuIcon: {
         color: theme.palette.text.primary
+    },
+    title:{
+        fontWeight: theme.typography.h6.fontWeight,
+        fontSize: 16,
+        [theme.breakpoints.up('sm')]: {
+            fontSize: theme.typography.h6.fontSize,
+        }
     }
 }));
 
@@ -61,19 +69,19 @@ export default function Nav(){
     const buttons={
         'create': <CreateTools/>,   
         'gallery': null, 
-        'demo':  <Typography variant="h6">Demo</Typography>, 
-        'signup':  <Typography variant="h6">Signup</Typography>, 
-        'recover': <Typography variant="h6">Password Recovery</Typography>, 
-        'login':   <Typography variant="h6">Login</Typography>, 
-        'feedback': <Typography variant="h6">Feedback</Typography>, 
-        'account':  <Typography variant="h6">Account</Typography>, 
-        '404':   <Typography variant="h6">404 Error</Typography>,
+        'demo':  <Typography className={classes.title}>Demo</Typography>, 
+        'signup':  <Typography className={classes.title}>Signup</Typography>, 
+        'recover': <Typography className={classes.title}>Account Recovery</Typography>, 
+        'login':   <Typography className={classes.title}>Login</Typography>, 
+        'feedback': <Typography className={classes.title}>Feedback</Typography>, 
+        'account':  <Typography className={classes.title}>Account</Typography>, 
+        '404':   <Typography className={classes.title}>404 Error</Typography>,
     }[pathname.split('/')[1]]
 
     const tabs={
         'create': <HomeTabs/>,   
         'gallery': <HomeTabs/>, 
-        'account': null, 
+        'account': <AccountTabs/>, 
     }[pathname.split('/')[1]]
 
  

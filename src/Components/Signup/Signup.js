@@ -7,7 +7,7 @@ import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
-import LockIcon from '@material-ui/icons/Lock'
+import PersonIcon from '@material-ui/icons/Person'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
 import {LOGIN} from '../../Routes/routes'
@@ -47,7 +47,7 @@ export default function Signup(){
     };
 
     return (
-        <FormPage icon={<LockIcon/>} title='Create a New Account'>
+        <FormPage icon={<PersonIcon/>} title='Create a New Account'>
             <form className={classes.form}>
                 <TextField
                     color='secondary'

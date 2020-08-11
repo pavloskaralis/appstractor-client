@@ -93,7 +93,7 @@ const theme = createMuiTheme({
         },
         MuiTab:{
             root: {
-                minWidth: 56,
+                minWidth: 48,
                 width: 120,
                 flexShrink: 1,
                 height: 56,

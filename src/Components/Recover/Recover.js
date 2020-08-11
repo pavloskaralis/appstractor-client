@@ -5,6 +5,9 @@ import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import EmailIcon from '@material-ui/icons/Email'
 import FormPage from '../FormPage/FormPage'
+import {Link as RouterLink} from 'react-router-dom';
+import Link from '@material-ui/core/Link'
+import {LOGIN} from '../../Routes/routes'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -34,7 +37,7 @@ export default function Recover(){
 
 
     return (
-        <FormPage icon={<EmailIcon/>} title='Recover a Forgotten Password'>
+        <FormPage icon={<EmailIcon/>} title='Reset a Forgotten Password'>
             <form className={classes.form}>
                 <TextField
                     color='secondary'
@@ -47,8 +50,13 @@ export default function Recover(){
                     variant='filled'
                 />
                 <Box height='16px'/>
-                <Button className={classes.button} type='submit' fullWidth color='secondary' variant='contained'>Recover Password</Button>
+                <Button className={classes.button} type='submit' fullWidth color='secondary' variant='contained'>
+                    Reset Password
+                </Button>
             </form>
+            <Link component={RouterLink} to={LOGIN} className={classes.link}>
+               Return to Login
+            </Link>
         </FormPage> 
     )
 }

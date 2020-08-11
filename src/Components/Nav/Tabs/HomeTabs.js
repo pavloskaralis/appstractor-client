@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
@@ -8,42 +8,42 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useLocation, useHistory} from 'react-router-dom'
 import {CREATE, GALLERY} from '../../../Routes/routes'
 
-function a11yProps(index) {
-    return {
-      id: `hometab-${index}`,
-      'aria-controls': `hometabpanel-${index}`,
-    };
-}
 
 export default function HomeTabs(){
     const matches = useMediaQuery('(min-width:600px)');
     const {pathname} = useLocation();
     const history = useHistory();
-
-    const tabValue = {
+    const [tabValue, setTabValue] = useState( {
         [CREATE]: 0,
         [GALLERY]: 1
-    }[pathname.match(/^\/\w+/)[0]]
+    }[pathname.match(/\/\w+/)[0]])
+
 
     const create = <Tooltip title="Create" aria-label="create"><CreateIcon/></Tooltip>
     const gallery = <Tooltip title="Gallery" aria-label="gallery"><PhotoLibraryIcon/></Tooltip>
 
     const handleTabChange = (event, newTabValue) => {
+
+        setTabValue(newTabValue);
         const route = {
             0: CREATE,
             1: GALLERY,
         }[newTabValue]
 
-        history.push(route)
+        history.push(route.match(/\/\w+/)[0])
     };
   
+    useEffect(()=>{
+        console.log(pathname.match(/\/\w+/)[0])
+        console.log(tabValue)
+    })
     return (     
         <Tabs 
             value={tabValue} 
             onChange={handleTabChange}
         >
-            <Tab icon={matches ? 'Create' : create} {...a11yProps(0)}/>
-            <Tab icon={matches ? 'Gallery' : gallery} {...a11yProps(1)}/>
+            <Tab icon={matches ? 'Create' : create} />
+            <Tab icon={matches ? 'Gallery' : gallery} />
         </Tabs>   
     )
 }
