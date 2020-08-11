@@ -1,4 +1,4 @@
-import React, { useMemo, useContext, useEffect } from 'react';
+import React, { useMemo, useContext } from 'react';
 import CanvasContext from '../../../Contexts/CanvasContext'
 import uniqueid from 'lodash.uniqueid';
 import Stripe from './Stripe'
@@ -37,17 +37,18 @@ export default function Block({backgroundPosition, alternateDirection,randomValu
     const backgroundSize = !background.stretch ? `${background.detail}%` : flexDirection === 'column' ? `
         ${background.detail}% ${currentUnitSizes.row}px` : `${currentUnitSizes.block}px ${background.detail}%`
     
-    let stripeComponents = ids.map((id,i)=>{
-        //do not render if stripe is not visible
-        if(i >= quantity.stripe) return; 
-        //each stripe is passed a random fragmented background position 
-        return <Stripe  
-            key={id} 
-            backgroundPosition={fragmentedBackgroundPositions[randomIndexes[i]]}
-            backgroundSize={backgroundSize}
-            randomValues={randomValues.stripes[i]}
-        />
-    })
+    const stripeComponents = [];
+    for(let i = 0; i < quantity.stripe; i++){
+        //each visible stripe is passed a random fragmented background position 
+        stripeComponents.push(
+            <Stripe  
+                key={ids[i]} 
+                backgroundPosition={fragmentedBackgroundPositions[randomIndexes[i]]}
+                backgroundSize={backgroundSize}
+                randomValues={randomValues.stripes[i]}
+            />
+        )
+    }
 
     const blockStyle = {
         //toggles between random and uniform flexGrow 

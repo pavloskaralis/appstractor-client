@@ -63,7 +63,7 @@ const styles = makeStyles(theme => ({
     helperText: {
         textAlign: 'center',
         color: theme.palette.text.primary,
-        marginBottom: -21,
+        marginBottom: -22,
     }
 }))
 

@@ -35,10 +35,7 @@ const styles = makeStyles((theme) => ({
         width: '900px',
         height: '600px'
       },
-      '@media (min-width: 1280px) and (max-height: 632px)': {
-        width: '600px',
-        height: '400px'
-      },
+     
     },
 }));
 

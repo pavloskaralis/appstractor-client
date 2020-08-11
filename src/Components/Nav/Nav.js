@@ -71,7 +71,7 @@ export default function Nav(){
         'gallery': null, 
         'demo':  <Typography className={classes.title}>Demo</Typography>, 
         'signup':  <Typography className={classes.title}>Signup</Typography>, 
-        'recover': <Typography className={classes.title}>Account Recovery</Typography>, 
+        'recover': <Typography className={classes.title}>ap</Typography>, 
         'login':   <Typography className={classes.title}>Login</Typography>, 
         'feedback': <Typography className={classes.title}>Feedback</Typography>, 
         'account':  <Typography className={classes.title}>Account</Typography>, 
@@ -108,26 +108,31 @@ export default function Nav(){
                     </IconButton>       
                 </Toolbar>
             </Box>
-            <Menu 
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-            >
-                <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
-                {false ? 
-                    <>
-                        <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose}>Account</MenuItem>
-                        <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose}>Feedback</MenuItem>
-                        <MenuItem onClick={handleClose}>Log Out</MenuItem>
-                    </>:
-                    <>
-                        <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose}>Demo</MenuItem>
-                        <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose}>Signup</MenuItem>
-                        <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose}>Login</MenuItem>
-                    </>
-                }
-            </Menu>
+          
+            {false ? 
+                <Menu 
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose}>Account</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose}>Feedback</MenuItem>
+                    <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                </Menu>:
+                <Menu 
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose}>Demo</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose}>Signup</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose}>Login</MenuItem>
+                </Menu>
+            }
         </AppBar>
     )
 }

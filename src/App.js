@@ -43,7 +43,7 @@ function App() {
 
 
   return (
-    <Box height='100vh' display='flex' minHeight='568px' flexDirection='column' >
+    <Box height='100vh' display='flex' flexDirection='column' >
       <Nav/>
       <Switch>        
         <Route exact path={ROUTES.HOME} component={false ? Create : Landing}/>             

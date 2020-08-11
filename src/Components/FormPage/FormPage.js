@@ -21,6 +21,7 @@ const styles = makeStyles(theme => ({
     },
     avatar:{
         margin: '0 auto',
+        marginBottom: 6,
         background: theme.palette.secondary.main,
     },
     icon: {

@@ -15,7 +15,7 @@ export default function CanvasSpinner() {
 
     return (    
         <Box position='absolute' zIndex={1} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
-            <img  hidden={!rendering} src={spinnerGif} style={spinnerStyle}/>
+            <img alt='loading spinner' hidden={!rendering} src={spinnerGif} style={spinnerStyle}/>
         </Box>        
     );
 }

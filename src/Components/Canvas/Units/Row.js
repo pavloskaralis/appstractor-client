@@ -12,8 +12,8 @@ export default function Row({backgroundPositions, alternatePattern, randomValues
     const ids = useMemo(()=> new Array(maxUnits.block).fill().map(ele => uniqueid()), [maxUnits.block]);
     
     const blockComponents = []
-    
     for(let i = 0; i < quantity.block; i++){
+        //each visible block is passed relevant background positions, alternate pattern, and randomValues
         blockComponents.push(
             <Block 
                 key={ids[i]} 

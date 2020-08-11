@@ -31,10 +31,12 @@ export default function Canvas(){
     //stop loading spinner animation
     useEffect(()=> {    
         if(rendering)dispatch(toggleRendering(false))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[randomValues, swapPattern])
     //save custom settings incase presets toggled; also set custom to default on first load
     useEffect(()=>{   
         if(preset === 'custom' || firstRender)dispatch(saveCustomPreset({quantity,shadow, pattern, background}))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[quantity,shadow, pattern, background])
 
     //percentage of canvas a single row or block takes up; used to calculate background positions
@@ -94,17 +96,19 @@ export default function Canvas(){
 
     //generate unique id for each row
     const ids = useMemo(()=>new Array(maxUnits.row).fill().map(ele => uniqueid()),[maxUnits.row]);
-    const rowComponents = ids.map((id,i) => {
-        //do not render if row is not visible
-        if(i >= quantity.row) return; 
-        //each row is passed relevant background positions, alternate pattern, and randomValues
-        return <Row 
-            key={id} 
-            backgroundPositions={backgroundPositions[i]}
-            alternatePattern={alternatePattern[i]}
-            randomValues={randomValues[i]}
-        />
-    })
+
+    const rowComponents = [];
+    for(let i = 0; i < quantity.row; i++){
+        //each visible row is passed relevant background positions, alternate pattern, and randomValues
+        rowComponents.push(
+            <Row 
+                key={ids[i]} 
+                backgroundPositions={backgroundPositions[i]}
+                alternatePattern={alternatePattern[i]}
+                randomValues={randomValues[i]}
+            />
+        )
+    }
 
     const backgroundStyle = {
         //animation on render only

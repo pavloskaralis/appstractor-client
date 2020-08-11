@@ -1,4 +1,4 @@
-import React, {useContext, useMemo} from 'react';
+import React, {useContext} from 'react';
 import CanvasContext from '../../../Contexts/CanvasContext'
 
 //takes in relevant background possition and random values, and background size calculated within block
