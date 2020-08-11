@@ -94,7 +94,9 @@ export default function Nav(){
                 {tabs}
                 <Toolbar className={classes.menuToolbar}>
                     <IconButton edge='end' aria-label='menu' onClick={handleClick}>
-                        <MenuIcon className={classes.menuIcon}/>
+                        <Tooltip  title="Nav" aria-label="nav">
+                            <MenuIcon className={classes.menuIcon}/>
+                        </Tooltip>
                     </IconButton>       
                 </Toolbar>
             </Box>

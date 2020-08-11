@@ -26,6 +26,23 @@ const theme = createMuiTheme({
         },
     },
     overrides:{
+        MuiTextField:{
+            root:{
+                backgroundColor: grey[50],
+                borderTopLeftRadius: 4,
+                borderTopRightRadius: 4,
+                marginBottom: 16,
+                '& .MuiFormLabel-root':{
+                    color: 'rgba(0, 0, 0, 0.54)'
+                },
+                '& .MuiInputBase-root': {
+                    color: 'rgba(0,0,0,.87)'
+                },
+                '& .MuiFilledInput-root':{
+                    backgroundColor: 'transparent'
+                }
+            }
+        },
         MuiAppBar: {
             root: {
                 zIndex: 1201
