@@ -36,7 +36,7 @@ export default function FormPage({icon, title, children}){
 
     return (
         <Box className={classes.box}>
-            <Box maxHeight='100%' padding='16px 0' display='flex' flexDirection='column'>
+            <Box maxHeight='100%' padding='24px 0' display='flex' flexDirection='column'>
                 <Avatar className={classes.avatar}>
                     <Icon className={classes.icon}>
                         {icon}

@@ -53,7 +53,7 @@ export default function  Email(){
     };
 
     return (
-        <FormPage icon={<EmailIcon/>} title='Change Contact & Login Email'>
+        <FormPage icon={<EmailIcon/>} title='Change Login Email Address'>
             <Typography className={classes.email}>Firstname.Lastname@email.com</Typography>
             <form className={classes.form}>
                 <TextField

@@ -15,7 +15,6 @@ import {HOME} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
-import TextareaAutosize from '@material-ui/core/TextareaAutosize'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -27,7 +26,6 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary,
         textAlign: 'center',
         marginTop: 16,
-        marginBottom: 16
     },  
     disabled: {
         backgroundColor: `${theme.palette.secondary.dark} !important`
@@ -43,18 +41,6 @@ const styles = makeStyles(theme => ({
     },
     label: {
         color: theme.palette.text.primary
-    },
-    textArea:{
-        '& textarea':{
-            '&::-webkit-scrollbar':{
-                backgroundColor: theme.palette.text.secondary,
-                borderRadius: '10px'
-            },
-            '&::-webkit-scrollbar-thumb': {
-                border: `1px solid ${theme.palette.text.secondary} `
-            },
-        }
-       
     },
 }))
 
@@ -88,15 +74,12 @@ export default function Signup(){
                 <TextField
                     color='secondary'
                     id='reason'
-                    label='Why are you deleting your account?'
+                    label='Why are you deleting this account?'
                     fullWidth
                     value={values.reason}
                     onChange={handleInputChange}
-                    className={classes.textArea}
                     variant='filled'
                     multiline
-                    // rows={1}
-                    // rowsMax={5}
                 />
                 <TextField
                     color='secondary'
