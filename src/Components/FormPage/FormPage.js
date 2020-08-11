@@ -10,14 +10,15 @@ const styles = makeStyles(theme => ({
         backgroundColor: theme.palette.primary.dark,
         display:'flex',
         width:'100%',
-        height:'100%' ,
-        justifyContent:'space-evenly',
+        height:'100%',
         flexDirection:'column',
+        justifyContent: 'space-evenly',
+        overflow: 'auto',
     },
     title: {
         textAlign: 'center',
         color: theme.palette.text.primary,
-        marginBottom: 16
+        marginBottom: 16,
     },
     avatar:{
         margin: '0 auto',
@@ -35,7 +36,7 @@ export default function FormPage({icon, title, children}){
 
     return (
         <Box className={classes.box}>
-            <Box display='flex' flexDirection='column'>
+            <Box maxHeight='100%' padding='16px 0' display='flex' flexDirection='column'>
                 <Avatar className={classes.avatar}>
                     <Icon className={classes.icon}>
                         {icon}

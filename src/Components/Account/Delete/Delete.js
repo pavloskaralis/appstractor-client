@@ -16,7 +16,6 @@ import FormPage from '../../FormPage/FormPage'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import TextareaAutosize from '@material-ui/core/TextareaAutosize'
-import InputLabel from '@material-ui/core/InputLabel'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -28,6 +27,7 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary,
         textAlign: 'center',
         marginTop: 16,
+        marginBottom: 16
     },  
     disabled: {
         backgroundColor: `${theme.palette.secondary.dark} !important`
@@ -45,21 +45,17 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary
     },
     textArea:{
-        minWidth: '100%',
-        maxWidth: '100%',
-        marginBottom: 12,
-        fontSize: 16,
-        padding: '16px 12px 10px 12px',
-        fontFamily: 'roboto',
-        minHeight: 56,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-        border: 'solid 2px transparent',
-        '&:focus':{
-            border: `solid 2px ${theme.palette.secondary.main}`,
-            outline: 'none'
+        '& textarea':{
+            '&::-webkit-scrollbar':{
+                backgroundColor: theme.palette.text.secondary,
+                borderRadius: '10px'
+            },
+            '&::-webkit-scrollbar-thumb': {
+                border: `1px solid ${theme.palette.text.secondary} `
+            },
         }
-    }
+       
+    },
 }))
 
 export default function Signup(){
@@ -89,14 +85,18 @@ export default function Signup(){
     return (
         <FormPage icon={<DeleteForeverIcon/>} title='Permanently Delete Account'>
             <form className={classes.form}>
-                <TextareaAutosize 
-                    rowsMin={1} 
-                    className={classes.textArea} 
-                    aria-label="empty textarea" 
-                    placeholder="Why are you deleting your account?" 
-                    value={values.reason}
+                <TextField
+                    color='secondary'
                     id='reason'
+                    label='Why are you deleting your account?'
+                    fullWidth
+                    value={values.reason}
                     onChange={handleInputChange}
+                    className={classes.textArea}
+                    variant='filled'
+                    multiline
+                    // rows={1}
+                    // rowsMax={5}
                 />
                 <TextField
                     color='secondary'
