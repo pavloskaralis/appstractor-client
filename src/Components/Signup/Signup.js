@@ -108,7 +108,7 @@ export default function Signup(){
                     }}
                 />
                 <Box height='16px'/>
-                <Button className={classes.button} type='submit' fullWidth color='secondary' variant='contained'>Sign Up</Button>
+                <Button type='submit' fullWidth color='secondary' variant='contained'>Sign Up</Button>
             </form>
             <Link component={RouterLink} to={LOGIN} className={classes.link}>
                 Already have an account? Log In

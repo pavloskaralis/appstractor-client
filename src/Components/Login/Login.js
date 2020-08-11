@@ -83,7 +83,7 @@ export default function Login(){
                     }}
                 />
                 <Box height='16px'/>
-                <Button className={classes.button} type='submit' fullWidth color='secondary' variant='contained'>Log In</Button>
+                <Button  type='submit' fullWidth color='secondary' variant='contained'>Log In</Button>
             </form>
             <Box display='flex' width='296px' margin='0 auto' justifyContent='space-between'>
                 <Link component={RouterLink} to={RECOVER} className={classes.link}>

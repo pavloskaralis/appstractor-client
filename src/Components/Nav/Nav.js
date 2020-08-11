@@ -71,7 +71,7 @@ export default function Nav(){
         'gallery': null, 
         'demo':  <Typography className={classes.title}>Demo</Typography>, 
         'signup':  <Typography className={classes.title}>Signup</Typography>, 
-        'recover': <Typography className={classes.title}>ap</Typography>, 
+        'recover': <Typography className={classes.title}>Account Recovery</Typography>, 
         'login':   <Typography className={classes.title}>Login</Typography>, 
         'feedback': <Typography className={classes.title}>Feedback</Typography>, 
         'account':  <Typography className={classes.title}>Account</Typography>, 

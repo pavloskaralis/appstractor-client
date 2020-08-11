@@ -37,7 +37,7 @@ export default function Recover(){
 
 
     return (
-        <FormPage icon={<EmailIcon/>} title='Reset a Forgotten Password'>
+        <FormPage icon={<EmailIcon/>} title='Reset Your Password'>
             <form className={classes.form}>
                 <TextField
                     color='secondary'
@@ -50,7 +50,7 @@ export default function Recover(){
                     variant='filled'
                 />
                 <Box height='16px'/>
-                <Button className={classes.button} type='submit' fullWidth color='secondary' variant='contained'>
+                <Button type='submit' fullWidth color='secondary' variant='contained'>
                     Reset Password
                 </Button>
             </form>
