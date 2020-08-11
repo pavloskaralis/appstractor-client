@@ -13,7 +13,6 @@ import {useSelector} from 'react-redux'
 const styles = makeStyles((theme) => ({
     drawer: {
       width: 278,
-      flexShrink: 0,
     },
     drawerPaper: {
       width: 278,

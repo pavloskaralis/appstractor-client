@@ -11,17 +11,18 @@ export default function Row({backgroundPositions, alternatePattern, randomValues
     //generate unique id for each block in row
     const ids = useMemo(()=> new Array(maxUnits.block).fill().map(ele => uniqueid()), [maxUnits.block]);
     
-    const blockComponents = ids.map((id,i)=>{
-        //do not render if block is not visible
-        if(i >= quantity.block) return; 
-        
-        return <Block 
-            key={id} 
-            backgroundPosition={backgroundPositions[i]}
-            alternateDirection={alternatePattern[i]}
-            randomValues={randomValues[i]}
-        />
-    });
+    const blockComponents = []
+    
+    for(let i = 0; i < quantity.block; i++){
+        blockComponents.push(
+            <Block 
+                key={ids[i]} 
+                backgroundPosition={backgroundPositions[i]}
+                alternateDirection={alternatePattern[i]}
+                randomValues={randomValues[i]}
+            />
+        )
+    }
 
 
     return (

@@ -6,7 +6,7 @@ const styles = makeStyles((theme) => ({
     canvasContainer: {
       position: 'relative',
       background: theme.palette.background.darkDefault,
-      margin: '0 auto',
+      margin: '16px auto',
       [theme.breakpoints.up('xs')]: {
         width: '300px',
         height: '200px'
@@ -34,7 +34,11 @@ const styles = makeStyles((theme) => ({
       [theme.breakpoints.up('lg')]: {
         width: '900px',
         height: '600px'
-      }
+      },
+      '@media (min-width: 1280px) and (max-height: 632px)': {
+        width: '600px',
+        height: '400px'
+      },
     },
 }));
 

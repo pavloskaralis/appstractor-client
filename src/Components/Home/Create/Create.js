@@ -19,7 +19,7 @@ export default function Create() {
     const matches = useMediaQuery('(min-width:600px)');
 
     return (
-        <Box className={classes.box} display='flex' width='100%' height='100%' flexDirection={matches ? 'row' : 'column'}>
+        <Box className={classes.box} display='flex' width='100%' height='100%' overflow='auto' flexDirection={matches ? 'row' : 'column'}>
             {matches && <CreateDrawer/>}
             <Box flexGrow={1} display='flex' height='100%' width='100%' flexDirection='column' justifyContent='center'>
                 <CanvasContainer>
