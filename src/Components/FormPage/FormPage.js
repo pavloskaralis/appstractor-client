@@ -18,11 +18,10 @@ const styles = makeStyles(theme => ({
     title: {
         textAlign: 'center',
         color: theme.palette.text.primary,
-        marginBottom: 16,
+        marginBottom: theme.spacing(2),
     },
     avatar:{
         margin: '0 auto',
-        marginBottom: 6,
         background: theme.palette.secondary.main,
     },
     icon: {

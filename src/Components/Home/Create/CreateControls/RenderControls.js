@@ -18,13 +18,13 @@ import {toggleRendering, toggleCreateClicked, toggleRerenderClicked,toggleAnimat
 
 const styles = makeStyles((theme) => ({
     button: {
-        marginBottom: 12
+        marginBottom: theme.spacing(1.5),
     },
     disabled: {
         backgroundColor: `${theme.palette.primary.dark} !important`
     },
     formControl: {
-        marginTop: 12,
+        marginTop: theme.spacing(1.5),
         '& .MuiOutlinedInput-notchedOutline': {
             borderColor: blue[200],
             opacity: .9,

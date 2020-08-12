@@ -13,7 +13,8 @@ const styles = makeStyles((theme) => ({
         justifyContent: 'center',
     },
     heading: {
-      padding: '16px 16px 12px 16px',
+      padding: theme.spacing(2, 2, 0, 2),
+      marginBottom: theme.spacing(-.5),
       textTransform: 'uppercase',
       fontSize: theme.typography.pxToRem(14),
       fontWeight: theme.typography.fontWeightMedium,
@@ -28,14 +29,14 @@ export default function CreatePanel({heading, children, value, index, ...other }
         role="tabpanel"
         hidden={value !== index}
         className={classes.box}
-        id={`tabpanel-${index}`}
-        aria-labelledby={`tab-${index}`}
+        id={`createtabpanel-${index}`}
+        aria-labelledby={`createtab-${index}`}
         {...other}
       >
         <Box  width='100%' height='100%'> 
-            <Box width='278px' padding='0 18px' margin='0 auto'>
+            <Box width='278px' padding='0 16px' margin='0 auto'>
               {heading !== 'Render' && <Typography className={classes.heading}>{heading}</Typography>}
-              <Box width='100%' padding={heading === 'Render' ? '16px' : '0 16px 16px 16px'} display='flex' flexDirection='column'>
+              <Box width='100%' padding='16px' display='flex' flexDirection='column'>
                 {children}
               </Box>
             </Box>

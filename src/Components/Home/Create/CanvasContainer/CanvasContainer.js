@@ -4,12 +4,12 @@ import Box from '@material-ui/core/Box'
 
 const styles = makeStyles((theme) => ({
     canvasContainer: {
-      position: 'relative',
       background: theme.palette.background.darkDefault,
-      margin: '16px auto',
+      margin: theme.spacing(2, 'auto'),
+      position: 'relative',
       [theme.breakpoints.up('xs')]: {
         width: '300px',
-        height: '200px'
+        minHeight: '200px'
       },
       [theme.breakpoints.up(400)]: {
         width: '360px',
@@ -29,11 +29,11 @@ const styles = makeStyles((theme) => ({
       },
       [theme.breakpoints.up('md')]: {
         width: '600px',
-        height: '400px'
+        height: '400px',
       },
       [theme.breakpoints.up('lg')]: {
         width: '900px',
-        height: '600px'
+        height: '600px',
       },
      
     },

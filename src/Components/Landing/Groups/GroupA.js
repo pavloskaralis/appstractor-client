@@ -37,27 +37,27 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary,
         fontWeight: theme.typography.fontWeightMedium,
         textAlign: 'center',
-        fontSize: '19px',
+        fontSize: theme.typography.pxToRem(19),
         [theme.breakpoints.up(450)]: {
-            fontSize: '27px',
+            fontSize: theme.typography.pxToRem(27)
         },
         [theme.breakpoints.up('sm')]: {
-            fontSize: '24px'
+            fontSize: theme.typography.pxToRem(24)
         },
         [theme.breakpoints.up('md')]: {
-            fontSize: '44px'
+            fontSize: theme.typography.pxToRem(44)
         }  
     },
     button: {
         minWidth: 105,
         maxWidth: 105,
         height: 36,
-        fontSize: 13,
+        fontSize: theme.typography.pxToRem(13),
         [theme.breakpoints.up('md')]: {
             minWidth: 120,
             maxWidth: 120, 
             height: 42,
-            fontSize: 15
+            fontSize: theme.typography.pxToRem(15)
         } 
     }, 
     helperText: {

@@ -23,13 +23,13 @@ const styles = makeStyles(theme => ({
         margin: '0 auto',
         color: theme.palette.text.primary,
         textAlign: 'center',
-        marginTop: 16,
+        marginTop: theme.spacing(2),
     },
     email: {
         color: theme.palette.text.primary,
         textAlign: 'center',
-        marginBottom: 16,
-        marginTop: -16
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(-2)
     }
 }))
 

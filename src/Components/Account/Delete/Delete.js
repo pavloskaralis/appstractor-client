@@ -25,7 +25,7 @@ const styles = makeStyles(theme => ({
         margin: '0 auto',
         color: theme.palette.text.primary,
         textAlign: 'center',
-        marginTop: 16,
+        marginTop: theme.spacing(2),
     },  
     disabled: {
         backgroundColor: `${theme.palette.secondary.dark} !important`

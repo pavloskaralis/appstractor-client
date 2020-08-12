@@ -9,8 +9,38 @@ import CreateTabs from './CreateTabs/CreateTabs'
 import {makeStyles} from '@material-ui/core/styles'
 
 const styles = makeStyles(theme => ({
-    box: {
+    page: {
         backgroundColor: theme.palette.background.default,
+        display:'flex', 
+        width:'100%',
+        height:'100%',
+        flexDirection: 'column',
+        overflow: 'auto',
+        [theme.breakpoints.up('sm')]: {
+            flexDirection: 'row'
+        }
+    },
+    artboard:{
+        display: 'flex',
+        height:'100%',
+        width:'100%', 
+        overflow:'auto',
+        background: 'red',
+        flexDirection:'column',
+        justifyContent: 'center',
+
+        [theme.breakpoints.up('sm')]: {
+        minHeight: '232px'
+        },
+        [theme.breakpoints.up(780)]: {
+        minHeight: '332px'
+        },
+        [theme.breakpoints.up('md')]: {
+        minHeight: '432px',
+        },
+        [theme.breakpoints.up('lg')]: {
+        minHeight: '632px',
+        },
     }
 }))
 
@@ -19,9 +49,15 @@ export default function Create() {
     const matches = useMediaQuery('(min-width:600px)');
 
     return (
-        <Box className={classes.box} display='flex' width='100%' height='100%' overflow='auto' flexDirection={matches ? 'row' : 'column'}>
+        <Box 
+            id='hometabpanel-0'
+            aria-labelledby='hometab-0'
+            className={classes.page} 
+        >
             {matches && <CreateDrawer/>}
-            <Box flexGrow={1} display='flex' height='100%' width='100%' flexDirection='column' justifyContent='center'>
+            <Box 
+                className={classes.artboard}               
+            >
                 <CanvasContainer>
                     <Canvas/>
                     <CanvasSpinner/>

@@ -11,7 +11,7 @@ import Divider from '@material-ui/core/Divider'
 const styles = makeStyles((theme) => ({
     accordian: {
         boxShadow: 'none',
-        padding: '0 18px',
+        padding: theme.spacing(0, 2),
         overflow: 'hidden',
     },
     accordionDetails: {

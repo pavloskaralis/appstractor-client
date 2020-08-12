@@ -8,6 +8,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useLocation, useHistory} from 'react-router-dom'
 import {CREATE, GALLERY} from '../../../Routes/routes'
 
+function a11yProps(index) {
+    return {
+      id: `hometab-${index}`,
+      'aria-controls': `hometabpanel-${index}`,
+    };
+}
 
 export default function HomeTabs(){
     const matches = useMediaQuery('(min-width:600px)');
@@ -42,8 +48,8 @@ export default function HomeTabs(){
             value={tabValue} 
             onChange={handleTabChange}
         >
-            <Tab icon={matches ? 'Create' : create} />
-            <Tab icon={matches ? 'Gallery' : gallery} />
+            <Tab icon={matches ? 'Create' : create}  {...a11yProps(0)}/>
+            <Tab icon={matches ? 'Gallery' : gallery}  {...a11yProps(0)}/>
         </Tabs>   
     )
 }

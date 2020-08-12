@@ -16,6 +16,7 @@ const styles = makeStyles((theme) => ({
     },
     drawerPaper: {
       width: 278,
+      borderRight: 'none'
     },
     drawerContainer: {
       overflow: 'auto',
