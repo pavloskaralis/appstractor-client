@@ -18,7 +18,12 @@ const styles = makeStyles(theme => ({
         
     },
     saveButton: {
-        marginLeft: 12
+        marginLeft: 12,
+        marginRight: '4px',
+        flexGrow: 1,
+        [theme.breakpoints.up(512)]: {
+           marginRight: '12px',
+        }
     },
     iconButton: {
          color: theme.palette.text.primary,

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import Box from '@material-ui/core/Box'
-import {useDispatch} from 'react-redux'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Canvas from '../../Canvas/Canvas'
 import CanvasContainer from './CanvasContainer/CanvasContainer'

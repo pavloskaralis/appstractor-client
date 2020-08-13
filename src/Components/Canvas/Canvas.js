@@ -31,9 +31,11 @@ export default function Canvas(){
 
     //improve page load
     useEffect(()=>{
+        dispatch(toggleRendering(true))
         setTimeout(()=>{
-            toggleDelay(delay => !delay)
-        },0)
+            toggleDelay(delay => !delay);
+            dispatch(toggleRendering(false));
+        },500)
     },[])
 
     //stop loading spinner animation
@@ -41,6 +43,12 @@ export default function Canvas(){
         if(rendering)dispatch(toggleRendering(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[randomValues, swapPattern, quantity, shadow, background, pattern])
+    //stopp loading spinner; seperated incase custom matches another preset
+    useEffect(()=>{
+        if(rendering)setTimeout(()=>dispatch(toggleRendering(false)),100)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[preset])
+    
     //save custom settings incase presets toggled; also set custom to default on first load
     useEffect(()=>{   
         if(preset === 'custom' || firstRender)dispatch(saveCustomPreset({quantity,shadow, pattern, background}))
@@ -156,7 +164,7 @@ export default function Canvas(){
         }}>
             <div ref={canvasRef} className='canvas'>
                 <div className='static' style={{backgroundImage:`url(${image})`}} />
-                <div className='background' style={backgroundStyle} />
+                {delay && <div className='background' style={backgroundStyle} />}
                 {delay && rowComponents}
             </div>
         </CanvasContext.Provider>

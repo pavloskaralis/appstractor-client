@@ -85,25 +85,30 @@ export default function RenderControls({context}) {
     const handleSelectChange = (event) => {
         const value = event.target.value; 
         dispatch(setPreset(value))
-        switch(value){
-            case 'default':
-                dispatch(loadPreset(defaultPreset))
-                break
-            case 'cubic':
-                dispatch(loadPreset(cubicPreset))
-                break
-            case 'dreamscape':
-                dispatch(loadPreset(dreamscapePreset))
-                break
-            case 'patchwork':
-                dispatch(loadPreset(patchworkPreset))
-                break
-            case 'custom':
-                dispatch(loadPreset(customPreset))
-                break
-            default:
-                break
-        }
+        dispatch(toggleRendering(true))
+        //prevent animation lag
+        setTimeout(()=>{
+            switch(value){
+                case 'default':
+                    dispatch(loadPreset(defaultPreset))
+                    break
+                case 'cubic':
+                    dispatch(loadPreset(cubicPreset))
+                    break
+                case 'dreamscape':
+                    dispatch(loadPreset(dreamscapePreset))
+                    break
+                case 'patchwork':
+                    dispatch(loadPreset(patchworkPreset))
+                    break
+                case 'custom':
+                    dispatch(loadPreset(customPreset))
+                    break
+                default:
+                    break
+            }
+        }, 100)
+
     }
 
     return (

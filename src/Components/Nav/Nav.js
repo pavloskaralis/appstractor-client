@@ -25,16 +25,13 @@ const useStyles = makeStyles( theme => ({
         boxShadow:'none'
     },
     buttonsToolbar: {
-        paddingRight: '4px',
+        paddingRight: 0,
         flexGrow: 1,
-        [theme.breakpoints.up(512)]: {
-           paddingRight: '12px',
-        }
     },
     menuToolbar: {
         paddingLeft: '4px',
         [theme.breakpoints.up('sm')]: {
-           paddingLeft: '12px',
+           paddingLeft: theme.spacing(1.5),
         }
     },
     menuIcon: {
@@ -42,7 +39,7 @@ const useStyles = makeStyles( theme => ({
     },
     title:{
         fontWeight: theme.typography.h6.fontWeight,
-        fontSize: 16,
+        fontSize: theme.typography.pxToRem(16),
         [theme.breakpoints.up('sm')]: {
             fontSize: theme.typography.h6.fontSize,
         }
@@ -125,7 +122,7 @@ export default function Nav(){
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} selected={pathname === ROUTES.HOME}>Home</MenuItem>
+                    <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} onClick={handleClose}  selected={pathname === ROUTES.HOME}>Home</MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose} selected={pathname === ROUTES.DEMO}>Demo</MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose} selected={pathname === ROUTES.SIGNUP}>Signup</MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>Login</MenuItem>
