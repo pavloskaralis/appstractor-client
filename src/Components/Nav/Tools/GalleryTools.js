@@ -24,13 +24,6 @@ const styles = makeStyles(theme => ({
             marginLeft: theme.spacing(1.5)
         }
     },
-    menu:{
-        '& .MuiMenuItem-root':{
-            [theme.breakpoints.up('sm')]:{
-                minWidth: 86.5
-            }
-        }
-    },
 
     search: {
         margin: theme.spacing(0,.8),
@@ -147,7 +140,6 @@ export default function GalleryTools(){
                 keepMounted
                 open={anchorEl && anchorEl.ariaLabel==='actions'}
                 onClose={handleClose}
-                className={classes.menu}
             >
                 <MenuItem id='Download'>
                     <GetAppIcon fontSize='small' className={classes.icon}/>Download
