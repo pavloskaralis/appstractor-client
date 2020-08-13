@@ -3,22 +3,16 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import grey from '@material-ui/core/colors/grey'
 import Box from '@material-ui/core/Box'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import {makeStyles} from '@material-ui/core/styles'
 import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
-import MouseIcon from '@material-ui/icons/Mouse'
-import PersonIcon from '@material-ui/icons/Person'
-import LockIcon from '@material-ui/icons/Lock'
-import FeedbackIcon from '@material-ui/icons/Feedback'
 import AccountTabs from './Tabs/AccountTabs'
 import GalleryTools from './Tools/GalleryTools'
 import {useLocation, Link as RouterLink} from 'react-router-dom'
@@ -96,7 +90,7 @@ export default function Nav(){
                     <IconButton component={RouterLink} to={ROUTES.HOME} edge='start' aria-label='menu'>
                         <Tooltip  title="Home" aria-label="home">
                             <Icon>
-                                <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
+                                <img src={Logo} height={25} width={25} alt='logo' />
                             </Icon>
                         </Tooltip>
                      </IconButton>
@@ -120,16 +114,16 @@ export default function Nav(){
                     onClose={handleClose}
                 >
                     <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
-                        <Icon className={classes.icon}><img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo'/></Icon> Home
+                        Home
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>
-                        <PersonIcon className={classes.icon}/>Account
+                        Account
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>
-                        <FeedbackIcon className={classes.icon}/>Feedback
+                        Feedback
                     </MenuItem>
                     <MenuItem onClick={handleClose}>
-                        <ExitToAppIcon className={classes.icon}/>Log Out
+                        Log Out
                     </MenuItem>
                 </Menu>:
 
@@ -140,16 +134,16 @@ export default function Nav(){
                     onClose={handleClose}
                 >
                     <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
-                        <Icon className={classes.icon}><img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo'/></Icon> Home
+                        Home
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose} selected={pathname === ROUTES.DEMO}>
-                        <MouseIcon className={classes.icon}/> Demo
+                        Demo
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose} selected={pathname === ROUTES.SIGNUP}>
-                        <PersonIcon className={classes.icon}/>Signup
+                        Signup
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>
-                        <LockIcon className={classes.icon}/>Login
+                        Login
                     </MenuItem>
                 </Menu>
             }

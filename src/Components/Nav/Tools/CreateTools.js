@@ -9,7 +9,6 @@ import MenuItem from '@material-ui/core/MenuItem'
 import {makeStyles} from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import Box from '@material-ui/core/Box'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import LinkIcon from '@material-ui/icons/Link'
 import SearchIcon from '@material-ui/icons/Search'
@@ -25,7 +24,7 @@ const styles = makeStyles(theme => ({
          color: theme.palette.text.primary,
     }, 
     icon:{
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(2)
     }
 }))
 

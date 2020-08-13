@@ -73,7 +73,7 @@ const styles = makeStyles(theme => ({
         marginRight: theme.spacing(1.5)
     },
     icon:{
-        marginRight: theme.spacing(1)
+        marginRight: theme.spacing(2)
     }
 }))
 
