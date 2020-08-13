@@ -44,7 +44,7 @@ export default function CreateTabs() {
   const classes = styles();
   
   const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
-  const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
+  const {preset, customPreset, createClicked, firstRender, rendering, animation} = useSelector(state => state.interface);
   
   const [bottomNavValue, setBottomNavValue] = useState(0);
   const handleTabChange = (event, newBottomNavValue) => {
@@ -59,7 +59,7 @@ export default function CreateTabs() {
   return (
     <Box>
       <CreatePanel heading='Render' value={bottomNavValue} index={0}>
-        <RenderControls context={{preset, customPreset, createClicked, firstRender, animation}}/>
+        <RenderControls context={{preset, rendering, customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>
       <CreatePanel heading='Quantity' value={bottomNavValue} index={1}>
         <QuantityControls context={{preset, quantity, maxUnits}}/>

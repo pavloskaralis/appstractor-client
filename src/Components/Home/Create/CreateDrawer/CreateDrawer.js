@@ -51,7 +51,7 @@ const styles = makeStyles((theme) => ({
 export default function CreateDrawer() {
     const classes = styles();
     const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
-    const {preset, customPreset, createClicked, firstRender, animation} = useSelector(state => state.interface);
+    const {preset, customPreset, createClicked, rendering, firstRender, animation} = useSelector(state => state.interface);
 
     return (
         <Drawer
@@ -62,7 +62,7 @@ export default function CreateDrawer() {
             <div className={classes.drawerContainer}>
                 <Toolbar/>
                 <AccordianWrap heading='Render'>
-                    <RenderControls context={{preset, customPreset, createClicked, firstRender, animation}}/>
+                    <RenderControls context={{preset, rendering, customPreset, createClicked, firstRender, animation}}/>
                 </AccordianWrap>
                 <AccordianWrap heading='Quantity'>
                     <QuantityControls context={{preset, quantity, maxUnits}}/>

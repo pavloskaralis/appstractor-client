@@ -41,7 +41,7 @@ export default function RenderControls({context}) {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {customPreset, createClicked, firstRender, animation, preset} = context;
+    const {customPreset, createClicked, rendering, firstRender, animation, preset} = context;
     //switch values
     const [state,setState] = useState({
         rerender: false,
@@ -50,6 +50,8 @@ export default function RenderControls({context}) {
     
     //create appstraction on click
     const handleButtonClick = () => {
+        //prevent spam click of render
+        if(rendering)return
         //add spinning loader; resets to false after canvas receives new random values and swap pattern 
         dispatch(toggleRendering(true))
         //enable rerender animation; resets to false after animation completes

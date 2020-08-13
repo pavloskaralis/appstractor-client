@@ -9,15 +9,21 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
 import Logo from './logo.svg'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import {makeStyles} from '@material-ui/core/styles'
 import CreateTools from './Tools/CreateTools'
 import HomeTabs from './Tabs/HomeTabs'
 import Tooltip from '@material-ui/core/Tooltip'
 import Typography from '@material-ui/core/Typography'
+import MouseIcon from '@material-ui/icons/Mouse'
+import PersonIcon from '@material-ui/icons/Person'
+import LockIcon from '@material-ui/icons/Lock'
+import FeedbackIcon from '@material-ui/icons/Feedback'
 import AccountTabs from './Tabs/AccountTabs'
 import GalleryTools from './Tools/GalleryTools'
 import {useLocation, Link as RouterLink} from 'react-router-dom'
 import * as ROUTES from '../../Routes/routes'
+
 
 const useStyles = makeStyles( theme => ({
     landingBar: {
@@ -44,6 +50,9 @@ const useStyles = makeStyles( theme => ({
             fontSize: theme.typography.h6.fontSize,
         }
     },
+    icon:{
+        marginRight: theme.spacing(1)
+    }
 
 }));
 
@@ -110,10 +119,18 @@ export default function Nav(){
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>Home</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>Account</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>Feedback</MenuItem>
-                    <MenuItem onClick={handleClose}>Log Out</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
+                        <Icon className={classes.icon}><img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo'/></Icon> Home
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>
+                        <PersonIcon className={classes.icon}/>Account
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>
+                        <FeedbackIcon className={classes.icon}/>Feedback
+                    </MenuItem>
+                    <MenuItem onClick={handleClose}>
+                        <ExitToAppIcon className={classes.icon}/>Log Out
+                    </MenuItem>
                 </Menu>:
 
                 <Menu 
@@ -122,10 +139,18 @@ export default function Nav(){
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} onClick={handleClose}  selected={pathname === ROUTES.HOME}>Home</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose} selected={pathname === ROUTES.DEMO}>Demo</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose} selected={pathname === ROUTES.SIGNUP}>Signup</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>Login</MenuItem>
+                    <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
+                        <Icon className={classes.icon}><img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo'/></Icon> Home
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose} selected={pathname === ROUTES.DEMO}>
+                        <MouseIcon className={classes.icon}/> Demo
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose} selected={pathname === ROUTES.SIGNUP}>
+                        <PersonIcon className={classes.icon}/>Signup
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>
+                        <LockIcon className={classes.icon}/>Login
+                    </MenuItem>
                 </Menu>
             }
         </AppBar>

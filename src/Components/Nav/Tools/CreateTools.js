@@ -9,30 +9,29 @@ import MenuItem from '@material-ui/core/MenuItem'
 import {makeStyles} from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import Box from '@material-ui/core/Box'
+import CloudUploadIcon from '@material-ui/icons/CloudUpload'
+import LinkIcon from '@material-ui/icons/Link'
+import SearchIcon from '@material-ui/icons/Search'
 
 const styles = makeStyles(theme => ({
     group:{
-        [theme.breakpoints.up(512)]:{
-            marginLeft: 12
-        }
-        
+        marginLeft: theme.spacing(1.5),  
     },
     saveButton: {
-        marginLeft: 12,
-        marginRight: '4px',
-        flexGrow: 1,
-        [theme.breakpoints.up(512)]: {
-           marginRight: '12px',
-        }
+        margin: theme.spacing(0, 1.5),
     },
     iconButton: {
          color: theme.palette.text.primary,
     }, 
+    icon:{
+        marginRight: theme.spacing(1)
+    }
 }))
 
 export default function CreateTools(){
     const classes = styles();
-    const matches = useMediaQuery('(min-width:512px)');
+    const matches = useMediaQuery('(min-width:600px)');
 
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -57,8 +56,8 @@ export default function CreateTools(){
                     <Button className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
                 </> :
                 <>
-                    <IconButton className={classes.iconButton} aria-label='select' onClick={handleClick}>
-                        <Tooltip title="Select" aria-label="select">
+                    <IconButton className={classes.iconButton} aria-label='image-select' onClick={handleClick}>
+                        <Tooltip title="Image Select" aria-label="image-select">
                             <ImageIcon />
                         </Tooltip>
                     </IconButton> 
@@ -73,9 +72,9 @@ export default function CreateTools(){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose}>Upload</MenuItem>
-                        <MenuItem onClick={handleClose}>Link</MenuItem>
-                        <MenuItem onClick={handleClose}>Search</MenuItem>
+                        <MenuItem onClick={handleClose}><CloudUploadIcon fontSize='small' className={classes.icon}/>Upload</MenuItem>
+                        <MenuItem onClick={handleClose}><LinkIcon fontSize='small' className={classes.icon}/>Link</MenuItem>
+                        <MenuItem onClick={handleClose}><SearchIcon fontSize='small' className={classes.icon}/>Search</MenuItem>
                     </Menu>
                 </>
             }
