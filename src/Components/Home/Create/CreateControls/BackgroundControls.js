@@ -9,6 +9,7 @@ import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
 import {setBackgroundDetail, toggleBackgroundEllipse, toggleBackgroundStretch, toggleBackgroundUniform} from '../../../../Actions/Canvas/backgroundActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import toggleRendering from '../../../../Actions/Interface/toggleRendering'
 
 
 const styles = makeStyles((theme) => ({
@@ -31,7 +32,6 @@ export default function BackgroundControls({context}) {
         detail: Math.round(Math.pow(background.detail - 99, 1/3))
     })
     
-
     //change controls when preset is loaded
     useEffect(()=> { 
         setState({
@@ -54,7 +54,8 @@ export default function BackgroundControls({context}) {
     //seperation prevents control animation lag
     const dispatchDetailChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setBackgroundDetail(Math.round(Math.pow(value,2.99997851)+99)))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setBackgroundDetail(Math.round(Math.pow(value,2.99997851)+99))),0)
     }
 
     //toggle on change
@@ -66,6 +67,7 @@ export default function BackgroundControls({context}) {
             [name]: checked
         }))
         if(preset !== 'custom')dispatch(setPreset('custom'))
+        dispatch(toggleRendering(true))
         //prevents control animation lag
         setTimeout(()=>{
             switch (name) {

@@ -37,11 +37,6 @@ const useStyles = makeStyles( theme => ({
            paddingLeft: '12px',
         }
     },
-    iconButton: {
-        [theme.breakpoints.up('sm')]: {
-            marginRight: '12px',
-        }
-    },
     menuIcon: {
         color: theme.palette.text.primary
     },
@@ -51,7 +46,8 @@ const useStyles = makeStyles( theme => ({
         [theme.breakpoints.up('sm')]: {
             fontSize: theme.typography.h6.fontSize,
         }
-    }
+    },
+
 }));
 
 export default function Nav(){
@@ -91,7 +87,7 @@ export default function Nav(){
         <AppBar position={true && pathname==='/' ? 'fixed' : 'static'} className={true && pathname==='/' ? classes.landingBar : ''}>
             <Box display='flex' width='100%' justifyContent='space-between'>
                 <Toolbar className={classes.buttonsToolbar}>
-                    <IconButton component={RouterLink} to={ROUTES.HOME} className={classes.iconButton} edge='start' aria-label='menu'>
+                    <IconButton component={RouterLink} to={ROUTES.HOME} edge='start' aria-label='menu'>
                         <Tooltip  title="Home" aria-label="home">
                             <Icon>
                                 <img src={Logo} height={25} width={25} style={{ color: grey[50] }} alt='logo' />
@@ -117,21 +113,22 @@ export default function Nav(){
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose}>Account</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose}>Feedback</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>Home</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>Account</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>Feedback</MenuItem>
                     <MenuItem onClick={handleClose}>Log Out</MenuItem>
                 </Menu>:
+
                 <Menu 
                     anchorEl={anchorEl}
                     keepMounted
                     open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
-                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose}>Home</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose}>Demo</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose}>Signup</MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose}>Login</MenuItem>
+                    <MenuItem value={ROUTES.HOME} component={RouterLink} to={ROUTES.HOME} selected={pathname === ROUTES.HOME}>Home</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.DEMO} onClick={handleClose} selected={pathname === ROUTES.DEMO}>Demo</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.SIGNUP} onClick={handleClose} selected={pathname === ROUTES.SIGNUP}>Signup</MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>Login</MenuItem>
                 </Menu>
             }
         </AppBar>

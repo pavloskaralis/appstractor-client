@@ -64,7 +64,7 @@ const theme = createMuiTheme({
         },
         MuiMenuItem: {
             root: {
-                minWidth: 102,
+                // minWidth: 102,
                 '&:hover': {
                     backgroundColor: '#2e2e2e',
                     
@@ -160,7 +160,7 @@ const theme = createMuiTheme({
                 color: blue[500],
             },
            
-            icon: {
+            icon: { 
                 color: grey[50],
             },
         },

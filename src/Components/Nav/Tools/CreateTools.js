@@ -11,6 +11,12 @@ import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 const styles = makeStyles(theme => ({
+    group:{
+        [theme.breakpoints.up(512)]:{
+            marginLeft: 12
+        }
+        
+    },
     saveButton: {
         marginLeft: 12
     },
@@ -37,7 +43,7 @@ export default function CreateTools(){
         <> 
             {matches ? 
                 <>
-                    <ButtonGroup variant='text' size='small' aria-label='text primary button group'>
+                    <ButtonGroup className={classes.group} variant='text' size='small' aria-label='text primary button group'>
                         <Button>Upload</Button>
                         <Button>Link</Button>
                         <Button>Search</Button>      

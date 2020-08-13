@@ -5,7 +5,7 @@ import spinnerGif from './spinner.gif'
 
 export default function CanvasSpinner() {
     const rendering = useSelector(state => state.interface.rendering);
-  
+    
     const spinnerStyle = {
         height: '100px', 
         width: '100px', 

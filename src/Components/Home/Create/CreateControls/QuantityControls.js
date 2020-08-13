@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
 import {setRowQuantity, setBlockQuantity, setStripeQuantity} from '../../../../Actions/Canvas/quantityActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import toggleRendering from '../../../../Actions/Interface/toggleRendering'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -42,16 +43,19 @@ export default function QuantityControls({context}) {
     //if mouse is released over a non slider element
     const dispatchRowChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setRowQuantity(value));
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setRowQuantity(value)),0);
     }
 
     const dispatchBlockChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setBlockQuantity(value));
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setBlockQuantity(value)),0);
     }
     const dispatchStripeChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setStripeQuantity(value));
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setStripeQuantity(value)),0);
     }
 
     //slider onChange

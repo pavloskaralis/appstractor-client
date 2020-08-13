@@ -6,6 +6,7 @@ import Slider from '@material-ui/core/Slider'
 import ValueLabel from './ValueLabel'
 import {setShadowOpacity, setShadowAngle, setShadowSize} from '../../../../Actions/Canvas/shadowActions'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import toggleRendering from '../../../../Actions/Interface/toggleRendering'
 
 const styles = makeStyles((theme) => ({
     controlHeading: {
@@ -39,16 +40,20 @@ export default function QuantityControls({context}) {
     //if mouse is released over a non slider element
     const dispatchOpacityChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setShadowOpacity(value * .01))
+        dispatch(toggleRendering(true))
+        setTimeout(()=> dispatch(setShadowOpacity(value * .01)),0)
+       
     }
     const dispatchAngleChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setShadowAngle(value * .0005))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setShadowAngle(value * .0005)),0)
     }
 
     const dispatchSizeChange = (event,value) => {
         if(preset !== 'custom')dispatch(setPreset('custom'))
-        dispatch(setShadowSize(value * .0005))
+        dispatch(toggleRendering(true))
+        setTimeout(()=>dispatch(setShadowSize(value * .0005)),0)
     }
 
     //slider onChange

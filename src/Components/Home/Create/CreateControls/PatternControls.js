@@ -5,6 +5,7 @@ import RadioGroup from '@material-ui/core/RadioGroup'
 import Radio from '@material-ui/core/Radio'
 import setPattern from '../../../../Actions/Canvas/setPattern'
 import setPreset from '../../../../Actions/Interface/setPreset'
+import toggleRendering from '../../../../Actions/Interface/toggleRendering'
 
 
 export default function PatternControls({context}) {
@@ -24,6 +25,7 @@ export default function PatternControls({context}) {
         const value = event.target.value; 
         setState(value);
         if(preset !== 'custom')dispatch(setPreset('custom'))
+        dispatch(toggleRendering(true))
         //prevents control animation lag
         setTimeout(()=>{
             dispatch(setPattern(value));

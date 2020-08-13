@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
@@ -21,7 +21,7 @@ export default function HomeTabs(){
     const history = useHistory();
     const [tabValue, setTabValue] = useState( {
         [CREATE]: 0,
-        [GALLERY]: 1
+        [`${GALLERY.match(/\/\w+/)[0]}`]: 1
     }[pathname.match(/\/\w+/)[0]])
 
 
@@ -39,10 +39,6 @@ export default function HomeTabs(){
         history.push(route.match(/\/\w+/)[0])
     };
   
-    useEffect(()=>{
-        console.log(pathname.match(/\/\w+/)[0])
-        console.log(tabValue)
-    })
     return (     
         <Tabs 
             value={tabValue} 
