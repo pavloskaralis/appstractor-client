@@ -129,7 +129,7 @@ export default function Canvas(){
 
     const backgroundStyle = {
         //animation on render only
-        transition: animation? `opacity .5s linear 1.8s` : '',
+        transition: animation? `opacity .5s linear 1.5s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
@@ -142,7 +142,11 @@ export default function Canvas(){
     //static layer exists for animation background 
     return (
         <CanvasContext.Provider value={{
-            rowContext: {quantity, maxUnits},
+            rowContext: {
+                quantity, 
+                maxUnits,
+                opacity: !createClicked ? '0' : '1',
+            },
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
                 transition: animation && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
@@ -155,10 +159,10 @@ export default function Canvas(){
             },
             stripeContext:{
                 backgroundImage: `url(${image})`,
-                opacity: !createClicked ? '0' : '1',
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `${canvasWidth}px` : '',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
+                firstRender,
                 rerenderClicked,
                 animation
             },

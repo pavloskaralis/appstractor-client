@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
@@ -16,8 +16,7 @@ import TitleIcon from '@material-ui/icons/Title'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import { useInView } from 'react-intersection-observer'
-import { InView } from 'react-intersection-observer'
+
 
 
 const styles = makeStyles(theme => ({

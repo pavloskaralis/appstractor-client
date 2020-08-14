@@ -77,15 +77,18 @@ export default function GroupA(){
         //prevent spam render
         if(rerenderClicked || (firstRender && preset === 'cubic')) return
         //enable rerender animation; resets to false after animation completes
+
+         //fastest most visual preset to render
+         if(firstRender){
+            dispatch(setPreset('cubic'))
+            dispatch(loadPreset(cubicPreset))
+        }
+        
         if(!firstRender){
             dispatch(toggleRerenderClicked(true))
             setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
         }
-        //fastest preset to render
-        if(firstRender){
-            dispatch(setPreset('cubic'))
-            dispatch(loadPreset(cubicPreset))
-        }
+       
         setTimeout(()=>{
             //create new random values and swap pattern
             dispatch(renderAppstraction()); 
@@ -96,7 +99,7 @@ export default function GroupA(){
                 //first render transitions opacity, while rerender transitions background
                 setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
             }
-        },firstRender ? 300 : 0)
+        },firstRender? 300 : 0)
     }
 
     return (
