@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
@@ -17,7 +17,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import { useInView } from 'react-intersection-observer'
-
+import { InView } from 'react-intersection-observer'
 
 
 const styles = makeStyles(theme => ({
@@ -101,14 +101,6 @@ export default function () {
     const [select, toggleSelect] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null)
  
-    const [ref, inView] = useInView({
-        triggerOnce: true,
-    });
-
-    const handleMenuClick = (event) => {
-        setAnchorEl(event.currentTarget);
-    }
-
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -117,10 +109,14 @@ export default function () {
         toggleSelect(event.target.checked)
     }
 
+    const handleMenuClick = (event) => {
+        setAnchorEl(event.target)
+    }
+
     return(
         
-        <Card ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} >
-            { inView && 
+        <Card className={classes.card} style={{opacity: true ? 1 : 0}} >
+            { true && 
                 <>
                     <Box border={select ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
