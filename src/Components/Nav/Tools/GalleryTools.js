@@ -13,6 +13,7 @@ import GetAppIcon from '@material-ui/icons/GetApp'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
+import SearchBar from './SubTools/SearchBar'
 
 const styles = makeStyles(theme => ({
     iconButton: {
@@ -23,38 +24,6 @@ const styles = makeStyles(theme => ({
         [theme.breakpoints.up('sm')]:{
             marginLeft: theme.spacing(1.5)
         }
-    },
-
-    search: {
-        margin: theme.spacing(0,.8),
-        [theme.breakpoints.up('sm')]:{
-            margin: theme.spacing(0,1.5),
-        },
-        position: 'relative',
-        borderRadius: theme.shape.borderRadius,
-        backgroundColor: fade(theme.palette.common.white, 0.15),
-        '&:hover': {
-          backgroundColor: fade(theme.palette.common.white, 0.25),
-        },
-        maxHeight: 30,
-        minWidth: 116
-    },
-    searchIcon: {
-        padding: theme.spacing(0, 1),
-        height: '100%',
-        position: 'absolute',
-        pointerEvents: 'none',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        color: theme.palette.text.primary
-    },
-
-    input: {
-        padding: theme.spacing(.75, 1, .75, 0),
-        color: theme.palette.text.primary,
-        paddingLeft: `calc(1em + ${theme.spacing(3)}px)`,
-        transition: theme.transitions.create('width'),
     },
     sortBy: {
         textTransform: 'capitalize',
@@ -89,20 +58,7 @@ export default function GalleryTools(){
         <>
             {matches ?
                 <>
-                    <Box display='flex' flexGrow={1}  maxWidth='218px' flexDirection='column' justifyContent='center'>
-                        <div className={classes.search}>
-                            <div className={classes.searchIcon}>
-                                <SearchIcon />
-                            </div>
-                            <InputBase
-                                placeholder="Search..."
-                                classes={{
-                                    input: classes.input,
-                                }}
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </div>
-                    </Box> 
+                    <SearchBar/>
                     <Button size='small' className={classes.selectAll} variant='outlined'>
                         Select All
                     </Button>
@@ -138,7 +94,7 @@ export default function GalleryTools(){
             <Menu 
                 anchorEl={anchorEl}
                 keepMounted
-                open={anchorEl && anchorEl.ariaLabel==='actions'}
+                open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
                 <MenuItem id='Download'>

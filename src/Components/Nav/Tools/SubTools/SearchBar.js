@@ -1,0 +1,73 @@
+import React from 'react'
+import { fade, makeStyles } from '@material-ui/core/styles';
+import SearchIcon from '@material-ui/icons/Search'
+import InputBase from '@material-ui/core/InputBase'
+import Box from '@material-ui/core/Box'
+
+const styles = makeStyles(theme => ({
+
+    container: {
+        display:'flex',
+        flexGrow:1,  
+        maxWidth:'218px', 
+        flexDirection:'column', 
+        justifyContent:'center',
+        [theme.breakpoints.down('sm')]:{
+            maxWidth:'312px', 
+        },
+    },
+    search: {
+       
+        margin: theme.spacing(0,.8),
+        margin: theme.spacing(0,1.5),
+        position: 'relative',
+        borderRadius: theme.shape.borderRadius,
+        backgroundColor: fade(theme.palette.common.white, 0.15),
+        '&:hover': {
+          backgroundColor: fade(theme.palette.common.white, 0.25),
+        },
+        maxHeight: 30,
+        minWidth: 116
+    },
+    searchIcon: {
+        padding: theme.spacing(0, 1),
+        height: '100%',
+        position: 'absolute',
+        pointerEvents: 'none',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: theme.palette.text.primary
+    },
+
+    input: {
+        padding: theme.spacing(.75, 1, .75, 0),
+        color: theme.palette.text.primary,
+        paddingLeft: `calc(1em + ${theme.spacing(3)}px)`,
+        transition: theme.transitions.create('width'),
+    },
+
+}))
+
+export default function SearchBar(){
+    const classes = styles();
+
+    return (
+        <Box className={classes.container}>
+            <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                    <SearchIcon />
+                </div>
+                <InputBase
+                    placeholder="Search..."
+                    classes={{
+                        input: classes.input,
+                    }}
+                    inputProps={{ 'aria-label': 'search' }}
+                />
+            </div>
+        </Box> 
+    )
+}
+
+

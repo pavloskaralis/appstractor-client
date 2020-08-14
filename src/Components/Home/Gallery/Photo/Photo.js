@@ -51,6 +51,9 @@ const styles = makeStyles(theme => ({
         margin: '0 auto',
         justifyContent: 'space-evenly',
         width: '100%',
+        '& .MuiButtonGroup-groupedTextHorizontal:not(:last-child)':{
+            border: 'none'
+        }
     },
     button: {
         width: '100%',
@@ -76,9 +79,9 @@ const styles = makeStyles(theme => ({
         position: 'absolute',
         top: theme.spacing(1),
         right: theme.spacing(1),
-        backgroundColor: 'rgba(0, 0, 0, 0.5);',
+        backgroundColor: 'rgba(0, 0, 0, 0.25);',
         '&:hover':{
-            backgroundColor: 'rgba(0, 0, 0, 0.54)'
+            backgroundColor: 'rgba(0, 0, 0, 0.29)'
         }
     },
 
@@ -119,7 +122,7 @@ export default function () {
                 <Menu 
                     anchorEl={anchorEl}
                     keepMounted
-                    open={anchorEl && anchorEl.ariaLabel==='actions'}
+                    open={Boolean(anchorEl)}
                     onClose={handleClose}
                 >
                     <MenuItem id='Edit'>
@@ -139,21 +142,20 @@ export default function () {
                 title="Image title"
                 />
                 
-                <ButtonGroup variant='filled' className={classes.group}>
+                <ButtonGroup  variant='text' className={classes.group}>
                   
-                    <Button classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
-                        Share
-                    </Button>
                     <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
-                        Link
+                        View
                     </Button>
                     <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
                         Download
                     </Button>
                     <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
-                        View
+                        Link
                     </Button>
-
+                    <Button classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
+                        Share
+                    </Button>
                 </ButtonGroup>
 
                 <Box className={classes.cardContent}>
