@@ -36,6 +36,7 @@ export default function Canvas(){
             toggleDelay(delay => !delay);
             dispatch(toggleRendering(false));
         },500)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     //stop loading spinner animation

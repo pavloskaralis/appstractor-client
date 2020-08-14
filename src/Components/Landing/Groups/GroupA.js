@@ -9,7 +9,7 @@ import FormHelperText from '@material-ui/core/FormHelperText'
 import renderAppstraction from '../../../Actions/Canvas/renderAppstraction'
 import cubicPreset from '../../../Presets/cubicPreset'
 import loadPreset from '../../../Actions/Canvas/loadPreset'
-import {setPreset, toggleRendering, toggleCreateClicked, toggleRerenderClicked, toggleFirstRender} from '../../../Actions/Interface/allInterfaceActions'
+import {setPreset, toggleCreateClicked, toggleRerenderClicked, toggleFirstRender} from '../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     title: {
@@ -71,16 +71,17 @@ export default function GroupA(){
     const classes = styles(); 
     const matches = useMediaQuery('(min-width:600px)');
     const dispatch = useDispatch();
-    const firstRender = useSelector(state => state.interface.firstRender);
+    const {firstRender, preset, rerenderClicked} = useSelector(state => state.interface);
 
     const handleButtonClick = () => {
-        //add spinning loader; resets to false after canvas receives new random values and swap pattern 
-        dispatch(toggleRendering(true))
+        //prevent spam render
+        if(rerenderClicked || (firstRender && preset === 'cubic')) return
         //enable rerender animation; resets to false after animation completes
         if(!firstRender){
             dispatch(toggleRerenderClicked(true))
             setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
         }
+        //fastest preset to render
         if(firstRender){
             dispatch(setPreset('cubic'))
             dispatch(loadPreset(cubicPreset))
@@ -95,7 +96,7 @@ export default function GroupA(){
                 //first render transitions opacity, while rerender transitions background
                 setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
             }
-        },230)
+        },firstRender ? 300 : 0)
     }
 
     return (

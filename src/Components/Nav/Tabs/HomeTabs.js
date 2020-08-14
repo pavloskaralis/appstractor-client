@@ -29,7 +29,7 @@ export default function HomeTabs(){
     const gallery = <Tooltip title="Gallery" aria-label="gallery"><PhotoLibraryIcon/></Tooltip>
 
     const handleTabChange = (event, newTabValue) => {
-
+  
         setTabValue(newTabValue);
         const route = {
             0: CREATE,

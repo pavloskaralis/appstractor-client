@@ -15,7 +15,7 @@ const styles = makeStyles(theme => ({
         overflow:'auto',
         flexDirection: 'column'
     },
-    container: {
+    photoContainer: {
         display:'flex',
         flexWrap:'wrap',
         justifyContent:'space-between',
@@ -46,7 +46,7 @@ export default function Create() {
             aria-labelledby='hometab-1'
             className={classes.box} 
         >
-            <Box className={classes.container}>
+            <Box className={classes.photoContainer}>
                 <Photo/>
                 <Photo/>
                 <Photo/>

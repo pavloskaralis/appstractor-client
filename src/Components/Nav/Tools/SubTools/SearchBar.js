@@ -9,17 +9,19 @@ const styles = makeStyles(theme => ({
     container: {
         display:'flex',
         flexGrow:1,  
-        maxWidth:'218px', 
+        maxWidth:'296px', 
         flexDirection:'column', 
         justifyContent:'center',
-        [theme.breakpoints.down('sm')]:{
-            maxWidth:'312px', 
+        [theme.breakpoints.up('sm')]:{
+            maxWidth:'218px', 
+
         },
     },
     search: {
-       
-        margin: theme.spacing(0,.8),
-        margin: theme.spacing(0,1.5),
+        margin: 0,
+        [theme.breakpoints.up('sm')]:{
+            margin: theme.spacing(0,1.5),
+        },
         position: 'relative',
         borderRadius: theme.shape.borderRadius,
         backgroundColor: fade(theme.palette.common.white, 0.15),

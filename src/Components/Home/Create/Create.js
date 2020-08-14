@@ -45,7 +45,9 @@ const styles = makeStyles(theme => ({
 
 export default function Create() {
     const classes = styles();
-    const matches = useMediaQuery('(min-width:600px)');
+    //must create 2; negative matches cause memory leak warning
+    const matchesA = useMediaQuery('(min-width:600px)');
+    const matchesB = useMediaQuery('(max-width:599px)');
  
     return (
         <Box 
@@ -53,7 +55,7 @@ export default function Create() {
             aria-labelledby='hometab-0'
             className={classes.page} 
         >
-            {matches && <CreateDrawer/>}
+            {matchesA && <CreateDrawer/>}
             <Box 
                 className={classes.artboard}               
             >
@@ -62,7 +64,7 @@ export default function Create() {
                     <CanvasSpinner/>
                 </CanvasContainer>
             </Box> 
-            {!matches && <CreateTabs/>}
+            {matchesB && <CreateTabs/>}
         </Box>
     );
 }

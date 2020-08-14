@@ -42,6 +42,7 @@ const useStyles = makeStyles( theme => ({
         fontSize: theme.typography.pxToRem(16),
         [theme.breakpoints.up('sm')]: {
             fontSize: theme.typography.h6.fontSize,
+            margin: theme.spacing(0,1.5)
         }
     },
     icon:{

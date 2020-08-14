@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import CreatePanel from './CreatePanel/CreatePanel'
 import { makeStyles } from '@material-ui/styles';
 import Box from '@material-ui/core/Box'
@@ -42,7 +42,14 @@ const styles = makeStyles(theme => ({
 
 export default function CreateTabs() {
   const classes = styles();
-  
+  const [delay, toggleDelay] = useState(false)
+
+  //delay render of non visible controls to increase page load
+  useEffect(()=>{
+      setTimeout(()=> toggleDelay(delay => !delay),0)
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
   const {preset, customPreset, createClicked, firstRender, rendering, animation} = useSelector(state => state.interface);
   
@@ -62,16 +69,16 @@ export default function CreateTabs() {
         <RenderControls context={{preset, rendering, customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>
       <CreatePanel heading='Quantity' value={bottomNavValue} index={1}>
-        <QuantityControls context={{preset, quantity, maxUnits}}/>
+        {delay && <QuantityControls context={{preset, quantity, maxUnits}}/>}
       </CreatePanel>
       <CreatePanel heading='Background' value={bottomNavValue} index={2}>
-        <BackgroundControls context={{preset, background}}/>
+        {delay && <BackgroundControls context={{preset, background}}/>}
       </CreatePanel>
       <CreatePanel heading='Pattern' value={bottomNavValue} index={3}>
-        <PatternControls context={{preset, pattern}}/>               
+        {delay && <PatternControls context={{preset, pattern}}/> }            
       </CreatePanel>
       <CreatePanel heading='Shadow' value={bottomNavValue} index={4}>
-        <ShadowControls context={{preset, shadow}}/> 
+        {delay && <ShadowControls context={{preset, shadow}}/> }
       </CreatePanel>
       <BottomNavigation value={bottomNavValue}  onChange={handleTabChange}>
         <BottomNavigationAction icon={renderIcon} label='Render' aria-label='render' className={classes.tab}  {...a11yProps(0)} />

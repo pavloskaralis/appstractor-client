@@ -24,6 +24,7 @@ const styles = makeStyles((theme) => ({
 
 export default function CreatePanel({heading, children, value, index, ...other }) {
     const classes = styles(); 
+    
     return (
       <Box
         role="tabpanel"

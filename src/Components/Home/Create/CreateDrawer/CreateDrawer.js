@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import {makeStyles} from '@material-ui/core/styles'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -52,7 +52,13 @@ export default function CreateDrawer() {
     const classes = styles();
     const {quantity, maxUnits, background, pattern, shadow} = useSelector(state => state.canvas);
     const {preset, customPreset, createClicked, rendering, firstRender, animation} = useSelector(state => state.interface);
+    const [delay, toggleDelay] = useState(false)
 
+    //delay render of non visible controls to increase page load
+    useEffect(()=>{
+        setTimeout(()=> toggleDelay(delay => !delay),0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     return (
         <Drawer
             variant='permanent'
@@ -65,16 +71,16 @@ export default function CreateDrawer() {
                     <RenderControls context={{preset, rendering, customPreset, createClicked, firstRender, animation}}/>
                 </AccordianWrap>
                 <AccordianWrap heading='Quantity'>
-                    <QuantityControls context={{preset, quantity, maxUnits}}/>
+                    {delay && <QuantityControls context={{preset, quantity, maxUnits}}/>}
                 </AccordianWrap>
                 <AccordianWrap heading='Background'>
-                    <BackgroundControls context={{preset, background}}/>
+                    {delay && <BackgroundControls context={{preset, background}}/>}
                 </AccordianWrap>
                 <AccordianWrap heading='Pattern'>
-                    <PatternControls context={{preset, pattern}}/>   
+                    {delay && <PatternControls context={{preset, pattern}}/> }
                  </AccordianWrap>            
                 <AccordianWrap heading='Shadow'>
-                    <ShadowControls context={{preset, shadow}}/>
+                    {delay && <ShadowControls context={{preset, shadow}}/>}
                 </AccordianWrap>
             </div>
         </Drawer>         
