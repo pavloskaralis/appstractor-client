@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Photo from './Photo/Photo'
@@ -32,28 +32,41 @@ const styles = makeStyles(theme => ({
         }
     },
     bottomNav: {
-        flexShrink: 0,
+        bottom: 0,
+        position: 'fixed',
+        width: '100%'
     }
 }))
 
 export default function Create() {
     const classes = styles();
     const matches = useMediaQuery('(max-width:599px)');
-
+    
     return (
         <Box 
             id='hometabpanel-1'
             aria-labelledby='hometab-1'
             className={classes.box} 
         >
+
             <Box className={classes.photoContainer}>
+
                 <Photo/>
                 <Photo/>
                 <Photo/>
                 <Photo/>
                 <Photo/>
                 <Photo/>
+                <Photo/>
+                <Photo/>
+                <Photo/>
+                <Photo/>
+                <Photo/>
+                <Photo/>
+
             </Box>
+
+
             {matches && 
                 <BottomNavagation className={classes.bottomNav}> 
                     <SearchBar/>
