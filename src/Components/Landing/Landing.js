@@ -10,14 +10,14 @@ const styles = makeStyles(theme => ({
         width: '100%',
         height: '100%',
         position: 'absolute',
-        opacity: .95,
+        opacity: .90,
         background: `linear-gradient(to top, ${theme.palette.primary.dark}, ${theme.palette.primary.dark} 15%, transparent 70%)`
     },
     blackGradient: {
         width: '100%',
         height: '100%',
         position: 'absolute',
-        opacity: .95,
+        opacity: .85,
         background: `linear-gradient(to bottom, ${theme.palette.background.paper}, transparent 85%)`
     },
     
