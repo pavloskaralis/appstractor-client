@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Card from '@material-ui/core/Card';
 import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
@@ -16,14 +15,17 @@ import TitleIcon from '@material-ui/icons/Title'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-
-
+import {useInView} from 'react-intersection-observer';
 
 const styles = makeStyles(theme => ({
     card: {
+        minHeight: 250,
         cursor: 'pointer',
         position: 'relative',
         display: 'flex',
+        backgroundColor: theme.palette.background.paper,
+        borderRadius: 4,
+        overflow: 'hidden', 
         flexDirection: 'column',
         margin: theme.spacing(1),
         flexGrow: 1,
@@ -36,8 +38,11 @@ const styles = makeStyles(theme => ({
             width: 'calc(33.33% - 16px)',
             maxWidth: 'calc(33.33% - 16px)', 
         },
-        transition:'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;', 
+        transition:'opacity 600ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;', 
 
+    },
+    title: {
+        color: theme.palette.text.primary
     },
     cardMedia: {
         paddingTop: '66.66%', 
@@ -98,8 +103,13 @@ const styles = makeStyles(theme => ({
 export default function () {
     const classes = styles(); 
     const [select, toggleSelect] = useState(false);
-    const [anchorEl, setAnchorEl] = useState(null)
- 
+    const [anchorEl, setAnchorEl] = useState(null);  
+    const [ref, inView, entry] = useInView({
+        triggerOnce: true, 
+        threshold: 0,
+        rootMargin: '0px 0px -15px 0px'
+    })
+
     const handleClose = () => {
         setAnchorEl(null);
     };
@@ -114,8 +124,8 @@ export default function () {
 
     return(
         
-        <Card className={classes.card} style={{opacity: true ? 1 : 0}} >
-            { true && 
+        <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} >
+            { inView && 
                 <>
                     <Box border={select ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
@@ -147,7 +157,6 @@ export default function () {
                     />
                     
                     <ButtonGroup  variant='text' className={classes.group}>
-                    
                         <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             View
                         </Button>
@@ -171,7 +180,7 @@ export default function () {
                             className={classes.checkbox}
                         />
                         <Box display='flex' height='100%' flexDirection='column' justifyContent='center'>
-                            <Typography variant="h6" >
+                            <Typography className={classes.title} variant="h6" >
                                 Title
                             </Typography>
                         </Box>
@@ -179,8 +188,7 @@ export default function () {
                     </Box>
                 </>
             }
-        </Card>
-    
-            
+        </Box>
+
     )
 }

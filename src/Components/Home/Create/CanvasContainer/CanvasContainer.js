@@ -7,6 +7,7 @@ const styles = makeStyles((theme) => ({
       background: theme.palette.background.darkDefault,
       margin: theme.spacing(2, 'auto'),
       position: 'relative',
+      flexShrink: 0, 
       [theme.breakpoints.up('xs')]: {
         width: '300px',
         minHeight: '200px'

@@ -23,11 +23,21 @@ export default function Canvas(){
     }
     //retrieve new canvas size (determined by container @media) on browser resize
     useEffect(()=> {
-        window.addEventListener('resize', updateCanvasSize);
+        let resizing = false; 
+        const toggleResizing = () => {
+            resizing = true;
+        }
+        window.addEventListener('resize', toggleResizing);
         updateCanvasSize();
-        return ()=> window.removeEventListener('resize', updateCanvasSize)
+        //throttling
+        setInterval(() => {
+            if (resizing) {
+                resizing = false
+                updateCanvasSize();
+            }
+        },300);
+        return ()=> window.removeEventListener('resize', toggleResizing)
     },[]);
-
 
     //improve page load
     useEffect(()=>{
@@ -160,7 +170,7 @@ export default function Canvas(){
             stripeContext:{
                 backgroundImage: `url(${image})`,
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
-                borderRadius: background.ellipse ? `${canvasWidth}px` : '',
+                borderRadius: background.ellipse ? `${canvasWidth}px` : '0px',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
                 firstRender,
                 rerenderClicked,
