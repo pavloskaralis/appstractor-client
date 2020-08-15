@@ -5,13 +5,14 @@ import CanvasContext from '../../../Contexts/CanvasContext'
 export default function Stripe ({backgroundPosition, backgroundSize, randomValues}) {
 
     const {stripeContext:{backgroundImage,flexBasis, borderRadius, boxShadow, rerenderClicked, firstRender, animation}} = useContext(CanvasContext);
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+
     const stripeStyle = {
         backgroundSize: backgroundSize,
         backgroundPosition: `${backgroundPosition.x}% ${backgroundPosition.y}%`,
         flexGrow: randomValues.flexGrow,
         //animation on render only
-        transition: animation && !firstRender ? `1.5s ease-in 0s`: ``,
+        transition: animation  ? `all 1.5s ease-in 0s, box-shadow .75s`: ``,
         //hides stripe if not visible
         backgroundImage: backgroundImage,
         flexBasis: flexBasis,

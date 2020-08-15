@@ -170,7 +170,7 @@ export default function Canvas(){
             stripeContext:{
                 backgroundImage: `url(${image})`,
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
-                borderRadius: background.ellipse ? `${canvasWidth}px` : '0px',
+                borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
                 firstRender,
                 rerenderClicked,

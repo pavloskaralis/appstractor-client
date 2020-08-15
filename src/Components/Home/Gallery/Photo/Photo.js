@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -104,7 +104,7 @@ export default function () {
     const classes = styles(); 
     const [select, toggleSelect] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);  
-    const [ref, inView, entry] = useInView({
+    const [ref, inView] = useInView({
         triggerOnce: true, 
         threshold: 0,
         rootMargin: '0px 0px -15px 0px'

@@ -7,9 +7,7 @@ import Button from '@material-ui/core/Button'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import FormHelperText from '@material-ui/core/FormHelperText'
 import renderAppstraction from '../../../Actions/Canvas/renderAppstraction'
-import cubicPreset from '../../../Presets/cubicPreset'
-import loadPreset from '../../../Actions/Canvas/loadPreset'
-import {setPreset, toggleCreateClicked, toggleRerenderClicked, toggleFirstRender} from '../../../Actions/Interface/allInterfaceActions'
+import {toggleCreateClicked, toggleRerenderClicked, toggleFirstRender} from '../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     title: {
@@ -71,20 +69,15 @@ export default function GroupA(){
     const classes = styles(); 
     const matches = useMediaQuery('(min-width:600px)');
     const dispatch = useDispatch();
-    const {firstRender, preset, rerenderClicked} = useSelector(state => state.interface);
+    const {firstRender,rerenderClicked, createClicked} = useSelector(state => state.interface);
 
     const handleButtonClick = () => {
         //prevent spam render
-        if(rerenderClicked || (firstRender && preset === 'cubic')) return
+        if(rerenderClicked || (createClicked && firstRender) ) return
         //enable rerender animation; resets to false after animation completes
-
-         //fastest most visual preset to render
-         if(firstRender){
-            dispatch(setPreset('cubic'))
-            dispatch(loadPreset(cubicPreset))
-        }
-        
-        if(!firstRender){
+        if(firstRender){
+            dispatch(toggleCreateClicked(true)); 
+        } else {
             dispatch(toggleRerenderClicked(true))
             setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
         }
@@ -94,9 +87,8 @@ export default function GroupA(){
             dispatch(renderAppstraction()); 
             //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
             if(firstRender){
-                dispatch(toggleCreateClicked(true)); 
                 //change animation effect after animation completes; resets to false when new image gets selected 
-                //first render transitions opacity, while rerender transitions background
+                //first render allows for animation difference between create and rerender
                 setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
             }
         },firstRender? 300 : 0)
