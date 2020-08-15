@@ -10,29 +10,50 @@ import rootReducer from './Reducers/rootReducer.js'
 
 import {BrowserRouter} from 'react-router-dom'
 
+import fbConfig from './Firebase/fbConfig'
+import rrfConfig from './Firebase/rrfConfig'
+import firebase from 'firebase/app'
+import 'firebase/auth'
+import 'firebase/firestore'
+import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { createFirestoreInstance } from 'redux-firestore'
+
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Themes/theme'
-
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import * as serviceWorker from './serviceWorker';
 
 const loggerMiddleware = createLogger()
 
+firebase.initializeApp(fbConfig);
+firebase.firestore();
+
 const store = createStore(
-    rootReducer,
-    applyMiddleware(thunkMiddleware, loggerMiddleware)
+  rootReducer,
+  applyMiddleware(thunkMiddleware, loggerMiddleware)
 )
+
+const rrfProps = {
+  firebase,
+  config: rrfConfig,
+  dispatch: store.dispatch,
+  createFirestoreInstance
+}
+
+
   
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <CssBaseline/>
-      <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </ThemeProvider>
+      <ReactReduxFirebaseProvider {...rrfProps}>
+        <CssBaseline/>
+        <ThemeProvider theme={theme}>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </ThemeProvider>
+      </ReactReduxFirebaseProvider> 
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')
