@@ -10,8 +10,11 @@ import Button from '@material-ui/core/Button'
 import LockIcon from '@material-ui/icons/Lock'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
-import {SIGNUP,RECOVER} from '../../Routes/routes'
+import {SIGNUP,RECOVER, HOME} from '../../Routes/routes'
 import FormPage from '../FormPage/FormPage'
+import { useFirebase } from 'react-redux-firebase'
+import Error from '../FormPage/Error/Error'
+import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -28,10 +31,17 @@ const styles = makeStyles(theme => ({
 
 export default function Login(){
     const classes = styles();
+    const history = useHistory();
+    const firebase = useFirebase();
     const [values, setValues] = useState({
         email: '',
         password: '',
     })
+    const [errors, setErrors] = useState({
+        email: '',
+        password: '',
+    })
+
     const [visibility, toggleVisibility] = useState(false)
 
     const handleChange = (event) => {
@@ -45,10 +55,41 @@ export default function Login(){
         toggleVisibility(visibility => !visibility)   
     };
 
+    const handleSubmit = async (event) =>{
+        event.preventDefault();
+        const {email, password} = values; 
+        setErrors({        
+            email: '',
+            password: '',
+        });
+
+    
+        try {
+            await firebase.login({email, password});
+      
+            history.push(HOME);
+        } catch (error) {
+            console.log(error.code, error.message)
+            switch(error.code) {
+                case 'auth/invalid-email':
+                    return setErrors(errors => ({...errors, email: error.message}));
+                case 'auth/user-not-found':
+                    return setErrors(errors => ({...errors, email: 'There is no user record for this identifier.'}));
+                case 'auth/wrong-password': 
+                    return setErrors(errors => ({...errors, password: 'The password is invalid'}));
+                default: 
+                    return;
+            }
+        }
+      
+    }
+
     return (
         <FormPage icon={<LockIcon/>} title='Access an Existing Account'>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={handleSubmit}>
                 <TextField
+                    error={Boolean(errors.email)}
+                    helperText={errors.email && <Error>{errors.email}</Error>}
                     color='secondary'
                     id='email'
                     label='Email Address'
@@ -59,6 +100,8 @@ export default function Login(){
                     variant='filled'
                 />
                 <TextField
+                    error={Boolean(errors.password)}
+                    helperText={errors.password && <Error>{errors.password}</Error>}
                     color='secondary'
                     id='password'
                     label='Password'

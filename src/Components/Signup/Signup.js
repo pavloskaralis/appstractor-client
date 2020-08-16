@@ -85,12 +85,6 @@ export default function Signup(){
                 subcollections: [{ collection:'appstractions'}]
             });
 
-            setValues({        
-                email: '',
-                password: '',
-                confirm: '',
-            });
-
             history.push(HOME);
         } catch (error) {
             switch(error.code) {
@@ -126,7 +120,6 @@ export default function Signup(){
                 <TextField
                     error={Boolean(errors.password)}
                     helperText={errors.password && <Error>{errors.password}</Error>}
-
                     color='secondary'
                     id='password'
                     label='Password'
