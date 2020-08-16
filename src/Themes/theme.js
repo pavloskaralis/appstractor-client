@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import purple from '@material-ui/core/colors/purple'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
-
+import deepOrange from '@material-ui/core/colors/deepOrange'
 
 const theme = createMuiTheme({
     palette: {
@@ -12,8 +12,8 @@ const theme = createMuiTheme({
         secondary: {
             main: blue[500]
         },
-        default: {
-            main: 'red'
+        error: {
+            main: deepOrange[400]
         },
         text: {
             primary: grey[50],
@@ -40,6 +40,13 @@ const theme = createMuiTheme({
                 },
                 '& .MuiFilledInput-root':{
                     backgroundColor: 'transparent'
+                },
+                '& .MuiFormHelperText-root':{
+                    backgroundColor: 'rgb(86, 21, 113)',
+                    padding: '4px 14px 0 14px',
+                    margin: 0,
+                },
+                '& .MuiFormHelperText-root.Mui-error':{
                 }
             }
         },
@@ -64,7 +71,6 @@ const theme = createMuiTheme({
         },
         MuiMenuItem: {
             root: {
-                // minWidth: 102,
                 '&:hover': {
                     backgroundColor: '#2e2e2e',
                     
@@ -88,7 +94,7 @@ const theme = createMuiTheme({
                 flexShrink: 2,
             },
             indicator: {
-                backgroundColor: purple[400]
+                backgroundColor: 'rgb(149, 75, 180)'
             }
         },
         MuiTab:{

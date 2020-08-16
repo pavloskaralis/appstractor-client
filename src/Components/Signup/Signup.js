@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -10,8 +10,12 @@ import Button from '@material-ui/core/Button'
 import PersonIcon from '@material-ui/icons/Person'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
-import {LOGIN} from '../../Routes/routes'
+import {LOGIN, HOME} from '../../Routes/routes'
 import FormPage from '../FormPage/FormPage'
+import { useFirebase, useFirestore } from 'react-redux-firebase'
+import { useSelector } from 'react-redux'
+import Error from '../FormPage/Error/Error'
+import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -26,13 +30,25 @@ const styles = makeStyles(theme => ({
     },
 }))
 
+
 export default function Signup(){
     const classes = styles();
-    const [values, setValues] = useState({
+    const firebase = useFirebase(); 
+    const history = useHistory();
+    const {auth, profile} = useSelector(state => state.firebase)
+    //form values
+    const [values, setValues] = useState({    
         email: '',
         password: '',
         confirm: '',
-    })
+    });
+    //form errors; password match, email in use, invalid email, weak password
+    const [errors, setErrors] = useState({    
+        email: '',
+        password: '',
+        confirm: '',
+    });
+    //password visibility
     const [visibility, toggleVisibility] = useState(false)
 
     const handleChange = (event) => {
@@ -46,10 +62,61 @@ export default function Signup(){
         toggleVisibility(visibility => !visibility)   
     };
 
+    const handleSubmit = async (event) =>{
+        event.preventDefault();
+
+        const {email, password, confirm} = values; 
+        setErrors({        
+            email: '',
+            password: '',
+            confirm: '',
+        });
+        if(password !== confirm){
+           return setErrors(errors => ({...errors, confirm:'Passwords do not match.'}))
+        }
+
+        try {
+            await firebase.createUser({email, password});
+
+            firebase.updateProfile({
+                email,
+                interface: {
+                    rerender: false,
+                    animation: true,
+                },
+                appstractions: {}
+            });
+
+            setValues({        
+                email: '',
+                password: '',
+                confirm: '',
+            });
+
+            history.push(HOME)
+        } catch (error) {
+            switch(error.code) {
+                case 'auth/email-already-in-use':
+                    return setErrors(errors => ({...errors, email: 'The email address is already in use.'}));
+                case 'auth/invalid-email':
+                    return setErrors(errors => ({...errors, email: error.message}));
+                case 'auth/weak-password': 
+                    return setErrors(errors => ({...errors, password: error.message}));
+                default: 
+                    return;
+            }
+        }
+      
+    }
+    
+    useEffect(()=> console.log(auth,profile),[auth, profile])
+
     return (
         <FormPage icon={<PersonIcon/>} title='Create a New Account'>
-            <form className={classes.form}>
+            <form className={classes.form} onSubmit={handleSubmit}>
                 <TextField
+                    error={Boolean(errors.email)}
+                    helperText={errors.email && <Error>{errors.email}</Error>}
                     color='secondary'
                     id='email'
                     label='Email Address'
@@ -58,8 +125,12 @@ export default function Signup(){
                     value={values.email}
                     onChange={handleChange}
                     variant='filled'
+                
                 />
                 <TextField
+                    error={Boolean(errors.password)}
+                    helperText={errors.password && <Error>{errors.password}</Error>}
+
                     color='secondary'
                     id='password'
                     label='Password'
@@ -84,6 +155,8 @@ export default function Signup(){
                     }}
                 />
                 <TextField
+                    error={Boolean(errors.confirm)}
+                    helperText={errors.confirm && <Error>{errors.confirm}</Error>}
                     color='secondary'
                     id='confirm'
                     label='Confirm Password'

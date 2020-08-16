@@ -1,23 +1,23 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-
+//router dom
+import {BrowserRouter} from 'react-router-dom'
+//redux
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 import rootReducer from './Reducers/rootReducer.js'
-
-import {BrowserRouter} from 'react-router-dom'
-
+//firebase
 import fbConfig from './Firebase/fbConfig'
 import rrfConfig from './Firebase/rrfConfig'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
-import { ReactReduxFirebaseProvider } from 'react-redux-firebase'
+import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
-
+//material ui
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './Themes/theme'
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -28,10 +28,11 @@ const loggerMiddleware = createLogger()
 
 firebase.initializeApp(fbConfig);
 firebase.firestore();
+firebase.auth();
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunkMiddleware, loggerMiddleware)
+  applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase))
 )
 
 const rrfProps = {
@@ -40,8 +41,6 @@ const rrfProps = {
   dispatch: store.dispatch,
   createFirestoreInstance
 }
-
-
   
 ReactDOM.render(
   <React.StrictMode>

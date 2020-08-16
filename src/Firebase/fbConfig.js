@@ -10,6 +10,4 @@ const fbConfig = {
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
 };
 
-console.log(process.env)
-
 export default fbConfig
