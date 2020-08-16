@@ -63,13 +63,10 @@ export default function Login(){
             password: '',
         });
 
-    
         try {
             await firebase.login({email, password});
-      
             history.push(HOME);
         } catch (error) {
-            console.log(error.code, error.message)
             switch(error.code) {
                 case 'auth/invalid-email':
                     return setErrors(errors => ({...errors, email: error.message}));
