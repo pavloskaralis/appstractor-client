@@ -12,8 +12,7 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
 import {LOGIN, HOME} from '../../Routes/routes'
 import FormPage from '../FormPage/FormPage'
-import { useFirebase, useFirestore } from 'react-redux-firebase'
-import { useSelector } from 'react-redux'
+import { useFirebase } from 'react-redux-firebase'
 import Error from '../FormPage/Error/Error'
 import {useHistory} from 'react-router-dom'
 
@@ -33,9 +32,8 @@ const styles = makeStyles(theme => ({
 
 export default function Signup(){
     const classes = styles();
-    const firebase = useFirebase(); 
     const history = useHistory();
-    const {auth, profile} = useSelector(state => state.firebase)
+    const firebase = useFirebase();
     //form values
     const [values, setValues] = useState({    
         email: '',
@@ -71,20 +69,20 @@ export default function Signup(){
             password: '',
             confirm: '',
         });
+
         if(password !== confirm){
            return setErrors(errors => ({...errors, confirm:'Passwords do not match.'}))
         }
 
         try {
             await firebase.createUser({email, password});
-
             firebase.updateProfile({
                 email,
                 interface: {
                     rerender: false,
                     animation: true,
-                },
-                appstractions: {}
+                } ,
+                subcollections: [{ collection:'appstractions'}]
             });
 
             setValues({        
@@ -93,7 +91,7 @@ export default function Signup(){
                 confirm: '',
             });
 
-            history.push(HOME)
+            history.push(HOME);
         } catch (error) {
             switch(error.code) {
                 case 'auth/email-already-in-use':
@@ -109,8 +107,6 @@ export default function Signup(){
       
     }
     
-    useEffect(()=> console.log(auth,profile),[auth, profile])
-
     return (
         <FormPage icon={<PersonIcon/>} title='Create a New Account'>
             <form className={classes.form} onSubmit={handleSubmit}>
