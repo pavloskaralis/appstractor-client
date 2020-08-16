@@ -6,7 +6,7 @@ import CreateIcon from '@material-ui/icons/Create'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useLocation, useHistory} from 'react-router-dom'
-import {CREATE, GALLERY} from '../../../Routes/routes'
+import {HOME, CREATE, GALLERY} from '../../../Routes/routes'
 
 function a11yProps(index) {
     return {
@@ -20,9 +20,10 @@ export default function HomeTabs(){
     const {pathname} = useLocation();
     const history = useHistory();
     const [tabValue, setTabValue] = useState( {
+        [HOME]: 0,
         [CREATE]: 0,
         [`${GALLERY.match(/\/\w+/)[0]}`]: 1
-    }[pathname.match(/\/\w+/)[0]])
+    }[pathname.match(/\/*\w*/)[0]])
 
 
     const create = <Tooltip title="Create" aria-label="create"><CreateIcon/></Tooltip>

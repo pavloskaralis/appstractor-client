@@ -18,6 +18,9 @@ import Feedback from './Components/Feedback/Feedback'
 import PageNotFound from './Components/PageNotFound/PageNotFound'
 import PrivateRoute from './Firebase/PrivateRoute'
 import AuthIsLoaded from './Firebase/AuthIsLoaded'
+import PublicRoute from './Firebase/PublicRoute'
+import {useSelector} from 'react-redux'
+import {isEmpty} from 'react-redux-firebase'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -41,28 +44,29 @@ const styles = makeStyles(theme => ({
 }))
 
 function App() {
-  styles(); 
-
-
+  styles();
+  const auth = useSelector(state => state.firebase.auth)
+  
   return (
     <Box height='100vh' display='flex' flexDirection='column' >
+      <AuthIsLoaded>
         <Nav/>
-        <AuthIsLoaded>
           <Switch>        
-            <Route exact path={ROUTES.HOME} component={false ? Create : Landing}/>             
+            <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
             <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
 
             <PrivateRoute path={ROUTES.CREATE} component={Create}/>
             <PrivateRoute path={ROUTES.GALLERY} component={Gallery}/>
             <PrivateRoute path={ROUTES.FEEDBACK} component={Feedback}/>
-            <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
             <PrivateRoute path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
             <PrivateRoute path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
+            <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
             
-            <Route exact path={ROUTES.DEMO} component={Demo}/>
-            <Route exact path={ROUTES.SIGNUP} component={Signup}/>
-            <Route exact path={ROUTES.LOGIN} component={Login}/>
-            <Route exact path={ROUTES.RECOVER} component={Recover}/>
+            
+            <PublicRoute exact path={ROUTES.DEMO} component={Demo}/>
+            <PublicRoute exact path={ROUTES.SIGNUP} component={Signup}/>
+            <PublicRoute exact path={ROUTES.LOGIN} component={Login}/>
+            <PublicRoute exact path={ROUTES.RECOVER} component={Recover}/>
 
             <Redirect from='*' to={ROUTES.PAGE_NOT_FOUND}/> 
           </Switch>

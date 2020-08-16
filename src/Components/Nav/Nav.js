@@ -17,7 +17,8 @@ import AccountTabs from './Tabs/AccountTabs'
 import GalleryTools from './Tools/GalleryTools'
 import {useLocation, Link as RouterLink} from 'react-router-dom'
 import * as ROUTES from '../../Routes/routes'
-
+import {useSelector} from 'react-redux'
+import {isEmpty, useFirebase} from 'react-redux-firebase'
 
 const useStyles = makeStyles( theme => ({
     landingBar: {
@@ -55,6 +56,8 @@ export default function Nav(){
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = useState(null);
     const {pathname} = useLocation();
+    const auth = useSelector(state => state.firebase.auth)
+    const firebase = useFirebase();
 
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -64,8 +67,14 @@ export default function Nav(){
         setAnchorEl(null);
     };
 
+    const logout = () => {
+        handleClose();
+        firebase.logout();
+    }
+
 
     const buttons={
+        '': isEmpty(auth) ? '' : <CreateTools/>,
         'create': <CreateTools/>,   
         'gallery': <GalleryTools/>, 
         'demo':  <Typography className={classes.title}>Demo</Typography>, 
@@ -78,6 +87,7 @@ export default function Nav(){
     }[pathname.split('/')[1]]
 
     const tabs={
+        '': isEmpty(auth) ? '' : <HomeTabs/>,
         'create': <HomeTabs/>,   
         'gallery': <HomeTabs/>, 
         'account': <AccountTabs/>, 
@@ -85,7 +95,7 @@ export default function Nav(){
 
  
     return (
-        <AppBar position={true && pathname==='/' ? 'fixed' : 'static'} className={true && pathname==='/' ? classes.landingBar : ''}>
+        <AppBar position={isEmpty(auth) && pathname==='/' ? 'fixed' : 'static'} className={isEmpty(auth) && pathname==='/' ? classes.landingBar : ''}>
             <Box display='flex' width='100%' justifyContent='space-between'>
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton component={RouterLink} to={ROUTES.HOME} edge='start' aria-label='menu'>
@@ -107,27 +117,7 @@ export default function Nav(){
                 </Toolbar>
             </Box>
           
-            {false ? 
-                <Menu 
-                    anchorEl={anchorEl}
-                    keepMounted
-                    open={Boolean(anchorEl)}
-                    onClose={handleClose}
-                >
-                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
-                        Home
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>
-                        Account
-                    </MenuItem>
-                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>
-                        Feedback
-                    </MenuItem>
-                    <MenuItem onClick={handleClose}>
-                        Log Out
-                    </MenuItem>
-                </Menu>:
-
+            {isEmpty(auth) ? 
                 <Menu 
                     anchorEl={anchorEl}
                     keepMounted
@@ -145,6 +135,25 @@ export default function Nav(){
                     </MenuItem>
                     <MenuItem component={RouterLink} to={ROUTES.LOGIN} onClick={handleClose} selected={pathname === ROUTES.LOGIN}>
                         Login
+                    </MenuItem>
+                </Menu>:
+                <Menu 
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={handleClose} selected={pathname === ROUTES.HOME}>
+                        Home
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.ACCOUNT} onClick={handleClose }selected={pathname === ROUTES.ACCOUNT}>
+                        Account
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.FEEDBACK} onClick={handleClose} selected={pathname === ROUTES.FEEDBACK }>
+                        Feedback
+                    </MenuItem>
+                    <MenuItem component={RouterLink} to={ROUTES.HOME} onClick={logout}>
+                        Log Out
                     </MenuItem>
                 </Menu>
             }
