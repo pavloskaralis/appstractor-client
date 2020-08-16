@@ -11,12 +11,14 @@ import Visibility from '@material-ui/icons/Visibility'
 import VisibilityOff from '@material-ui/icons/VisibilityOff'
 import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
-import {LOGIN, HOME, RECOVER} from '../../../Routes/routes'
+import {LOGIN, RECOVER} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
 import { useFirebase } from 'react-redux-firebase'
 import Error from '../../FormPage/Error/Error'
 import {useHistory} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
+import setSnackbar from '../../../Actions/Interface/setSnackbar'
+import {useDispatch} from 'react-redux'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -42,6 +44,7 @@ export default function Reset({code, resetCode}){
     const classes = styles();
     const firebase = useFirebase();
     const history = useHistory();
+    const dispatch = useDispatch();
     const [invalid, toggleInvalid] = useState(false);
     //form values
     const [values, setValues] = useState({    
@@ -84,7 +87,8 @@ export default function Reset({code, resetCode}){
 
         try {
             await firebase.auth().confirmPasswordReset(code, password);
-            history.push(LOGIN)
+            history.push(LOGIN);
+            dispatch(setSnackbar('Password has been changed.'));
         } catch (error) {
             switch(error.code) {
                 case 'auth/invalid-action-code':

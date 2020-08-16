@@ -21,6 +21,7 @@ import AuthIsLoaded from './Firebase/AuthIsLoaded'
 import PublicRoute from './Firebase/PublicRoute'
 import {useSelector} from 'react-redux'
 import {isEmpty} from 'react-redux-firebase'
+import GlobalSnackbar from './Components/GlobalSnackbar/GlobalSnackbar'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -45,12 +46,13 @@ const styles = makeStyles(theme => ({
 
 function App() {
   styles();
-  const auth = useSelector(state => state.firebase.auth)
-  
+  const auth = useSelector(state => state.firebase.auth);
+
   return (
     <Box height='100vh' display='flex' flexDirection='column' >
       <AuthIsLoaded>
         <Nav/>
+        <GlobalSnackbar/>
           <Switch>        
             <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
             <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
@@ -70,6 +72,7 @@ function App() {
             <Redirect from='*' to={ROUTES.PAGE_NOT_FOUND}/> 
           </Switch>
       </AuthIsLoaded>
+    
     </Box>
   );
 }

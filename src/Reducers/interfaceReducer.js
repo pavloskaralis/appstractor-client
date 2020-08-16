@@ -12,7 +12,9 @@ const initialState = {
     //tracks user preset
     preset: 'default',
     //stores custom preset
-    customPreset: null
+    customPreset: null,
+    //global snackbar
+    snackbar: null, 
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -40,6 +42,9 @@ export default function canvasReducer(state = initialState, action){
         //toggled by any editing action; saves custom preset
         case 'SAVE_CUSTOM_PRESET':
             return {...state, customPreset: action.payload}
+        //initiates snackbar message
+        case 'SET_SNACKBAR':
+            return {...state, snackbar: action.payload}
         default:
             return state        
     }

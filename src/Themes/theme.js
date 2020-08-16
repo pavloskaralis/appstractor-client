@@ -176,6 +176,12 @@ const theme = createMuiTheme({
                 fontSize: 14,
                 marginLeft: 6
             }
+        },
+        MuiSnackbarContent: {
+            root: {
+                backgroundColor: grey[900],
+                color: grey[50]
+            }
         }
     }
 })
