@@ -7,6 +7,8 @@ import CanvasSpinner from './CanvasSpinner/CanvasSpinner'
 import CreateDrawer from './CreateDrawer/CreateDrawer'
 import CreateTabs from './CreateTabs/CreateTabs'
 import {makeStyles} from '@material-ui/core/styles'
+import { useSelector }from 'react-redux'
+import EmptyCanvas from './EmptyCanvas/EmptyCanvas'
 
 const styles = makeStyles(theme => ({
     page: {
@@ -45,6 +47,8 @@ const styles = makeStyles(theme => ({
 
 export default function Create() {
     const classes = styles();
+    const image = useSelector(state => state.canvas.image)
+
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
     const matchesB = useMediaQuery('(max-width:599px)');
@@ -62,6 +66,7 @@ export default function Create() {
                 <CanvasContainer>
                     <Canvas/>
                     <CanvasSpinner/>
+                    {!image && <EmptyCanvas/>}
                 </CanvasContainer>
             </Box> 
             {matchesB && <CreateTabs/>}

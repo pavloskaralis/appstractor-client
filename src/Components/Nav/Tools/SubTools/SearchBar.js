@@ -29,7 +29,7 @@ const styles = makeStyles(theme => ({
           backgroundColor: fade(theme.palette.common.white, 0.25),
         },
         maxHeight: 30,
-        minWidth: 116
+        minWidth: 114
     },
     searchIcon: {
         padding: theme.spacing(0, 1),

@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import LockIcon from '@material-ui/icons/Lock'
@@ -22,13 +22,22 @@ export default function AccountTabs(){
         [ACCOUNT_DELETE]: 2,
     }[pathname.match(/\/account(\/\w+)?/)[0]])
 
-       
+      
+    //tab value reset on path change 
+    useEffect(()=>{
+        setTabValue( {
+            [ACCOUNT]: 0,
+            [ACCOUNT_EMAIL]: 0,
+            [ACCOUNT_PASSWORD]: 1,
+            [ACCOUNT_DELETE]: 2,
+        }[pathname.match(/\/account(\/\w+)?/)[0]])
+    },[pathname])
+
     const email = <Tooltip title="Email" aria-label="email"><EmailIcon/></Tooltip>
     const password = <Tooltip title="Password" aria-label="password"><LockIcon/></Tooltip>
     const deleteAccount = <Tooltip title="Delete" aria-label="delete"><DeleteForeverIcon/></Tooltip>
 
     const handleTabChange = (event, newTabValue) => {
-        setTabValue(newTabValue);
 
         const route = {
             0: ACCOUNT_EMAIL,

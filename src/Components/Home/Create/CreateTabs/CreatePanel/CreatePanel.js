@@ -35,7 +35,7 @@ export default function CreatePanel({heading, children, value, index, ...other }
         {...other}
       >
         <Box  width='100%' height='100%'> 
-            <Box width='278px' padding='0 16px' margin='0 auto'>
+            <Box width='276px' padding='0 16px' margin='0 auto'>
               {heading !== 'Render' && <Typography className={classes.heading}>{heading}</Typography>}
               <Box width='100%' padding='16px' display='flex' flexDirection='column'>
                 {children}

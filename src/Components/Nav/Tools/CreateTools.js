@@ -12,11 +12,11 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import LinkIcon from '@material-ui/icons/Link'
 import SearchIcon from '@material-ui/icons/Search'
+import {useSelector} from 'react-redux'
+import ImageSelect from './SubTools/ImageSelect'
 
 const styles = makeStyles(theme => ({
-    group:{
-        marginLeft: theme.spacing(1.5),  
-    },
+
     saveButton: {
         margin: theme.spacing(0, 1.5),
     },
@@ -31,6 +31,7 @@ const styles = makeStyles(theme => ({
 export default function CreateTools(){
     const classes = styles();
     const matches = useMediaQuery('(min-width:600px)');
+    const image = useSelector(state => state.canvas.image);
 
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -46,13 +47,9 @@ export default function CreateTools(){
         <> 
             {matches ? 
                 <>
-                    <ButtonGroup className={classes.group} variant='text' size='small' aria-label='text primary button group'>
-                        <Button>Upload</Button>
-                        <Button>Link</Button>
-                        <Button>Search</Button>      
-                     </ButtonGroup>
-         
-                    <Button className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
+                    <ImageSelect/>
+
+                    <Button disabled={!image} className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
                 </> :
                 <>
                     <IconButton className={classes.iconButton} aria-label='image-select' onClick={handleClick}>
@@ -60,7 +57,7 @@ export default function CreateTools(){
                             <ImageIcon />
                         </Tooltip>
                     </IconButton> 
-                    <IconButton className={classes.iconButton} aria-label='save'>
+                    <IconButton disabled={!image} className={classes.iconButton} aria-label='save'>
                         <Tooltip title="Save" aria-label="save">
                             <SaveIcon />
                         </Tooltip>

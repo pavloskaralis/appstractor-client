@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import PhotoLibraryIcon from '@material-ui/icons/PhotoLibrary'
@@ -25,13 +25,19 @@ export default function HomeTabs(){
         [`${GALLERY.match(/\/\w+/)[0]}`]: 1
     }[pathname.match(/\/*\w*/)[0]])
 
+    //tab value reset on path change 
+    useEffect(()=>{
+        setTabValue( {
+            [HOME]: 0,
+            [CREATE]: 0,
+            [`${GALLERY.match(/\/\w+/)[0]}`]: 1
+        }[pathname.match(/\/*\w*/)[0]])
+    },[pathname])
 
     const create = <Tooltip title="Create" aria-label="create"><CreateIcon/></Tooltip>
     const gallery = <Tooltip title="Gallery" aria-label="gallery"><PhotoLibraryIcon/></Tooltip>
 
     const handleTabChange = (event, newTabValue) => {
-  
-        setTabValue(newTabValue);
         const route = {
             0: CREATE,
             1: GALLERY,

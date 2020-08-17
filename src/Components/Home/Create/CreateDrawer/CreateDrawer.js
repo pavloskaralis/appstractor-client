@@ -12,10 +12,10 @@ import {useSelector} from 'react-redux'
 
 const styles = makeStyles((theme) => ({
     drawer: {
-      width: 278,
+      width: 276,
     },
     drawerPaper: {
-      width: 278,
+      width: 276,
       borderRight: 'none'
     },
     drawerContainer: {
