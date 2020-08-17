@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux'
 import setImage from '../../../../Actions/Canvas/setImage'
 import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import {toggleLoading, setProgress, resetInterface, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleLoading, setProgress, toggleCreateClicked, toggleFirstRender, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     group:{
@@ -18,14 +18,14 @@ const styles = makeStyles(theme => ({
 }))
 
 
-
 export default function ImageSelect(){
     const classes = styles(); 
+    //used to proxy click hidden input
     const inputRef = useRef();
+    //used to allocate 1 upload file per user
     const uid = useSelector(state => state.firebase.auth.uid);
     const dispatch = useDispatch(); 
     const firebase = useFirebase();
-    const storage = firebase.storage()
 
     const uploadClick = () => {
         inputRef.current.click(); 
@@ -35,6 +35,7 @@ export default function ImageSelect(){
         dispatch(toggleLoading(true));
         const target = event.target;
         const image = target.files[0];
+        const storage = firebase.storage();
         const uploadTask = storage.ref(`images/uploads/${uid}`).put(image);
             uploadTask.on("state_changed",
                 snapshot => {
@@ -50,14 +51,13 @@ export default function ImageSelect(){
                     dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
                 },
             () => {
-
-                // complete function ...
                 storage
                 .ref("images/uploads")
                 .child(uid)
                 .getDownloadURL()
                 .then(url => {
-                    dispatch(resetInterface())
+                    dispatch(toggleCreateClicked(false))
+                    dispatch(toggleFirstRender(true))
                     dispatch(setImage(url))
                     setTimeout(()=>{
                         dispatch(setProgress(0))
@@ -65,9 +65,9 @@ export default function ImageSelect(){
                     }, 250)
                 });
             }
-        );  
-      
+        );    
     }
+
     return (
         <>    
             <ButtonGroup className={classes.group} variant='text' size='small'      aria-label='text primary button group'>

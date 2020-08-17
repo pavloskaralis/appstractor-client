@@ -19,7 +19,7 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-export default function(){
+export default function EmptyCanvas(){
     const classes = styles(); 
     const loading = useSelector(state => state.interface.loading)
     return (

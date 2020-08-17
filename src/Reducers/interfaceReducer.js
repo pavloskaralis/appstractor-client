@@ -19,6 +19,8 @@ const initialState = {
     loading: false, 
     //uploading and saving progress
     progress: 0,
+    //makes link dialog visible
+    linkDialog: false
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -57,6 +59,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, progress: action.payload}
         case 'TOGGLE_LOADING': 
             return {...state, loading: action.payload}
+        case 'TOGGLE_LINK_DIALOG':
+            return {...state, dialog: action.payload}
         default:
             return state        
     }

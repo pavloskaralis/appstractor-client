@@ -69,7 +69,7 @@ export default function RenderControls({context}) {
                 //first render transitions opacity, while rerender transitions background
                 setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
             }
-        },0)
+        },100)
     }
 
     //switch button on click
