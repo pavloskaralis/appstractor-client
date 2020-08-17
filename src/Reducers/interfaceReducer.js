@@ -14,7 +14,11 @@ const initialState = {
     //stores custom preset
     customPreset: null,
     //global snackbar
-    snackbar: null
+    snackbar: null,
+    //make uploading and saving progress visible
+    loading: false, 
+    //uploading and saving progress
+    progress: 0,
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -49,6 +53,10 @@ export default function canvasReducer(state = initialState, action){
         //initiates snackbar message
         case 'SET_SNACKBAR':
             return {...state, snackbar: action.payload}
+        case 'SET_PROGRESS':
+            return {...state, progress: action.payload}
+        case 'TOGGLE_LOADING': 
+            return {...state, loading: action.payload}
         default:
             return state        
     }

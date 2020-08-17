@@ -9,6 +9,7 @@ import CreateTabs from './CreateTabs/CreateTabs'
 import {makeStyles} from '@material-ui/core/styles'
 import { useSelector }from 'react-redux'
 import EmptyCanvas from './EmptyCanvas/EmptyCanvas'
+import CanvasLoader from './CanvasLoader/CanvasLoader'
 
 const styles = makeStyles(theme => ({
     page: {
@@ -66,6 +67,7 @@ export default function Create() {
                 <CanvasContainer>
                     <Canvas/>
                     <CanvasSpinner/>
+                    <CanvasLoader/>
                     {!image && <EmptyCanvas/>}
                 </CanvasContainer>
             </Box> 

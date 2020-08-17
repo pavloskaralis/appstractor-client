@@ -33,6 +33,7 @@ export default function Landing(){
     //set demo/landing image on load
     useEffect(()=> {
         dispatch(setImage(defaultImage))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     
     return (

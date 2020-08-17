@@ -3,9 +3,8 @@ import {useSelector} from 'react-redux'
 import Box from '@material-ui/core/Box'
 import spinnerGif from './spinner.gif'
 
-export default function CanvasSpinner({height = '100px', width = '100px'}) {
+export default function CanvasSpinner({height = '40px', width = '40px'}) {
     const rendering = useSelector(state => state.interface.rendering);
-    const image = useSelector(state => state.canvas.image);
 
     const spinnerStyle = {
         height: height, 
@@ -16,7 +15,7 @@ export default function CanvasSpinner({height = '100px', width = '100px'}) {
 
     return (    
         <Box position='absolute' zIndex={1} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
-            <img alt='loading spinner' hidden={!rendering || !image} src={spinnerGif} style={spinnerStyle}/>
+            <img alt='loading spinner' hidden={!rendering} src={spinnerGif} style={spinnerStyle}/>
         </Box>        
     );
 }

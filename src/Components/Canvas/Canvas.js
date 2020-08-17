@@ -9,7 +9,7 @@ import {toggleRendering, saveCustomPreset}from '../../Actions/Interface/allInter
 export default function Canvas(){
     //useSelectors called once from canvas to improve performance; uses context to pass values
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
-    const {createClicked,rerenderClicked,firstRender, animation, preset, rendering} = useSelector(state => state.interface)
+    const {createClicked,rerenderClicked,firstRender, animation, preset, rendering, loading} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
     const [delay, toggleDelay] = useState(false)
 
@@ -41,10 +41,11 @@ export default function Canvas(){
 
     //improve page load
     useEffect(()=>{
-        dispatch(toggleRendering(true))
+        //dont show spinner when no image is selected
+        if(image) dispatch(toggleRendering(true))
         setTimeout(()=>{
             toggleDelay(delay => !delay);
-            dispatch(toggleRendering(false));
+            if(image)dispatch(toggleRendering(false));
         },500)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -53,7 +54,7 @@ export default function Canvas(){
     useEffect(()=> {    
         if(rendering)dispatch(toggleRendering(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[randomValues, swapPattern, quantity, shadow, background, pattern])
+    },[randomValues, swapPattern, quantity, shadow, background, pattern, image])
     //stopp loading spinner; seperated incase custom matches another preset
     useEffect(()=>{
         if(rendering)setTimeout(()=>dispatch(toggleRendering(false)),100)
@@ -137,9 +138,10 @@ export default function Canvas(){
         )
     }
 
+    //dynamic background
     const backgroundStyle = {
         //animation on render only
-        transition: animation? `opacity .5s linear 1.5s` : '',
+        transition: animation && !loading ? `opacity .5s linear 1.5s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
@@ -156,10 +158,11 @@ export default function Canvas(){
                 quantity, 
                 maxUnits,
                 opacity: !createClicked ? '0' : '1',
+                transition: animation && !loading ? 'opacity 1.2s ease-in' : ''
             },
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
-                transition: animation && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
+                transition: animation && !loading && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 
@@ -172,9 +175,7 @@ export default function Canvas(){
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
-                firstRender,
-                rerenderClicked,
-                animation
+                transition: animation && !loading ? `all 1.5s ease-in 0s, box-shadow .75s`: ``,
             },
         }}>
             <div ref={canvasRef} className='canvas'>
