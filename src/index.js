@@ -15,6 +15,7 @@ import rrfConfig from './Firebase/rrfConfig'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import 'firebase/firestore'
+import 'firebase/storage'
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import { createFirestoreInstance } from 'redux-firestore'
 //material ui
@@ -28,7 +29,6 @@ const loggerMiddleware = createLogger()
 
 firebase.initializeApp(fbConfig);
 firebase.firestore();
-firebase.auth();
 
 const store = createStore(
   rootReducer,

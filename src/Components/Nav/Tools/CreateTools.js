@@ -48,7 +48,6 @@ export default function CreateTools(){
             {matches ? 
                 <>
                     <ImageSelect/>
-
                     <Button disabled={!image} className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
                 </> :
                 <>

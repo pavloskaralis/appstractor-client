@@ -76,7 +76,7 @@ export default function Request(){
 
 
     return (
-        <FormPage icon={<EmailIcon/>} title={success ? 'Check Your Email' : 'Reset Your Password'}>
+        <FormPage icon={<EmailIcon/>} title={success ? 'Check Your Inbox' : 'Reset Your Password'}>
             {success ? 
                 <>
                     <Typography className={classes.text}>
