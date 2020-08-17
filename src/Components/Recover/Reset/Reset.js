@@ -88,7 +88,7 @@ export default function Reset({code, resetCode}){
         try {
             await firebase.auth().confirmPasswordReset(code, password);
             history.push(LOGIN);
-            dispatch(setSnackbar('Password has been changed.'));
+            dispatch(setSnackbar({success: true, message: 'Password has been changed.'}));
         } catch (error) {
             switch(error.code) {
                 case 'auth/invalid-action-code':

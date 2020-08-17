@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux'
 import setImage from '../../../../Actions/Canvas/setImage'
 import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import {toggleLoading, setProgress, resetInterface} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleLoading, setProgress, resetInterface, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     group:{
@@ -44,8 +44,10 @@ export default function ImageSelect(){
                     );
                     dispatch(setProgress(progress));
                 },
-                error => {
-
+                () => {
+                    dispatch(setProgress(0))
+                    dispatch(toggleLoading(false))
+                    dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
                 },
             () => {
 

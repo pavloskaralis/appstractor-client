@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle'
+import ErrorIcon from '@material-ui/icons/Error'
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 
@@ -36,8 +37,11 @@ export default function GlobalSnackbar(){
 
     const message = (
         <Box display='flex'> 
-            <CheckCircleIcon className={classes.icon} size='small' color='secondary'/>
-            <Typography className={classes.text}>{snackbar}</Typography>
+            {snackbar && snackbar.success ? 
+                <CheckCircleIcon className={classes.icon} size='small' color='secondary'/> :
+                <ErrorIcon className={classes.icon} size='small' color='error'/>
+            }
+            <Typography className={classes.text}>{snackbar && snackbar.message}</Typography>
         </Box>
     )
 
