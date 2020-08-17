@@ -32,7 +32,7 @@ firebase.auth();
 
 const store = createStore(
   rootReducer,
-  applyMiddleware(thunkMiddleware.withExtraArgument(getFirebase))
+  applyMiddleware(loggerMiddleware,thunkMiddleware.withExtraArgument(getFirebase))
 )
 
 const rrfProps = {

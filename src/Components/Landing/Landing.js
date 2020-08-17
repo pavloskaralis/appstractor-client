@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import Canvas from '../Canvas/Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import GroupA from './Groups/GroupA'
 import GroupB from './Groups/GroupB'
+import defaultImage from '../../Styles/defaultImage.jpeg'
+import {useDispatch} from 'react-redux'
+import setImage from '../../Actions/Canvas/setImage'
 
 const styles = makeStyles(theme => ({
     purpleGradient: {
@@ -25,7 +28,13 @@ const styles = makeStyles(theme => ({
 
 export default function Landing(){
     const classes = styles(); 
+    const dispatch = useDispatch();
 
+    //set demo/landing image on load
+    useEffect(()=> {
+        dispatch(setImage(defaultImage))
+    },[])
+    
     return (
         <Box display='flex' minHeight='568px' width='100%' height='100%' justifyContent='space-evenly' flexDirection={'column'}>
             <Box zIndex={0} minHeight='568px' width='100%' height='100%' position='absolute'>

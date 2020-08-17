@@ -6,9 +6,10 @@ import toggleFirstRender from './toggleFirstRender'
 import toggleRendering from './toggleRendering'
 import toggleRerenderClicked from './toggleRerenderClicked'
 import setSnackbar from './setSnackbar'
+import resetInterface from './resetInterface'
 
 export {
     saveCustomPreset, setPreset, toggleAnimation, 
     toggleCreateClicked, toggleFirstRender, toggleRendering, 
-    toggleRerenderClicked, setSnackbar
+    toggleRerenderClicked, setSnackbar, resetInterface
 }

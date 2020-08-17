@@ -47,7 +47,7 @@ export default function RenderControls({context}) {
         rerender: false,
         animation: animation
     })
-    
+
     //create appstraction on click
     const handleButtonClick = () => {
         //prevent spam click of render

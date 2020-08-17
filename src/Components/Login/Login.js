@@ -15,6 +15,9 @@ import FormPage from '../FormPage/FormPage'
 import { useFirebase } from 'react-redux-firebase'
 import Error from '../FormPage/Error/Error'
 import {useHistory} from 'react-router-dom'
+import {useDispatch} from 'react-redux'
+import resetInterface from '../../Actions/Interface/resetInterface'
+import resetCanvas from '../../Actions/Canvas/resetCanvas' 
 
 const styles = makeStyles(theme => ({
     form: {
@@ -33,6 +36,8 @@ export default function Login(){
     const classes = styles();
     const history = useHistory();
     const firebase = useFirebase();
+    const dispatch = useDispatch();
+
     const [values, setValues] = useState({
         email: '',
         password: '',
@@ -65,6 +70,9 @@ export default function Login(){
 
         try {
             await firebase.login({email, password});
+
+            dispatch(resetCanvas())
+            dispatch(resetInterface())
             history.push(HOME);
         } catch (error) {
             switch(error.code) {

@@ -14,12 +14,16 @@ const initialState = {
     //stores custom preset
     customPreset: null,
     //global snackbar
-    snackbar: null, 
+    snackbar: null
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
 export default function canvasReducer(state = initialState, action){
-    switch(action.type){  
+    switch(action.type){ 
+        //reset canvas on log in to whipe demo use
+        case 'RESET_INTERFACE': 
+            return {...state, firstRender: true, createClicked: false, preset: 'default', customPreset: null}
+        //allow animations
         case 'TOGGLE_ANIMATION':
             return {...state, animation: action.payload}
         //toggled 1.5 seconds after first create button click

@@ -1,7 +1,6 @@
 import createRandomValues from '../Functions/createRandomValues'
 import defaultPreset from '../Presets/defaultPreset'
 import createSwapPattern from '../Functions/createSwapPattern'
-import defaultImage from '../Styles/defaultImage.jpeg'
 
 const maxUnits = {
     row: 12, 
@@ -11,7 +10,7 @@ const maxUnits = {
 //aerial neon cityscape sky graffiti texture experimental
 const initialState = {
     ...defaultPreset, 
-    image: defaultImage,
+    image: '',
     randomValues: createRandomValues(maxUnits),
     swapPattern: createSwapPattern(maxUnits.stripe),
     maxUnits: maxUnits
@@ -21,6 +20,10 @@ const initialState = {
 //all properties required to replicate a canvas
 export default function canvasReducer(state = initialState, action){
     switch(action.type){
+        //reset canvas on log in to whipe demo use
+        case 'RESET_CANVAS': {
+            return {...state, image: '', ...defaultPreset}
+        }
         //triggered by preset selection
         case 'LOAD_PRESET' :
             return {...state, ...action.payload}
