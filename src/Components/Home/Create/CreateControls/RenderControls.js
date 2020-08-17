@@ -41,7 +41,7 @@ export default function RenderControls({context}) {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {customPreset, createClicked, rendering, firstRender, animation, preset} = context;
+    const {customPreset, image, createClicked, rendering, firstRender, animation, preset} = context;
     //switch values
     const [state,setState] = useState({
         rerender: false,
@@ -115,7 +115,7 @@ export default function RenderControls({context}) {
 
     return (
         <>
-            <Button disabled={createClicked && !state.rerender} onClick={handleButtonClick} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
+            <Button disabled={(createClicked && !state.rerender) || !image} onClick={handleButtonClick} classes={{root: classes.button, disabled: classes.disabled}} color='primary' variant='contained'>Create Appstraction</Button>
                 <FormGroup>
                     <FormControlLabel
                         control={<Switch size='small' checked={state.rerender} onClick={handleSwitchClick} name="rerender" />}
