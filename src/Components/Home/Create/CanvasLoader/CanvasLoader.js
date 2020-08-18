@@ -9,7 +9,7 @@ export default function CanvasLoader() {
     return (    
         <Box position='absolute' zIndex={1} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
             <Box width='50%' margin='0 auto'>
-                <LinearProgress color='secondary' variant='determinate' value={progress}/>
+                <LinearProgress  variant='determinate' value={progress}/>
             </Box>
         </Box>        
     );

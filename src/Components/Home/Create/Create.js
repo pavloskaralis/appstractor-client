@@ -10,6 +10,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import { useSelector }from 'react-redux'
 import EmptyCanvas from './EmptyCanvas/EmptyCanvas'
 import CanvasLoader from './CanvasLoader/CanvasLoader'
+import LinkDialog from './LinkDialog/LinkDialog'
 
 const styles = makeStyles(theme => ({
     page: {
@@ -61,6 +62,7 @@ export default function Create() {
             aria-labelledby='hometab-0'
             className={classes.page} 
         >
+            <LinkDialog/>
             {matchesA && <CreateDrawer/>}
             <Box 
                 className={classes.artboard}               

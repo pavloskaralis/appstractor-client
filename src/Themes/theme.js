@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles'
 import purple from '@material-ui/core/colors/purple'
 import blue from '@material-ui/core/colors/blue'
 import grey from '@material-ui/core/colors/grey'
-import deepOrange from '@material-ui/core/colors/deepOrange'
+import orange from '@material-ui/core/colors/orange'
 
 const theme = createMuiTheme({
     palette: {
@@ -13,7 +13,7 @@ const theme = createMuiTheme({
             main: blue[500]
         },
         error: {
-            main: deepOrange[400]
+            main: orange[400]
         },
         text: {
             primary: grey[50],
@@ -26,6 +26,29 @@ const theme = createMuiTheme({
         },
     },
     overrides:{
+        MuiBackdrop: {
+            root: {
+                backgroundColor: `rgba(66,66,66,.5)`,
+            }
+        },
+        MuiDialog:{
+            paper: {
+                boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)'
+            }
+        },
+        MuiDialogContent: {
+            root: {
+                padding: 24
+            }
+        },
+        MuiLinearProgress: {
+            colorPrimary: {
+                backgroundColor: grey[800]
+            },
+            barColorPrimary: {
+                backgroundColor: grey[50]
+            }
+        },
         MuiTextField:{
             root:{
                 backgroundColor: grey[50],
@@ -46,8 +69,6 @@ const theme = createMuiTheme({
                     padding: '4px 14px 0 14px',
                     margin: 0,
                 },
-                '& .MuiFormHelperText-root.Mui-error':{
-                }
             }
         },
         MuiAppBar: {

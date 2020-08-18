@@ -41,7 +41,7 @@ export default function RenderControls({context}) {
     const classes = styles();
     const dispatch = useDispatch();
     //access interface state
-    const {customPreset, image, createClicked, rendering, firstRender, animation, preset} = context;
+    const {customPreset, image, createClicked, firstRender, rerenderClicked, animation, preset} = context;
     //switch values
     const [state,setState] = useState({
         rerender: false,
@@ -51,25 +51,27 @@ export default function RenderControls({context}) {
     //create appstraction on click
     const handleButtonClick = () => {
         //prevent spam click of render
-        if(rendering)return
+        if(rerenderClicked || (createClicked && firstRender) ) return
+
         //add spinning loader; resets to false after canvas receives new random values and swap pattern 
         dispatch(toggleRendering(true))
-        //enable rerender animation; resets to false after animation completes
-        if(!firstRender){
+
+        if(firstRender){
+            //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
+            dispatch(toggleCreateClicked(true)); 
+            //change animation effect after animation completes; resets to false when new image gets selected 
+            //first render transitions opacity, while rerender transitions background
+            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1500)
+        } else {
+            //enable rerender animation; resets to false after animation completes
             dispatch(toggleRerenderClicked(true))
-            setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
+            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1500)
         }
+
         setTimeout(()=>{
             //create new random values and swap pattern
             dispatch(renderAppstraction()); 
-            //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
-            if(firstRender){
-                dispatch(toggleCreateClicked(true)); 
-                //change animation effect after animation completes; resets to false when new image gets selected 
-                //first render transitions opacity, while rerender transitions background
-                setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
-            }
-        },100)
+        },firstRender ? 300 : 0)
     }
 
     //switch button on click

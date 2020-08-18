@@ -74,24 +74,23 @@ export default function GroupA(){
     const handleButtonClick = () => {
         //prevent spam render
         if(rerenderClicked || (createClicked && firstRender) ) return
-        //enable rerender animation; resets to false after animation completes
+
         if(firstRender){
+            //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
             dispatch(toggleCreateClicked(true)); 
+            //change animation effect after animation completes; resets to false when new image gets selected 
+            //first render transitions opacity, while rerender transitions background
+            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1500)
         } else {
+            //enable rerender animation; resets to false after animation completes
             dispatch(toggleRerenderClicked(true))
-            setTimeout(()=>dispatch(toggleRerenderClicked(false)),1500)
+            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1500)
         }
        
         setTimeout(()=>{
             //create new random values and swap pattern
-            dispatch(renderAppstraction()); 
-            //enable visibility of stripes; triggers first render animation; resets to false when new image gets selected
-            if(firstRender){
-                //change animation effect after animation completes; resets to false when new image gets selected 
-                //first render allows for animation difference between create and rerender
-                setTimeout(()=>dispatch(toggleFirstRender(false)),1500)
-            }
-        },firstRender? 300 : 0)
+            dispatch(renderAppstraction());      
+        },firstRender ? 300 : 0 )
     }
 
     return (

@@ -60,7 +60,7 @@ export default function canvasReducer(state = initialState, action){
         case 'TOGGLE_LOADING': 
             return {...state, loading: action.payload}
         case 'TOGGLE_LINK_DIALOG':
-            return {...state, dialog: action.payload}
+            return {...state, linkDialog: action.payload}
         default:
             return state        
     }

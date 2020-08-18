@@ -51,7 +51,7 @@ const styles = makeStyles((theme) => ({
 export default function CreateDrawer() {
     const classes = styles();
     const {quantity, maxUnits, background, pattern, shadow, image} = useSelector(state => state.canvas);
-    const {preset, customPreset, createClicked, rendering, firstRender, animation} = useSelector(state => state.interface);
+    const {preset, customPreset, createClicked, rerenderClicked, firstRender, animation} = useSelector(state => state.interface);
     const [delay, toggleDelay] = useState(false)
 
     //delay render of non visible controls to increase page load
@@ -68,7 +68,7 @@ export default function CreateDrawer() {
             <div className={classes.drawerContainer}>
                 <Toolbar/>
                 <AccordianWrap heading='Render'>
-                    <RenderControls context={{image, preset, rendering, customPreset, createClicked, firstRender, animation}}/>
+                    <RenderControls context={{image, rerenderClicked, preset,  customPreset, createClicked, firstRender, animation}}/>
                 </AccordianWrap>
                 <AccordianWrap heading='Quantity'>
                     {delay && <QuantityControls context={{preset, quantity, maxUnits}}/>}

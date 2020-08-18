@@ -11,6 +11,7 @@
     "@testing-library/user-event": "^7.1.2",
     "dom-to-image": "^2.6.0",
     "firebase": "^7.18.0",
+    "is-image-url": "^1.1.8",
     "lodash.uniqueid": "^4.0.1",
     "node-sass": "^4.14.1",
     "react": "^16.13.1",
