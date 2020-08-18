@@ -33,6 +33,9 @@ const styles = makeStyles(theme => ({
         '& .MuiFormHelperText-root':{
             backgroundColor: theme.palette.background.paper,
         },
+    },
+    content: {
+        maxWidth: 344
     }
 }))
 
@@ -72,14 +75,15 @@ export default function LinkDialog(){
         dispatch(toggleCreateClicked(false))
         dispatch(toggleFirstRender(true))
         dispatch(setImage(link))
+        //delay to stop animation
         setTimeout(()=> {
             dispatch(toggleLinkDialog(false))  
-        },50)
+        },0)
     }
 
     return (
         <Dialog onClose={handleClose} open={Boolean(linkDialog)}>
-            <DialogContent>
+            <DialogContent className={classes.content}>
                 <Avatar className={classes.avatar}>
                     <Icon className={classes.icon}>
                         <LinkIcon/>
