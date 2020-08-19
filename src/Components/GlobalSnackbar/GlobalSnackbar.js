@@ -57,7 +57,7 @@ export default function GlobalSnackbar(){
                 <IconButton size="small" aria-label="close" className={classes.iconButton} onClick={handleClose}>
                     <Tooltip title="Close" aria-label="close">
                         <CloseIcon fontSize="small" />
-                    </Tooltip>>
+                    </Tooltip>
                 </IconButton>
             }
         />

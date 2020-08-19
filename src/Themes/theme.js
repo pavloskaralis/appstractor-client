@@ -98,7 +98,7 @@ const theme = createMuiTheme({
         },
         MuiTabs: {
             root:{
-                flexShrink: 2,
+                flexShrink: 1,
             },
             indicator: {
                 backgroundColor: 'rgb(149, 75, 180)'

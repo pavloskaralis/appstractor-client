@@ -11,6 +11,7 @@ import { useSelector }from 'react-redux'
 import EmptyCanvas from './EmptyCanvas/EmptyCanvas'
 import CanvasLoader from './CanvasLoader/CanvasLoader'
 import LinkDialog from './LinkDialog/LinkDialog'
+import SearchDialog from './SearchDialog/SearchDialog'
 
 const styles = makeStyles(theme => ({
     page: {
@@ -31,7 +32,7 @@ const styles = makeStyles(theme => ({
         overflow:'auto',
         flexDirection:'column',
         justifyContent: 'center',
-
+        position: 'relative',
         [theme.breakpoints.up('sm')]: {
         minHeight: '232px'
         },
@@ -53,7 +54,7 @@ const styles = makeStyles(theme => ({
 export default function Create() {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading, linkDialog} = useSelector(state => state.interface);
+    const {rendering, loading, searchDialog, linkDialog} = useSelector(state => state.interface);
 
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
@@ -76,6 +77,7 @@ export default function Create() {
                     {!image && <EmptyCanvas/>}
                     {linkDialog && <LinkDialog/>}
                 </CanvasContainer>
+                {true && <SearchDialog/>}
             </Box> 
             {matchesB && <CreateTabs/>}
         </Box>

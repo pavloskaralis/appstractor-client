@@ -15,9 +15,18 @@ import setImage from '../../../../Actions/Canvas/setImage';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
-
+import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 
 const styles = makeStyles(theme => ({
+    container: {
+        position:'absolute', 
+        padding:'12px', 
+        zIndex:1, 
+        height:'100%', 
+        width:'100%', 
+        top:'0',
+        backgroundColor: theme.palette.background.darkDefault
+    },
     title: {
         textAlign: 'center',
         color: theme.palette.text.primary,
@@ -64,8 +73,16 @@ const styles = makeStyles(theme => ({
     iconButton: {
         color: theme.palette.text.primary,
         position: 'absolute',
-        top: 4,
-        left: 4
+        top: 12,
+        left: 12,
+        '@media (max-width: 779px) and (min-width: 600px)':{
+            top: 4,
+            left: 4,        
+        },
+        '@media (max-width: 399px)':{
+            top: 4,
+            left: 4,
+        }
     }
 }))
 
@@ -98,7 +115,7 @@ export default function LinkDialog(){
         setErrors({        
             link: '',
         }); 
-        if(!isImageUrl(link)) {
+        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/)) {
             return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
         }
         dispatch(toggleCreateClicked(false))
@@ -111,38 +128,39 @@ export default function LinkDialog(){
     }
 
     return (
-        <Box position='absolute' padding='12px' zIndex={1} height='100%' width='100%' top='0'>
-            <Box className={classes.dialog}>
-                <Avatar className={classes.avatar}>
-                    <Icon className={classes.icon}>
-                        <LinkIcon/>
-                    </Icon>
-                </Avatar>
-                <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
-        
-                <form onSubmit={handleSubmit} className={classes.form}>
-                    <TextField
-                        error={Boolean(errors.link)}
-                        helperText={errors.link && <Error>{errors.link}</Error>}
-                        color='secondary'
-                        id='link'
-                        label='Image URL'
-                        fullWidth
-                        value={values.link}
-                        onChange={handleChange}
-                        variant='filled'
-                        className={classes.textField}
-                    />
-                    <Button  type='submit' fullWidth color='secondary' variant='contained'>Link</Button>
-                </form>            
-            </Box>
-            <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
-                <Tooltip title="Close" aria-label="close">
-                    <CloseIcon fontSize='small'/>
-                </Tooltip>
-            </IconButton>  
-        </Box>
-        
+        <ClickAwayListener onClickAway={handleClose}>
+            <Box className={classes.container}>
+                <Box className={classes.dialog}>
+                    <Avatar className={classes.avatar}>
+                        <Icon className={classes.icon}>
+                            <LinkIcon/>
+                        </Icon>
+                    </Avatar>
+                    <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
+            
+                    <form onSubmit={handleSubmit} className={classes.form}>
+                        <TextField
+                            error={Boolean(errors.link)}
+                            helperText={errors.link && <Error>{errors.link}</Error>}
+                            color='secondary'
+                            id='link'
+                            label='Image URL'
+                            fullWidth
+                            value={values.link}
+                            onChange={handleChange}
+                            variant='filled'
+                            className={classes.textField}
+                        />
+                        <Button  type='submit' fullWidth color='secondary' variant='contained'>Link</Button>
+                    </form>            
+                </Box>
+                <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+                    <Tooltip title="Close" aria-label="close">
+                        <CloseIcon fontSize='small'/>
+                    </Tooltip>
+                </IconButton>  
+            </Box>           
+        </ClickAwayListener>
     );
          
   

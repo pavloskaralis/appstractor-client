@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux'
 import setImage from '../../../../Actions/Canvas/setImage'
 import { useSelector } from 'react-redux'
 import { useFirebase } from 'react-redux-firebase'
-import {toggleLoading, setProgress, toggleCreateClicked, toggleFirstRender, toggleLinkDialog, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleLoading, setProgress, toggleCreateClicked, toggleFirstRender, toggleLinkDialog, toggleSearchDialog, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     group:{
@@ -72,12 +72,17 @@ export default function ImageSelect(){
         dispatch(toggleLinkDialog(true))
     }
 
+    const handleSearch = () => {
+        dispatch(toggleSearchDialog(true))
+    }
+
+
     return (
         <>    
             <ButtonGroup className={classes.group} variant='text' size='small'      aria-label='text primary button group'>
                 <Button onClick={uploadClick}>Upload</Button>
                 <Button onClick={handleLink}>Link</Button>
-                <Button>Search</Button>    
+                <Button onClick={handleSearch}>Search</Button>    
             </ButtonGroup>
             <input onChange={handleUpload} accept="image/*" ref={inputRef} style={{display: 'none'}} id='upload' type="file" />
         </>
