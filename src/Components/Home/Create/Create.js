@@ -53,7 +53,7 @@ const styles = makeStyles(theme => ({
 export default function Create() {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading} = useSelector(state => state.interface);
+    const {rendering, loading, linkDialog} = useSelector(state => state.interface);
 
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
@@ -65,7 +65,6 @@ export default function Create() {
             aria-labelledby='hometab-0'
             className={classes.page} 
         >
-            <LinkDialog/>
             {matchesA && <CreateDrawer/>}
             <Box 
                 className={classes.artboard}               
@@ -75,6 +74,7 @@ export default function Create() {
                     {rendering && image && <CanvasSpinner/>}
                     {loading && <CanvasLoader/>}
                     {!image && <EmptyCanvas/>}
+                    {linkDialog && <LinkDialog/>}
                 </CanvasContainer>
             </Box> 
             {matchesB && <CreateTabs/>}

@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch } from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
-import Dialog from '@material-ui/core/Dialog'
-import DialogContent  from '@material-ui/core/DialogContent'
+import Box from '@material-ui/core/Box'
 import {toggleLinkDialog, toggleCreateClicked, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
 import Icon from '@material-ui/core/Icon'
 import LinkIcon from '@material-ui/icons/Link'
@@ -13,6 +12,9 @@ import Button from '@material-ui/core/Button'
 import Error from '../../../FormPage/Error/Error'
 import isImageUrl from 'is-image-url'
 import setImage from '../../../../Actions/Canvas/setImage';
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
+import Tooltip from '@material-ui/core/Tooltip'
 
 
 const styles = makeStyles(theme => ({
@@ -20,6 +22,20 @@ const styles = makeStyles(theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         marginBottom: theme.spacing(2),
+        '@media (max-width: 779px) and (min-width: 600px)':{
+            marginBottom: 0
+        },
+        '@media (max-width: 399px)':{
+            marginBottom: 0
+        }
+    },
+    textField: {
+        '@media (max-width: 779px) and (min-width: 600px)':{
+            marginBottom: theme.spacing(.5)
+        },
+        '@media (max-width: 399px)':{
+            marginBottom: theme.spacing(.5)
+        }    
     },
     avatar:{
         margin: '0 auto',
@@ -31,18 +47,31 @@ const styles = makeStyles(theme => ({
     },
     form: {
         '& .MuiFormHelperText-root':{
-            backgroundColor: theme.palette.background.paper,
+            backgroundColor: theme.palette.background.darkDefault,
         },
     },
     content: {
         maxWidth: 344
+    },
+    dialog: {
+        display:'flex',
+        flexDirection:'column', 
+        justifyContent:'center',
+        margin: '0 auto',
+        height: '100%',
+        maxWidth: 296
+    },
+    iconButton: {
+        color: theme.palette.text.primary,
+        position: 'absolute',
+        top: 4,
+        left: 4
     }
 }))
 
 export default function LinkDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
-    const linkDialog = useSelector(state => state.interface.linkDialog);
 
     const [values, setValues] = useState({
         link: '',
@@ -82,15 +111,15 @@ export default function LinkDialog(){
     }
 
     return (
-        <Dialog onClose={handleClose} open={Boolean(linkDialog)}>
-            <DialogContent className={classes.content}>
+        <Box position='absolute' padding='12px' zIndex={1} height='100%' width='100%' top='0'>
+            <Box className={classes.dialog}>
                 <Avatar className={classes.avatar}>
                     <Icon className={classes.icon}>
                         <LinkIcon/>
                     </Icon>
                 </Avatar>
-                <Typography className={classes.title} variant='h6'>Provide an Image Url</Typography>
-      
+                <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
+        
                 <form onSubmit={handleSubmit} className={classes.form}>
                     <TextField
                         error={Boolean(errors.link)}
@@ -99,15 +128,21 @@ export default function LinkDialog(){
                         id='link'
                         label='Image URL'
                         fullWidth
-                        value={values.email}
+                        value={values.link}
                         onChange={handleChange}
                         variant='filled'
+                        className={classes.textField}
                     />
-                    <Button  type='submit' fullWidth color='secondary' variant='contained'>Submit Link</Button>
-                </form>
-            </DialogContent>
-            
-        </Dialog>
+                    <Button  type='submit' fullWidth color='secondary' variant='contained'>Link</Button>
+                </form>            
+            </Box>
+            <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+                <Tooltip title="Close" aria-label="close">
+                    <CloseIcon fontSize='small'/>
+                </Tooltip>
+            </IconButton>  
+        </Box>
+        
     );
          
   

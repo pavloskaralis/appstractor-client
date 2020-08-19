@@ -9,6 +9,7 @@ import CheckCircleIcon from '@material-ui/icons/CheckCircle'
 import ErrorIcon from '@material-ui/icons/Error'
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
+import Tooltip from '@material-ui/core/Tooltip'
 
 const styles = makeStyles((theme) => ({
     iconButton: {
@@ -54,7 +55,9 @@ export default function GlobalSnackbar(){
             message={snackbar && message}
             action={
                 <IconButton size="small" aria-label="close" className={classes.iconButton} onClick={handleClose}>
-                    <CloseIcon fontSize="small" />
+                    <Tooltip title="Close" aria-label="close">
+                        <CloseIcon fontSize="small" />
+                    </Tooltip>>
                 </IconButton>
             }
         />
