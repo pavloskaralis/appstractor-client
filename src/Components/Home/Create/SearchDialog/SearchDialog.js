@@ -1,20 +1,17 @@
-import React, { useState, useEffect } from 'react'
-import {useDispatch } from 'react-redux'
+import React, { useState, useEffect, useRef } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
-import {toggleSearchDialog, toggleCreateClicked, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleSearchDialog} from '../../../../Actions/Interface/allInterfaceActions'
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import isImageUrl from 'is-image-url'
-import setImage from '../../../../Actions/Canvas/setImage';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener'
 import Pagination from '@material-ui/lab/Pagination'
 import Grow from '@material-ui/core/Grow'
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 import { useFirestoreConnect, useFirestore, isEmpty } from 'react-redux-firebase'
 import CanvasSpinner from '../CanvasSpinner/CanvasSpinner'
@@ -37,9 +34,10 @@ const styles = makeStyles(theme => ({
         top:'0',
         backgroundColor: theme.palette.background.darkDefault,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        overflow: 'auto'
     },
-    iconButton: {
+    closeButton: {
         color: theme.palette.text.primary,
         position: 'absolute',
         top: 15,
@@ -77,11 +75,11 @@ const styles = makeStyles(theme => ({
         margin: '0 auto',
         padding: theme.spacing(3, 1),
         overflow:'auto',
-        [theme.breakpoints.up('sm')]:{
+        [theme.breakpoints.up(887)]:{
             maxWidth: 600,
             overflow: 'initial'
         },
-        [theme.breakpoints.up('md')]:{
+        [theme.breakpoints.up(1247)]:{
             maxWidth: 960
         }
     },
@@ -91,14 +89,17 @@ const styles = makeStyles(theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         backgroundColor: 'transparent',
-        minHeight: 56
+        minHeight: 56,
+        boxShadow: `0px -2px 4px -1px rgba(0,0,0,0.1), 0px -4px 5px 0px rgba(0,0,0,0.07), 0px -1px 10px 0px rgba(0,0,0,0.06);`,
+        zIndex: 1
     },
     pagination: {
         margin: '0 auto',
         '& .MuiPaginationItem-page:hover': {
             backgroundColor: theme.palette.background.default,
         },
-    }
+    },
+    
 }));
 
 const categories = [
@@ -114,6 +115,7 @@ const categories = [
 
 export default function SearchDialog(){
     const classes = styles(); 
+    const ref = useRef();
     const matchesA = useMediaQuery('(max-width:1372px)');
     const matchesB = useMediaQuery('(max-width: 599px)');
     const dispatch = useDispatch();
@@ -122,6 +124,8 @@ export default function SearchDialog(){
     const stock = useSelector( state => state.firestore.data.stock);
     //condition for Grow
     const searchDialog = useSelector(state => state.interface.searchDialog);
+    //loading spinner
+    const [visible, toggleVisible] = useState(true)
     //stock photo objects derived from stock based on category and page
     const [photos, setPhotos] = useState([]);
     //track Grow so ClickAway doesn't interfere
@@ -134,8 +138,12 @@ export default function SearchDialog(){
     const [page, setPage] = useState(1);
 
     const handlePageChange = (event, value) => {
-        setPage(value);
-        setPhotos(stock[category].data[value]);
+        toggleVisible(true);
+        setTimeout(()=>{
+            setPage(value);
+            setPhotos(stock[category].data[value]);
+            ref.current.scrollTop = 0; 
+        },0)
     } 
 
     //close search
@@ -154,6 +162,11 @@ export default function SearchDialog(){
         setTab(newTab);
     };
 
+    //remove spinner
+    useEffect(()=> {
+        if(photos.length) toggleVisible(false);
+    },[photos])
+
     useEffect(()=> {
         if(isEmpty(stock)) return; 
 
@@ -168,7 +181,6 @@ export default function SearchDialog(){
                 const query = api + id + params + category;
                 const {data:{results}} = await axios.get(query);
                 const reduced = results.reduce((output, obj) => {
-                    console.log(obj.id)
                     const newObj = {
                         id: obj.id, 
                         url: obj.urls.regular,
@@ -188,7 +200,7 @@ export default function SearchDialog(){
         }
 
         //check if unsplash request has already been made within 24hours
-        const isCache = async () => {
+        const checkDate = async () => {
             if(!stock[category]) return getStock(); 
             const categoryDate = stock[category].date;
             const today = new Date();
@@ -198,36 +210,21 @@ export default function SearchDialog(){
             if(diffDays > 1) {
                 await getStock();
             } else {
-                setPage(1)
-                setPhotos(stock[category].data[1]);
+                toggleVisible(true);
+                setTimeout(()=> {
+                    setPage(1)
+                    setPhotos(stock[category].data[1]);
+                    ref.current.scrollTop = 0; 
+                },0)
             }
         }
         
-        isCache();
+        checkDate();
     },[category, stock])
-
-
-    const handleSubmit = async (event) =>{
-        event.preventDefault();
-        // const {link} = values; 
-        // setErrors({        
-        //     link: '',
-        // }); 
-        // if(!isImageUrl(link)) {
-        //     return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
-        // }
-        // dispatch(toggleCreateClicked(false))
-        // dispatch(toggleFirstRender(true))
-        // dispatch(setImage(link))
-        // //delay to stop animation
-        // setTimeout(()=> {
-        //     dispatch(toggleSearchDialog(false))  
-        // },0)
-    }
 
     return (
         <ClickAwayListener onClickAway={handleClose}>
-            <Grow in={true}>
+            <Grow in={searchDialog}>
                 <Box className={classes.container}>
                     <AppBar position="static" className={classes.appBar}>
                         <Tabs
@@ -237,27 +234,31 @@ export default function SearchDialog(){
                             aria-label="stock-categories"
                             className={classes.tabs}
                             scrollButtons="on"
-                            centered
+                            centered={matchesA ? false : true}
                         >
                             {categories.map((category, i) =>  {
                                 return <Tab key={category} label={category} {...a11yProps(i)} />
                             })}                            
                         </Tabs>
-                    </AppBar>       
+                    </AppBar>    
 
-                    <Box className={classes.stock}>
-                        {!photos.length && <CanvasSpinner/>}
-                        {photos.map((photo,i)=>{
-                            return(
-                                <Stock name={photo.name} url={photo.url} link={photo.link} key={photo.id}/>
-                            )
-                        })}
+                    <Box ref={ref} overflow='auto' height='100%'>
+                        {visible && <CanvasSpinner/>}
+                        <Box className={classes.stock}>
+                            {photos.map((photo,i)=>{
+                                return(
+                                    <Stock name={photo.name} url={photo.url} link={photo.link} key={photo.id}/>
+                                )
+                            })}
+                        </Box>
                     </Box>
+                    
 
                     <Box className={classes.bottomNav}>
                         <Pagination size={matchesB ? 'small' : ''} color='secondary' onChange={handlePageChange} count={10} page={page}  shape="rounded"  className={classes.pagination}/>
                     </Box>
-                    <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+
+                    <IconButton onClick={handleClose} size='small' className={classes.closeButton} aria-label='close'>
                         <Tooltip title="Close" aria-label="close">
                             <CloseIcon fontSize='small'/>
                         </Tooltip>
