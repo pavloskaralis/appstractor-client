@@ -93,7 +93,7 @@ export default function Stock({url,name,link}) {
                     <Box className={classes.border}>
                         <Box className={classes.linkContainer}>
                             <Link href={link} color='inherit' target='_blank' rel='noopener'>{name}</Link>
-                            <Typography className={classes.text} variant='link'> | </Typography>
+                            <Typography className={classes.text} variant='inherit'> | </Typography>
                             <Link href='https://unsplash.com/' target='_blank' rel='noopener' color='inherit'>Unsplash</Link>
                         </Box>  
                     </Box>

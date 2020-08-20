@@ -55,7 +55,7 @@ export default function Canvas(){
         if(rendering)dispatch(toggleRendering(false))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[randomValues, swapPattern, quantity, shadow, background, pattern])
-    //stopp loading spinner; seperated incase custom matches another preset
+    //stop loading spinner; seperated incase custom matches another preset
     useEffect(()=>{
         if(rendering)setTimeout(()=>dispatch(toggleRendering(false)),100)
         // eslint-disable-next-line react-hooks/exhaustive-deps

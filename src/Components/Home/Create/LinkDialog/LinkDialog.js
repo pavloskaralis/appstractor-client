@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import {useDispatch } from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
@@ -18,6 +18,7 @@ import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector} from 'react-redux'
 import Grow from '@material-ui/core/Grow'
 import { ClickAwayListener } from '@material-ui/core';
+import ClickAwayWrap from '../ClickAwayWrap/ClickAwayWrap'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -92,8 +93,6 @@ export default function LinkDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
     const linkDialog = useSelector(state => state.interface.linkDialog);
-    const [open, toggleOpen] = useState(false);
-
     const [values, setValues] = useState({
         link: '',
     })
@@ -109,15 +108,19 @@ export default function LinkDialog(){
     };
 
     const handleClose = () => {
-        if(open){
-            toggleOpen(false)
-            dispatch(toggleLinkDialog(false))
-            setTimeout(()=>setErrors({link: ''}),336)
-        } else {
-            toggleOpen(true)
-        }
+        dispatch(toggleLinkDialog(false))  
     };
   
+    //erase errors and values on
+    useLayoutEffect(()=> {
+        if(errors.link){
+            setErrors({link: ''});
+        }
+        if(values.link){
+            setValues({link: ''});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[linkDialog])
 
     const handleSubmit = async (event) =>{
         event.preventDefault();
@@ -131,6 +134,7 @@ export default function LinkDialog(){
         dispatch(toggleCreateClicked(false))
         dispatch(toggleFirstRender(true))
         dispatch(setImage(link))
+
         //delay to stop animation
         setTimeout(()=> {
             dispatch(toggleLinkDialog(false))  
@@ -138,7 +142,7 @@ export default function LinkDialog(){
     }
 
     return (
-        <ClickAwayListener onClickAway={handleClose}>
+        <ClickAwayWrap type='link'>
             <Grow in={linkDialog}>
                 <Box className={classes.container}>
                     <Box className={classes.dialog}>
@@ -172,7 +176,7 @@ export default function LinkDialog(){
                     </IconButton>  
                 </Box>     
             </Grow>   
-        </ClickAwayListener>   
+        </ClickAwayWrap>
     );
          
   

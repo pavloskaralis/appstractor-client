@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import {toggleSearchDialog} from '../../../../Actions/Interface/allInterfaceActions'
@@ -8,9 +8,9 @@ import Tab from '@material-ui/core/Tab';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import ClickAwayWrap from '../ClickAwayWrap/ClickAwayWrap'
 import Pagination from '@material-ui/lab/Pagination'
-import Grow from '@material-ui/core/Grow'
+import Slide from '@material-ui/core/Slide'
 import {useSelector, useDispatch} from 'react-redux'
 import axios from 'axios'
 import { useFirestoreConnect, useFirestore, isEmpty } from 'react-redux-firebase'
@@ -35,7 +35,8 @@ const styles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.darkDefault,
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'auto'
+        overflow: 'auto',
+        transition: 'all 423ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
     },
     closeButton: {
         color: theme.palette.text.primary,
@@ -70,11 +71,10 @@ const styles = makeStyles(theme => ({
         overflow: 'auto',
         display:'flex',
         flexWrap:'wrap',
-        flexGrow: 1, 
+        flexSlide: 1, 
         width: '100%',
         margin: '0 auto',
         padding: theme.spacing(3, 1),
-        overflow:'auto',
         [theme.breakpoints.up(887)]:{
             maxWidth: 600,
             overflow: 'initial'
@@ -122,14 +122,12 @@ export default function SearchDialog(){
     const firestore = useFirestore();
     useFirestoreConnect('stock') ;
     const stock = useSelector( state => state.firestore.data.stock);
-    //condition for Grow
+    //condition for Slide
     const searchDialog = useSelector(state => state.interface.searchDialog);
     //loading spinner
     const [visible, toggleVisible] = useState(true)
     //stock photo objects derived from stock based on category and page
     const [photos, setPhotos] = useState([]);
-    //track Grow so ClickAway doesn't interfere
-    const [open, toggleOpen] = useState(false);
     //triggers cache check and conditional api request for stock 
     const [category, setCategory] = useState(categories[0]);
     //current tab value
@@ -142,18 +140,12 @@ export default function SearchDialog(){
         setTimeout(()=>{
             setPage(value);
             setPhotos(stock[category].data[value]);
-            ref.current.scrollTop = 0; 
         },0)
     } 
 
     //close search
     const handleClose = () => {
-        if(open){
-            toggleOpen(false)
-            dispatch(toggleSearchDialog(false))
-        } else {
-            toggleOpen(true)
-        }
+        dispatch(toggleSearchDialog(false))
     };
 
     const handleTabChange = (event, newTab) => {
@@ -162,10 +154,16 @@ export default function SearchDialog(){
         setTab(newTab);
     };
 
+    //set scroll to top on close/open
+    useLayoutEffect(()=> {
+        if(ref.current.scrollTop > 0) ref.current.scrollTop = 0; 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[searchDialog])
+
     //remove spinner
     useEffect(()=> {
         if(photos.length) toggleVisible(false);
-    },[photos])
+    },[photos]);
 
     useEffect(()=> {
         if(isEmpty(stock)) return; 
@@ -218,19 +216,18 @@ export default function SearchDialog(){
                 },0)
             }
         }
-        
         checkDate();
-    },[category, stock])
+    },[category, stock, firestore])
 
     return (
-        <ClickAwayListener onClickAway={handleClose}>
-            <Grow in={searchDialog}>
+        <ClickAwayWrap type='search'>
+            <Slide in={searchDialog}>
                 <Box className={classes.container}>
                     <AppBar position="static" className={classes.appBar}>
                         <Tabs
                             value={tab}
                             onChange={handleTabChange}
-                            variant={matchesA ? 'scrollable' : ''}
+                            variant={matchesA ? 'scrollable' : 'standard'}
                             aria-label="stock-categories"
                             className={classes.tabs}
                             scrollButtons="on"
@@ -255,7 +252,7 @@ export default function SearchDialog(){
                     
 
                     <Box className={classes.bottomNav}>
-                        <Pagination size={matchesB ? 'small' : ''} color='secondary' onChange={handlePageChange} count={10} page={page}  shape="rounded"  className={classes.pagination}/>
+                        <Pagination size={matchesB ? 'small' : 'medium'} color='secondary' onChange={handlePageChange} count={10} page={page}  shape="rounded"  className={classes.pagination}/>
                     </Box>
 
                     <IconButton onClick={handleClose} size='small' className={classes.closeButton} aria-label='close'>
@@ -264,8 +261,8 @@ export default function SearchDialog(){
                         </Tooltip>
                     </IconButton>  
                 </Box> 
-            </Grow>          
-        </ClickAwayListener>
+            </Slide>          
+        </ClickAwayWrap>
     );
          
   
