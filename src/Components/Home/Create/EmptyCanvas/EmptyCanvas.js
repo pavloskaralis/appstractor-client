@@ -24,7 +24,7 @@ export default function EmptyCanvas(){
     const loading = useSelector(state => state.interface.loading)
     return (
         <Box className={classes.group} >
-            {!loading && <ImageSelect/>}
+            {!loading && <ImageSelect type='canvas'/>}
         </Box>
     )
 

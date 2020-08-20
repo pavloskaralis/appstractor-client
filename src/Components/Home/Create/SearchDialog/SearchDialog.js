@@ -8,7 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
-import ClickAwayWrap from '../ClickAwayWrap/ClickAwayWrap'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Pagination from '@material-ui/lab/Pagination'
 import Slide from '@material-ui/core/Slide'
 import {useSelector, useDispatch} from 'react-redux'
@@ -17,6 +17,7 @@ import { useFirestoreConnect, useFirestore, isEmpty } from 'react-redux-firebase
 import CanvasSpinner from '../CanvasSpinner/CanvasSpinner'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Stock from './Stock/Stock'
+import Toolbar from '@material-ui/core/Toolbar';
 
 function a11yProps(index) {
     return {
@@ -36,12 +37,12 @@ const styles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         overflow: 'auto',
-        transition: 'all 423ms cubic-bezier(0.4, 0, 0.2, 1) 0ms'
+        transition: 'all 423ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
     },
     closeButton: {
         color: theme.palette.text.primary,
         position: 'absolute',
-        top: 15,
+        top: 71,
         left: 12,
         zIndex: 1201, 
         '@media (min-width: 600px)': {
@@ -137,6 +138,7 @@ export default function SearchDialog(){
 
     const handlePageChange = (event, value) => {
         toggleVisible(true);
+        ref.current.scrollTop = 0; 
         setTimeout(()=>{
             setPage(value);
             setPhotos(stock[category].data[value]);
@@ -145,6 +147,7 @@ export default function SearchDialog(){
 
     //close search
     const handleClose = () => {
+        if(!searchDialog) return;
         dispatch(toggleSearchDialog(false))
     };
 
@@ -206,13 +209,14 @@ export default function SearchDialog(){
             const diffDays = (diffTime / 86400000).toFixed(2);
             //if over 24 hours, initiate request, otherwise use cache 
             if(diffDays > 1) {
+                toggleVisible(true);
                 await getStock();
             } else {
                 toggleVisible(true);
+                ref.current.scrollTop = 0; 
                 setTimeout(()=> {
                     setPage(1)
                     setPhotos(stock[category].data[1]);
-                    ref.current.scrollTop = 0; 
                 },0)
             }
         }
@@ -220,9 +224,14 @@ export default function SearchDialog(){
     },[category, stock, firestore])
 
     return (
-        <ClickAwayWrap type='search'>
+        <ClickAwayListener
+            mouseEvent="onMouseDown"
+            touchEvent="onTouchStart"
+            onClickAway={handleClose}
+        >
             <Slide in={searchDialog}>
                 <Box className={classes.container}>
+                    {matchesB && <Toolbar/>}
                     <AppBar position="static" className={classes.appBar}>
                         <Tabs
                             value={tab}
@@ -262,8 +271,9 @@ export default function SearchDialog(){
                     </IconButton>  
                 </Box> 
             </Slide>          
-        </ClickAwayWrap>
+        </ClickAwayListener>
     );
          
-  
 }
+
+// 1.3 .2

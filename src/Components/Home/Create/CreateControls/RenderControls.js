@@ -31,7 +31,10 @@ const styles = makeStyles((theme) => ({
         },
         '& .MuiFormLabel-colorSecondary.Mui-focused':{
             color: theme.palette.text.secondary,
-        }    
+        },
+        '& .MuiInputLabel-outlined': {
+            zIndex: 0
+        }  
 
     }
 

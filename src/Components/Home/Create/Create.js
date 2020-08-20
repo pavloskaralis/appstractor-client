@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Canvas from '../../Canvas/Canvas'
@@ -54,12 +54,16 @@ const styles = makeStyles(theme => ({
 export default function Create() {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading} = useSelector(state => state.interface);
-    
+    const {rendering, loading, linkDialog, searchDialog} = useSelector(state => state.interface);
+    const [delay, toggleDelay] = useState(false);
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
     const matchesB = useMediaQuery('(max-width:599px)');
- 
+    //improve page load
+    useEffect(()=> {
+        setTimeout(()=> toggleDelay(true),500)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[])
     return (
         <Box 
             id='hometabpanel-0'
@@ -75,11 +79,17 @@ export default function Create() {
                     {rendering && image && <CanvasSpinner/>}
                     {loading && <CanvasLoader/>}
                     {!image && <EmptyCanvas/>}
-                    <LinkDialog/>
+                    {delay && <LinkDialog/>}
                 </CanvasContainer>
-                <SearchDialog/>
+                {delay && matchesA && <SearchDialog/>}
             </Box> 
+            {delay && matchesB && <SearchDialog/>}
+
             {matchesB && <CreateTabs/>}
         </Box>
     );
 }
+
+//12.9 1.8
+
+//

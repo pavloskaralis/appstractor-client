@@ -17,8 +17,7 @@ import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector} from 'react-redux'
 import Grow from '@material-ui/core/Grow'
-import { ClickAwayListener } from '@material-ui/core';
-import ClickAwayWrap from '../ClickAwayWrap/ClickAwayWrap'
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -108,6 +107,7 @@ export default function LinkDialog(){
     };
 
     const handleClose = () => {
+        if(!linkDialog) return;
         dispatch(toggleLinkDialog(false))  
     };
   
@@ -142,7 +142,11 @@ export default function LinkDialog(){
     }
 
     return (
-        <ClickAwayWrap type='link'>
+        <ClickAwayListener
+            mouseEvent="onMouseDown"
+            touchEvent="onTouchStart"
+            onClickAway={handleClose}
+        >
             <Grow in={linkDialog}>
                 <Box className={classes.container}>
                     <Box className={classes.dialog}>
@@ -176,7 +180,7 @@ export default function LinkDialog(){
                     </IconButton>  
                 </Box>     
             </Grow>   
-        </ClickAwayWrap>
+        </ClickAwayListener>
     );
          
   

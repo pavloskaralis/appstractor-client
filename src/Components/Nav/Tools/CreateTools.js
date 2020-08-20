@@ -4,13 +4,11 @@ import IconButton from '@material-ui/core/IconButton'
 import Menu from '@material-ui/core/Menu'
 import ImageIcon from '@material-ui/icons/Image'
 import SaveIcon from '@material-ui/icons/Save'
-import MenuItem from '@material-ui/core/MenuItem'
 import {makeStyles} from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
-import CloudUploadIcon from '@material-ui/icons/CloudUpload'
-import LinkIcon from '@material-ui/icons/Link'
-import SearchIcon from '@material-ui/icons/Search'
+
+
 import {useSelector} from 'react-redux'
 import ImageSelect from './SubTools/ImageSelect'
 
@@ -22,9 +20,7 @@ const styles = makeStyles(theme => ({
     iconButton: {
          color: theme.palette.text.primary,
     }, 
-    icon:{
-        marginRight: theme.spacing(2)
-    }
+
 }))
 
 export default function CreateTools(){
@@ -66,9 +62,7 @@ export default function CreateTools(){
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
                     >
-                        <MenuItem onClick={handleClose}><CloudUploadIcon fontSize='small' className={classes.icon}/>Upload</MenuItem>
-                        <MenuItem onClick={handleClose}><LinkIcon fontSize='small' className={classes.icon}/>Link</MenuItem>
-                        <MenuItem onClick={handleClose}><SearchIcon fontSize='small' className={classes.icon}/>Search</MenuItem>
+                        <ImageSelect handleClose={handleClose}/>
                     </Menu>
                 </>
             }
