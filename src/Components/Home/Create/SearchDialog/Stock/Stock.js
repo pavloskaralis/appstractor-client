@@ -19,7 +19,7 @@ import {useInView} from 'react-intersection-observer';
 
 const styles = makeStyles(theme => ({
     card: {
-        minHeight: 250,
+        minHeight: 190,
         cursor: 'pointer',
         position: 'relative',
         display: 'flex',
@@ -100,7 +100,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo() {
+export default function Stock({url,name,link}) {
     const classes = styles(); 
     const [select, toggleSelect] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);  
@@ -128,64 +128,12 @@ export default function Photo() {
             { inView && 
                 <>
                     <Box border={select ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
-                    <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
-                        <Tooltip title="Actions" aria-label="Actions">
-                            <MoreVertIcon />
-                        </Tooltip>
-                    </IconButton> 
-                    <Menu 
-                        anchorEl={anchorEl}
-                        keepMounted
-                        open={Boolean(anchorEl)}
-                        onClose={handleClose}
-                    >
-                        <MenuItem id='Edit'>
-                            <EditIcon fontSize='small' className={classes.icon}/>Edit
-                        </MenuItem>
-                        <MenuItem id='Rename' >
-                            <TitleIcon fontSize='small' className={classes.icon}/>Rename
-                        </MenuItem>
-                        <MenuItem id='Delete' >
-                            <DeleteForeverIcon fontSize='small' className={classes.icon}/>Delete
-                        </MenuItem>
-                    </Menu>     
-                    
+                 
                     <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
-                    />
-                    
-                    <ButtonGroup  variant='text' className={classes.group}>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
-                            View
-                        </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
-                            Download
-                        </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
-                            Link
-                        </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
-                            Share
-                        </Button>
-                    </ButtonGroup>
-
-                    <Box className={classes.cardContent}>
-                        <Checkbox
-                            size='small'
-                            checked={select}
-                            onChange={handleCheckboxChange}
-                            name="confirm"
-                            className={classes.checkbox}
-                        />
-                        <Box display='flex' height='100%' flexDirection='column' justifyContent='center'>
-                            <Typography className={classes.title} variant="h6" >
-                                Title
-                            </Typography>
-                        </Box>
-
-                    </Box>
+                        className={classes.cardMedia}
+                        image={url}
+                        title="Image title"
+                    />    
                 </>
             }
         </Box>

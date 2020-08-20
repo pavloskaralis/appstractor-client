@@ -15,7 +15,9 @@ import setImage from '../../../../Actions/Canvas/setImage';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
-import ClickAwayListener from '@material-ui/core/ClickAwayListener'
+import {useSelector} from 'react-redux'
+import Grow from '@material-ui/core/Grow'
+import { ClickAwayListener } from '@material-ui/core';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -89,6 +91,8 @@ const styles = makeStyles(theme => ({
 export default function LinkDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
+    const linkDialog = useSelector(state => state.interface.linkDialog);
+    const [open, toggleOpen] = useState(false);
 
     const [values, setValues] = useState({
         link: '',
@@ -105,7 +109,13 @@ export default function LinkDialog(){
     };
 
     const handleClose = () => {
-       dispatch(toggleLinkDialog(false))
+        if(open){
+            toggleOpen(false)
+            dispatch(toggleLinkDialog(false))
+            setTimeout(()=>setErrors({link: ''}),336)
+        } else {
+            toggleOpen(true)
+        }
     };
   
 
@@ -129,38 +139,40 @@ export default function LinkDialog(){
 
     return (
         <ClickAwayListener onClickAway={handleClose}>
-            <Box className={classes.container}>
-                <Box className={classes.dialog}>
-                    <Avatar className={classes.avatar}>
-                        <Icon className={classes.icon}>
-                            <LinkIcon/>
-                        </Icon>
-                    </Avatar>
-                    <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
-            
-                    <form onSubmit={handleSubmit} className={classes.form}>
-                        <TextField
-                            error={Boolean(errors.link)}
-                            helperText={errors.link && <Error>{errors.link}</Error>}
-                            color='secondary'
-                            id='link'
-                            label='Image URL'
-                            fullWidth
-                            value={values.link}
-                            onChange={handleChange}
-                            variant='filled'
-                            className={classes.textField}
-                        />
-                        <Button  type='submit' fullWidth color='secondary' variant='contained'>Link</Button>
-                    </form>            
-                </Box>
-                <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
-                    <Tooltip title="Close" aria-label="close">
-                        <CloseIcon fontSize='small'/>
-                    </Tooltip>
-                </IconButton>  
-            </Box>           
-        </ClickAwayListener>
+            <Grow in={linkDialog}>
+                <Box className={classes.container}>
+                    <Box className={classes.dialog}>
+                        <Avatar className={classes.avatar}>
+                            <Icon className={classes.icon}>
+                                <LinkIcon/>
+                            </Icon>
+                        </Avatar>
+                        <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
+                
+                        <form onSubmit={handleSubmit} className={classes.form}>
+                            <TextField
+                                error={Boolean(errors.link)}
+                                helperText={errors.link && <Error>{errors.link}</Error>}
+                                color='secondary'
+                                id='link'
+                                label='Image URL'
+                                fullWidth
+                                value={values.link}
+                                onChange={handleChange}
+                                variant='filled'
+                                className={classes.textField}
+                            />
+                            <Button  type='submit' fullWidth color='secondary' variant='contained'>Link</Button>
+                        </form>            
+                    </Box>
+                    <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+                        <Tooltip title="Close" aria-label="close">
+                            <CloseIcon fontSize='small'/>
+                        </Tooltip>
+                    </IconButton>  
+                </Box>     
+            </Grow>   
+        </ClickAwayListener>   
     );
          
   
