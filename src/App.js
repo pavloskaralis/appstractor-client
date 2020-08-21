@@ -23,7 +23,6 @@ import {useSelector} from 'react-redux'
 import {isEmpty} from 'react-redux-firebase'
 import GlobalSnackbar from './Components/GlobalSnackbar/GlobalSnackbar'
 import GlobalBackdrop from './Components/GlobalBackdrop/GlobalBackdrop'
-import Capture from './Components/Capture/Capture'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -59,7 +58,6 @@ function App() {
         <Switch>        
           <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
           <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
-          <Route exact path={ROUTES.CAPTURE} component={Capture}/>
 
           <PrivateRoute path={ROUTES.CREATE} component={Create}/>
           <PrivateRoute path={ROUTES.GALLERY} component={Gallery}/>

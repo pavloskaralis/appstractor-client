@@ -8,7 +8,7 @@ import Typography  from '@material-ui/core/Typography';
 import {useDispatch} from 'react-redux'
 import {toggleSearchDialog, toggleCreateClicked, toggleFirstRender} from '../../../../../Actions/Interface/allInterfaceActions'
 import setImage from '../../../../../Actions/Canvas/setImage';
-
+import axios from 'axios'
 const styles = makeStyles(theme => ({
     card: {
         minHeight: 180,
@@ -67,7 +67,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Stock({url,name,link}) {
+export default function Stock({url,name,link, download}) {
     const classes = styles(); 
     const dispatch = useDispatch();
 
@@ -78,6 +78,9 @@ export default function Stock({url,name,link}) {
     })
 
     const handleClick = () => {
+        const id = '4229c9ccce8609e45051cea4103298e9a0bc85c2173c8c719dfde18bf2ea0ee2'
+        const api = download + '?client_id='
+        axios.get(api + id);
         dispatch(toggleCreateClicked(false))
         dispatch(toggleFirstRender(true))
         dispatch(setImage(url))

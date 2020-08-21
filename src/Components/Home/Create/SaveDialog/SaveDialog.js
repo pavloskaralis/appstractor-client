@@ -16,7 +16,6 @@ import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import {useFirestoreConnect} from 'react-redux-firebase'
 import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/allInterfaceActions'
-import capture from 'capture-chrome'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -140,14 +139,10 @@ export default function SaveDialog(){
                 return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
             }
             //trigger capture and pass title 
-            // dispatch(toggleSaveDialog(false));  
-            // dispatch(toggleCapture(title))
-            capture({
-                url: 'https://appstractor.com/capture'
-              }).then(screenshot => {
-                fs.writeFileSync(`${__dirname}/example.png`, screenshot)
-                console.log('open example.png')
-              })
+            dispatch(toggleSaveDialog(false));  
+            setTimeout(()=>{
+                dispatch(toggleCapture(title));
+            },0)
         },150)  
 
     }

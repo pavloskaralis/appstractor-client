@@ -60,7 +60,7 @@ export default function ImageSelect({handleClose, type}){
                 () => {
                     dispatch(setProgress(0))
                     dispatch(toggleLoading(false))
-                    dispatch(setSnackbar({success: false, message: 'File size exceeds 20mb limit.'}))
+                    dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
                 },
             () => {
                 storage

@@ -87,7 +87,7 @@ export default function Create() {
             </Box> 
             {delay && matchesB && <SearchDialog/>}
             {matchesB && <CreateTabs/>}
-            {/* {capture && <Capture/>} */}
+            {capture && <Capture/>}
         </Box>
     );
 }

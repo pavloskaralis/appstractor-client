@@ -16,24 +16,25 @@ export default function Capture () {
     const [blob,setBlob] = useState(null);
 
     useEffect(()=> {
-        // dispatch(toggleRendering(true));
-        // dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 90 seconds).'}))
-        // setTimeout(()=> {
-        //     console.log('capturing')
-        //     console.log(row * block * stripe)
-        //     domtoimage.toBlob(document.getElementById('capture'))
-        //     .then(function (blob) {
-        //         // dispatch(setSnackbar({success: true, capture: true, message: 'Uploading image to server.'}))
-        //         // dispatch(toggleLoading(true));
-        //         // dispatch(toggleRendering(false));
-        //         setBlob(blob);
-        //     });
-        // },row * block * stripe)
+        dispatch(toggleRendering(true));
+        dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 90 seconds).'}))
+        setTimeout(()=> {
+            console.log('capturing')
+            console.log(row * block * stripe)
+            domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
+            .then(function (blob) {
+                // dispatch(setSnackbar({success: true, capture: true, message: 'Uploading image to server.'}))
+                // dispatch(toggleLoading(true));
+                // dispatch(toggleRendering(false));
+                setBlob(blob);
+                // console.log(blob)
+            });
+        },0)
     },[])
 
     useEffect(()=> {
         if(!blob) return;
-        console.log(blob)
+        setTimeout(()=> console.log(blob),100)
 
         // const storage = firebase.storage();
         // const uploadTask = storage.ref(`images/appstractions/${uid}/${capture}`).put(blob);
@@ -76,9 +77,14 @@ export default function Capture () {
     },[blob])
 
     return(
-        <Box id='capture' zIndex={1201} width='1800px' height='1200px' position='absolute'>
+        <div id='capture' style={{
+            zIndex: 1,
+            width: '1800px',
+            height: '1200px',
+            position: 'absolute'
+        }}>
             <Canvas/>
-        </Box>
+        </div>
     )
 }
 

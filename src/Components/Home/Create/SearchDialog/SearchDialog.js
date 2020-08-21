@@ -186,7 +186,8 @@ export default function SearchDialog(){
                         id: obj.id, 
                         url: obj.urls.regular,
                         name: obj.user.name,
-                        link: obj.user.links.html
+                        link: obj.user.links.html,
+                        download: obj.links.download_location
                     }
                     output.push(newObj);
                     return output;
@@ -253,7 +254,7 @@ export default function SearchDialog(){
                         <Box className={classes.stock}>
                             {photos.map((photo,i)=>{
                                 return(
-                                    <Stock name={photo.name} url={photo.url} link={photo.link} key={photo.id}/>
+                                    <Stock name={photo.name} url={photo.url} link={photo.link} key={photo.id} download={photo.download}/>
                                 )
                             })}
                         </Box>
