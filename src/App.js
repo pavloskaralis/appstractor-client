@@ -22,6 +22,8 @@ import PublicRoute from './Firebase/PublicRoute'
 import {useSelector} from 'react-redux'
 import {isEmpty} from 'react-redux-firebase'
 import GlobalSnackbar from './Components/GlobalSnackbar/GlobalSnackbar'
+import GlobalBackdrop from './Components/GlobalBackdrop/GlobalBackdrop'
+import Capture from './Components/Capture/Capture'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -53,24 +55,26 @@ function App() {
       <AuthIsLoaded>
         <Nav/>
         <GlobalSnackbar/>
-          <Switch>        
-            <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
-            <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
+        <GlobalBackdrop/>
+        <Switch>        
+          <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
+          <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
+          <Route exact path={ROUTES.CAPTURE} component={Capture}/>
 
-            <PrivateRoute path={ROUTES.CREATE} component={Create}/>
-            <PrivateRoute path={ROUTES.GALLERY} component={Gallery}/>
-            <PrivateRoute path={ROUTES.FEEDBACK} component={Feedback}/>
-            <PrivateRoute path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
-            <PrivateRoute path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
-            <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
-            
-            <PublicRoute exact path={ROUTES.DEMO} component={Demo}/>
-            <PublicRoute exact path={ROUTES.SIGNUP} component={Signup}/>
-            <PublicRoute exact path={ROUTES.LOGIN} component={Login}/>
-            <PublicRoute exact path={ROUTES.RECOVER} component={Recover}/>
+          <PrivateRoute path={ROUTES.CREATE} component={Create}/>
+          <PrivateRoute path={ROUTES.GALLERY} component={Gallery}/>
+          <PrivateRoute path={ROUTES.FEEDBACK} component={Feedback}/>
+          <PrivateRoute path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
+          <PrivateRoute path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
+          <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
+          
+          <PublicRoute exact path={ROUTES.DEMO} component={Demo}/>
+          <PublicRoute exact path={ROUTES.SIGNUP} component={Signup}/>
+          <PublicRoute exact path={ROUTES.LOGIN} component={Login}/>
+          <PublicRoute exact path={ROUTES.RECOVER} component={Recover}/>
 
-            <Redirect from='*' to={ROUTES.PAGE_NOT_FOUND}/> 
-          </Switch>
+          <Redirect from='*' to={ROUTES.PAGE_NOT_FOUND}/> 
+        </Switch>
       </AuthIsLoaded>
     
     </Box>

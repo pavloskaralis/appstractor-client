@@ -16,6 +16,7 @@ import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import {useFirestoreConnect} from 'react-redux-firebase'
 import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/allInterfaceActions'
+import capture from 'capture-chrome'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -89,7 +90,7 @@ const styles = makeStyles(theme => ({
 export default function SaveDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
-    const saveDialog = useSelector(state => state.interface).saveDialog;
+    const saveDialog = useSelector(state => state.interface.saveDialog);
     const uid = useSelector(state => state.firebase.auth.uid);
     useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
     const appstractions = useSelector( state => state.firestore.data.appstractions);
@@ -126,19 +127,29 @@ export default function SaveDialog(){
 
     const handleSubmit = async (event) =>{
         event.preventDefault();
-        const {title} = values; 
-        setErrors({        
-            title: '',
-        }); 
-        if(!title) {
-            return setErrors(errors => ({...errors, title:'Image title cannot be left blank.'}))
-        }
-        if(appstractions && appstractions[title]){
-            return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
-        }
-        //trigger capture and pass title 
-        dispatch(toggleCapture(title));
-        dispatch(toggleSaveDialog(false));
+         
+        setTimeout(()=> {
+            const {title} = values; 
+            setErrors({        
+                title: '',
+            }); 
+            if(!title) {
+                return setErrors(errors => ({...errors, title:'Image title cannot be left blank.'}))
+            }
+            if(appstractions && appstractions[title]){
+                return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
+            }
+            //trigger capture and pass title 
+            // dispatch(toggleSaveDialog(false));  
+            // dispatch(toggleCapture(title))
+            capture({
+                url: 'https://appstractor.com/capture'
+              }).then(screenshot => {
+                fs.writeFileSync(`${__dirname}/example.png`, screenshot)
+                console.log('open example.png')
+              })
+        },150)  
+
     }
 
     return (

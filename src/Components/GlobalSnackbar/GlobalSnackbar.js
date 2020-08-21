@@ -10,6 +10,7 @@ import ErrorIcon from '@material-ui/icons/Error'
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
+import ScheduleIcon from '@material-ui/icons/Schedule'
 
 const styles = makeStyles((theme) => ({
     iconButton: {
@@ -39,7 +40,7 @@ export default function GlobalSnackbar(){
     const message = (
         <Box display='flex'> 
             {snackbar && snackbar.success ? 
-                <CheckCircleIcon className={classes.icon} size='small' color='secondary'/> :
+                snackbar.capture ?  <ScheduleIcon className={classes.icon} size='small' color='secondary'/>  : <CheckCircleIcon className={classes.icon} size='small' color='secondary'/> :
                 <ErrorIcon className={classes.icon} size='small' color='error'/>
             }
             <Typography className={classes.text}>{snackbar && snackbar.message}</Typography>
@@ -50,15 +51,17 @@ export default function GlobalSnackbar(){
         <Snackbar
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={Boolean(snackbar)}
-            autoHideDuration={6000}
+            autoHideDuration={snackbar && snackbar.capture ? null : 6000}
             onClose={handleClose}
             message={snackbar && message}
             action={
-                <IconButton size="small" aria-label="close" className={classes.iconButton} onClick={handleClose}>
-                    <Tooltip title="Close" aria-label="close">
-                        <CloseIcon fontSize="small" />
-                    </Tooltip>
-                </IconButton>
+                snackbar && snackbar.capture ?
+                    <></>:
+                    <IconButton size="small" aria-label="close" className={classes.iconButton} onClick={handleClose}>
+                        <Tooltip title="Close" aria-label="close">
+                            <CloseIcon fontSize="small" />
+                        </Tooltip>
+                    </IconButton>
             }
         />
     

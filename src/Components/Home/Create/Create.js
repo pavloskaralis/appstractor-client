@@ -27,7 +27,7 @@ const styles = makeStyles(theme => ({
         }
     },
     artboard:{
-        zIndex: 2, 
+        zIndex: 1202, 
         backgroundColor: theme.palette.background.default,
         display: 'flex',
         height:'100%',
@@ -87,7 +87,7 @@ export default function Create() {
             </Box> 
             {delay && matchesB && <SearchDialog/>}
             {matchesB && <CreateTabs/>}
-            {capture && <Capture/>}
+            {/* {capture && <Capture/>} */}
         </Box>
     );
 }

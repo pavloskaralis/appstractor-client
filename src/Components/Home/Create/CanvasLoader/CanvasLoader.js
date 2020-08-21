@@ -4,7 +4,7 @@ import Box from '@material-ui/core/Box'
 import LinearProgress from '@material-ui/core/LinearProgress'
 
 export default function CanvasLoader() {
-    const {progress} = useSelector(state => state.interface);
+    const progress = useSelector(state => state.interface.progress);
    
     return (    
         <Box position='absolute' zIndex={2} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
