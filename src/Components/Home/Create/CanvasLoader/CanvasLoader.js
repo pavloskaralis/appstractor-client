@@ -7,7 +7,7 @@ export default function CanvasLoader() {
     const {progress} = useSelector(state => state.interface);
    
     return (    
-        <Box position='absolute' zIndex={1} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
+        <Box position='absolute' zIndex={2} top={0} display='flex' width='100%' height='100%' flexDirection='column' justifyContent='center'>
             <Box width='50%' margin='0 auto'>
                 <LinearProgress  variant='determinate' value={progress}/>
             </Box>

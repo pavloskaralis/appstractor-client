@@ -7,9 +7,9 @@ import SaveIcon from '@material-ui/icons/Save'
 import {makeStyles} from '@material-ui/core/styles'
 import Tooltip from '@material-ui/core/Tooltip'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import toggleSaveDialog from '../../../Actions/Interface/toggleSaveDialog'
 
-
-import {useSelector} from 'react-redux'
+import {useSelector, useDispatch} from 'react-redux'
 import ImageSelect from './SubTools/ImageSelect'
 
 const styles = makeStyles(theme => ({
@@ -26,7 +26,8 @@ const styles = makeStyles(theme => ({
 export default function CreateTools(){
     const classes = styles();
     const matches = useMediaQuery('(min-width:600px)');
-    const image = useSelector(state => state.canvas.image);
+    const firstRender = useSelector(state => state.interface.firstRender);
+    const dispatch = useDispatch();
 
     const [anchorEl, setAnchorEl] = useState(null);
     
@@ -37,13 +38,16 @@ export default function CreateTools(){
         setAnchorEl(null);
     };
 
-    
+    const saveClick = () => {
+        dispatch(toggleSaveDialog(true));
+    }
+
     return (
         <> 
             {matches ? 
                 <>
                     <ImageSelect/>
-                    <Button disabled={!image} className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
+                    <Button disabled={firstRender} onClick={saveClick} className={classes.saveButton} size='small' startIcon={<SaveIcon/>} variant='outlined'>Save</Button>
                 </> :
                 <>
                     <IconButton className={classes.iconButton} aria-label='image-select' onClick={handleClick}>
@@ -51,7 +55,7 @@ export default function CreateTools(){
                             <ImageIcon />
                         </Tooltip>
                     </IconButton> 
-                    <IconButton disabled={!image} className={classes.iconButton} aria-label='save'>
+                    <IconButton disabled={firstRender} onClick={saveClick} className={classes.iconButton} aria-label='save'>
                         <Tooltip title="Save" aria-label="save">
                             <SaveIcon />
                         </Tooltip>

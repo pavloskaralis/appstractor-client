@@ -9,7 +9,7 @@ import {toggleRendering, saveCustomPreset}from '../../Actions/Interface/allInter
 export default function Canvas(){
     //useSelectors called once from canvas to improve performance; uses context to pass values
     const {quantity,image,shadow, pattern, background,maxUnits,randomValues, swapPattern} = useSelector(state => state.canvas);
-    const {createClicked,linkDialog, searchDialog, rerenderClicked,firstRender, animation, preset, rendering, loading} = useSelector(state => state.interface)
+    const {createClicked,linkDialog, capture, searchDialog, rerenderClicked,firstRender, animation, preset, rendering, loading} = useSelector(state => state.interface)
     const dispatch = useDispatch(); 
     const [delay, toggleDelay] = useState(false)
 
@@ -41,6 +41,7 @@ export default function Canvas(){
 
     //improve page load
     useEffect(()=>{
+        if(capture) return toggleDelay(delay => !delay);
         //dont show spinner when no image is selected
         if(image) dispatch(toggleRendering(true))
         setTimeout(()=>{
@@ -141,7 +142,7 @@ export default function Canvas(){
     //dynamic background
     const backgroundStyle = {
         //animation on render only
-        transition: animation && !loading && !linkDialog && !searchDialog ? `opacity .5s linear 1.5s` : '',
+        transition: animation && !capture && !loading && !linkDialog && !searchDialog ? `opacity .5s linear 1.5s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
         backgroundImage: `url(${image})`,
@@ -158,11 +159,11 @@ export default function Canvas(){
                 quantity, 
                 maxUnits,
                 opacity: !createClicked ? '0' : '1',
-                transition: animation && !loading && !linkDialog && !searchDialog ? 'opacity 1.2s ease-in' : ''
+                transition: animation && !capture && !loading && !linkDialog && !searchDialog ? 'opacity 1.2s ease-in' : ''
             },
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
-                transition: animation && !loading && !linkDialog && !searchDialog && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
+                transition: animation && !capture && !loading && !linkDialog && !searchDialog && (rerenderClicked || firstRender)? `1.5s linear 0s` : '',
                 flexBasis: `calc(100%/${maxUnits.block})`,
                 currentUnitSizes: {
                     row: canvasHeight/quantity.row, 
@@ -175,7 +176,7 @@ export default function Canvas(){
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
-                transition: animation && !loading && !linkDialog && !searchDialog ? `all 1.5s ease-in 0s, box-shadow .75s`: ``,
+                transition: animation && !capture && !loading && !linkDialog && !searchDialog ? `all 1.5s ease-in 0s, box-shadow .75s`: ``,
             },
         }}>
             <div ref={canvasRef} className='canvas'>

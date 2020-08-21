@@ -87,7 +87,7 @@ export default function Signup(){
                     rerender: false,
                     animation: true,
                 } ,
-                subcollections: [{ collection:'appstractions'}]
+                subcollections: [{collection:'appstractions'}]
             });
 
             dispatch(resetCanvas())

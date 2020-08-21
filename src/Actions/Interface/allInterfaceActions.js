@@ -11,10 +11,13 @@ import toggleLoading from './toggleLoading'
 import setProgress from './setProgress'
 import toggleLinkDialog from './toggleLinkDialog'
 import toggleSearchDialog from './toggleSearchDialog'
+import toggleSaveDialog from './toggleSaveDialog'
+import toggleCapture from './toggleCapture'
 
 export {
     saveCustomPreset, setPreset, toggleAnimation, 
     toggleCreateClicked, toggleFirstRender, toggleRendering, 
     toggleRerenderClicked, setSnackbar, resetInterface,
-    toggleLoading, setProgress, toggleLinkDialog, toggleSearchDialog
+    toggleLoading, setProgress, toggleLinkDialog, toggleSearchDialog,
+    toggleSaveDialog, toggleCapture
 }

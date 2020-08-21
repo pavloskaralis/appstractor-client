@@ -12,10 +12,11 @@ import EmptyCanvas from './EmptyCanvas/EmptyCanvas'
 import CanvasLoader from './CanvasLoader/CanvasLoader'
 import LinkDialog from './LinkDialog/LinkDialog'
 import SearchDialog from './SearchDialog/SearchDialog'
+import SaveDialog from './SaveDialog/SaveDialog'
+import Capture from '../../Capture/Capture'
 
 const styles = makeStyles(theme => ({
     page: {
-        backgroundColor: theme.palette.background.default,
         display:'flex', 
         width:'100%',
         height:'100%',
@@ -26,6 +27,8 @@ const styles = makeStyles(theme => ({
         }
     },
     artboard:{
+        zIndex: 2, 
+        backgroundColor: theme.palette.background.default,
         display: 'flex',
         height:'100%',
         width:'100%', 
@@ -54,7 +57,7 @@ const styles = makeStyles(theme => ({
 export default function Create() {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading, linkDialog, searchDialog} = useSelector(state => state.interface);
+    const {rendering, loading, capture} = useSelector(state => state.interface);
     const [delay, toggleDelay] = useState(false);
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
@@ -71,21 +74,20 @@ export default function Create() {
             className={classes.page} 
         >
             {matchesA && <CreateDrawer/>}
-            <Box 
-                className={classes.artboard}               
-            >
+            <Box className={classes.artboard}>
                 <CanvasContainer>
                     <Canvas/>
                     {rendering && image && <CanvasSpinner/>}
                     {loading && <CanvasLoader/>}
                     {!image && <EmptyCanvas/>}
                     {delay && <LinkDialog/>}
+                    {delay && <SaveDialog/>}
                 </CanvasContainer>
                 {delay && matchesA && <SearchDialog/>}
             </Box> 
             {delay && matchesB && <SearchDialog/>}
-
             {matchesB && <CreateTabs/>}
+            {capture && <Capture/>}
         </Box>
     );
 }

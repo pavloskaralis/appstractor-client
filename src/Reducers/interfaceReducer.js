@@ -22,7 +22,11 @@ const initialState = {
     //makes link dialog visible
     linkDialog: false,
     //makes search dialog visible
-    searchDialog: false
+    searchDialog: false,
+    //makes save dialog visible
+    saveDialog: false,
+    //initiates canvas capture; true value holds title string
+    capture: null
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -65,6 +69,10 @@ export default function canvasReducer(state = initialState, action){
             return {...state, linkDialog: action.payload}
         case 'TOGGLE_SEARCH_DIALOG':
             return {...state, searchDialog: action.payload}
+        case 'TOGGLE_SAVE_DIALOG':
+            return {...state, saveDialog: action.payload}
+        case 'TOGGLE_CAPTURE':
+            return {...state, capture: action.payload}
         default:
             return state        
     }

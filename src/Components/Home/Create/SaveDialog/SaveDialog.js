@@ -1,23 +1,21 @@
-import React, { useState, useLayoutEffect } from 'react'
-import {useDispatch } from 'react-redux'
+import React, { useState, useLayoutEffect, useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
-import {toggleLinkDialog, toggleCreateClicked, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
 import Icon from '@material-ui/core/Icon'
-import LinkIcon from '@material-ui/icons/Link'
+import SaveIcon from '@material-ui/icons/Save'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
 import Error from '../../../FormPage/Error/Error'
-import isImageUrl from 'is-image-url'
-import setImage from '../../../../Actions/Canvas/setImage';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
-import {useSelector} from 'react-redux'
+import {useSelector,useDispatch} from 'react-redux'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import {useFirestoreConnect} from 'react-redux-firebase'
+import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -88,17 +86,21 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-export default function LinkDialog(){
+export default function SaveDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
-    const linkDialog = useSelector(state => state.interface.linkDialog);
+    const saveDialog = useSelector(state => state.interface).saveDialog;
+    const uid = useSelector(state => state.firebase.auth.uid);
+    useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
+    const appstractions = useSelector( state => state.firestore.data.appstractions);
+    
     const [values, setValues] = useState({
-        link: '',
-    })
-    const [errors, setErrors] = useState({
-        link: '',
+        title: '',
     })
 
+    const [errors, setErrors] = useState({
+        title: '',
+    })
 
     const handleChange = (event) => {
         const id = event.target.id
@@ -107,38 +109,36 @@ export default function LinkDialog(){
     };
 
     const handleClose = () => {
-        if(!linkDialog) return;
-        dispatch(toggleLinkDialog(false))  
+        if(!saveDialog) return;
+        dispatch(toggleSaveDialog(false))  
     };
   
     //erase errors and values on
     useLayoutEffect(()=> {
-        if(errors.link){
-            setErrors({link: ''});
+        if(errors.title){
+            setErrors({title: ''});
         }
-        if(values.link){
-            setValues({link: ''});
+        if(values.title){
+            setValues({title: ''});
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[linkDialog])
+    },[saveDialog])
 
     const handleSubmit = async (event) =>{
         event.preventDefault();
-        const {link} = values; 
+        const {title} = values; 
         setErrors({        
-            link: '',
+            title: '',
         }); 
-        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/)) {
-            return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
+        if(!title) {
+            return setErrors(errors => ({...errors, title:'Image title cannot be left blank.'}))
         }
-        dispatch(toggleCreateClicked(false))
-        dispatch(toggleFirstRender(true))
-        dispatch(setImage(link))
-
-        //delay to stop animation
-        setTimeout(()=> {
-            dispatch(toggleLinkDialog(false))  
-        },0)
+        if(appstractions && appstractions[title]){
+            return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
+        }
+        //trigger capture and pass title 
+        dispatch(toggleCapture(title));
+        dispatch(toggleSaveDialog(false));
     }
 
     return (
@@ -147,30 +147,30 @@ export default function LinkDialog(){
             touchEvent="onTouchStart"
             onClickAway={handleClose}
         >
-            <Grow in={linkDialog}>
+            <Grow in={saveDialog}>
                 <Box className={classes.container}>
                     <Box className={classes.dialog}>
                         <Avatar className={classes.avatar}>
                             <Icon className={classes.icon}>
-                                <LinkIcon/>
+                                <SaveIcon/>
                             </Icon>
                         </Avatar>
-                        <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
+                        <Typography className={classes.title} variant='h6'>Provide Image Title</Typography>
                 
                         <form onSubmit={handleSubmit} className={classes.form}>
                             <TextField
-                                error={Boolean(errors.link)}
-                                helperText={errors.link && <Error>{errors.link}</Error>}
+                                error={Boolean(errors.title)}
+                                helperText={errors.title && <Error>{errors.title}</Error>}
                                 color='secondary'
-                                id='link'
-                                label='Image URL'
+                                id='title'
+                                label='Image Title'
                                 fullWidth
-                                value={values.link}
+                                value={values.title}
                                 onChange={handleChange}
                                 variant='filled'
                                 className={classes.textField}
                             />
-                            <Button type='submit' fullWidth color='secondary' variant='contained'>Link Url</Button>
+                            <Button type='submit' fullWidth color='secondary' variant='contained'>Save Image</Button>
                         </form>            
                     </Box>
                     <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
