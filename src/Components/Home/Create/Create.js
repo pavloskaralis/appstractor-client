@@ -54,7 +54,7 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-export default function Create() {
+export default function Create({demo = false}) {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
     const {rendering, loading, capture} = useSelector(state => state.interface);
@@ -64,6 +64,8 @@ export default function Create() {
     const matchesB = useMediaQuery('(max-width:599px)');
     //improve page load
     useEffect(()=> {
+        //dont allow dialogs to mount during demo
+        if(demo) return
         setTimeout(()=> toggleDelay(true),500)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
@@ -79,7 +81,7 @@ export default function Create() {
                     <Canvas/>
                     {rendering && image && <CanvasSpinner/>}
                     {loading && <CanvasLoader/>}
-                    {!image && <EmptyCanvas/>}
+                    {!image && !loading && <EmptyCanvas/>}
                     {delay && <LinkDialog/>}
                     {delay && <SaveDialog/>}
                 </CanvasContainer>

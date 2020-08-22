@@ -1,6 +1,6 @@
 const cubicPreset = {
     quantity: {
-        row: 9,
+        row: 8,
         block: 12,
         stripe: 2
     },

@@ -1,6 +1,5 @@
 import React from 'react'
 import Box from '@material-ui/core/Box'
-import {useSelector} from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageSelect from '../../../Nav/Tools/SubTools/ImageSelect';
 const styles = makeStyles(theme => ({
@@ -21,10 +20,10 @@ const styles = makeStyles(theme => ({
 
 export default function EmptyCanvas(){
     const classes = styles(); 
-    const loading = useSelector(state => state.interface.loading)
+
     return (
         <Box className={classes.group} >
-            {!loading && <ImageSelect type='canvas'/>}
+            <ImageSelect type='canvas'/>
         </Box>
     )
 

@@ -26,7 +26,9 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-
+//component appears in nav and empty canvas; combined to have image select logic in 1 file
+//type param prevents mediaQuery change for empty canvas instance
+//handleClose param passes nav menu close (when width is < 600)
 export default function ImageSelect({handleClose, type}){
     const classes = styles(); 
     const matches = useMediaQuery('(min-width:600px)');
@@ -37,24 +39,32 @@ export default function ImageSelect({handleClose, type}){
     const dispatch = useDispatch(); 
     const firebase = useFirebase();
 
+    //upload button triggers ghost click on hidden file input
     const uploadClick = () => {
+        //if done from nav menu (< 600px), close menu
         if(handleClose)handleClose();
         inputRef.current.click(); 
     }
 
+    //file input on change (use selects file)
     const handleUpload = async (event) => {
+        //if done from nav menu (< 600px), close menu
         if(handleClose)handleClose();
 
         const target = event.target;
         const image = target.files[0];
+        //prevent files larger than 5mb
         if(image.size > 5 * 1024 * 1024) {
             return dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
         }
+        //triggers canvas loader and dismounts emptyCanvas/canvas imageSelect
         dispatch(toggleLoading(true));
+        //compress image (small = stripe size, medium = background size)
         const small = await imageCompression(image, {maxSizeMB: .05, maxWidthOrHeight: 400});
         const medium = await imageCompression(image, {maxSizeMB: .5});
         const storage = firebase.storage();
 
+        //3. called after both small and medium files upload
         const getDownloadUrls = async () => {
             let smallUrl = await storage
             .ref(`images/uploads/${uid}`)
@@ -66,65 +76,71 @@ export default function ImageSelect({handleClose, type}){
             .child('medium')
             .getDownloadURL()
 
+            //reset canvas interface
             dispatch(toggleCreateClicked(false))
             dispatch(toggleFirstRender(true))
+            //set new canvas image
             dispatch(setImage({small: smallUrl, medium: mediumUrl}));
-            setTimeout(()=>{
-                dispatch(setProgress(0))
-                dispatch(toggleLoading(false))
-            }, 200)
-            
+            //close loader 
+            dispatch(setProgress(0))
+            dispatch(toggleLoading(false))
         }
 
-        const uploadMedium = async () => {
+        //2. called after small file uploaded to server, await cannot be used
+        const uploadMedium = () => {
             storage.ref(`images/uploads/${uid}/medium`).put(medium)
                 .on("state_changed",
+                    //track progress with loader
                     snapshot => {
-                        // progress function ...
                         const progress = Math.round(
                             ((snapshot.bytesTransferred / snapshot.totalBytes) * 50) + 50 
                         );
                         dispatch(setProgress(progress));
                     },
+                    //on error
                     () => {
                         dispatch(setProgress(0))
                         dispatch(toggleLoading(false))
-                        dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
+                        dispatch(setSnackbar({success: false, message: 'Image failed to upload.'}))
                     }, 
+                    //async get reference urls form server
                     getDownloadUrls
                 );   
         }
 
+        //1. upload small file to server, await cannot be used
         storage.ref(`images/uploads/${uid}/small`).put(small)
             .on("state_changed",
+                //track progress with loader
                 snapshot => {
-                    // progress function ...
                     const progress = Math.round(
                         (snapshot.bytesTransferred / snapshot.totalBytes) * 50
                     );
                     dispatch(setProgress(progress));
                 },
+                //on error
                 () => {
                     dispatch(setProgress(0))
                     dispatch(toggleLoading(false))
-                    dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
+                    dispatch(setSnackbar({success: false, message: 'Image failed to upload.'}))
                 },
+                //async upload medium file to server
                 uploadMedium
-            );    
-    
+            );   
+        
     }
 
+    //trigger link uploader
     const linkClick = () => {
         if(handleClose)handleClose();
         setTimeout(()=>dispatch(toggleLinkDialog(true)),100)
     }
 
+    //trigger stock search 
     const searchClick = () => {
         if(handleClose)handleClose();
         setTimeout(()=> dispatch(toggleSearchDialog(true)), 150)
     }
-
-
 
     return (
         <>

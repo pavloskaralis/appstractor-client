@@ -3,9 +3,9 @@ import defaultPreset from '../Presets/defaultPreset'
 import createSwapPattern from '../Functions/createSwapPattern'
 
 const maxUnits = {
-    row: 12, 
-    block: 18, 
-    stripe: 24
+    row: 8, 
+    block: 12, 
+    stripe: 16
 }
 //aerial neon cityscape sky graffiti texture experimental
 const initialState = {

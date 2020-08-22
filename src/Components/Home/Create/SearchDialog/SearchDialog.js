@@ -136,17 +136,18 @@ export default function SearchDialog(){
     //current page value
     const [page, setPage] = useState(1);
 
+    //on pagination change
     const handlePageChange = (event, value) => {
+        //toggle spinner; reset scroll; set new page value; set new photos
         toggleVisible(true);
         ref.current.scrollTop = 0; 
-        setTimeout(()=>{
-            setPage(value);
-            setPhotos(stock[category].data[value]);
-        },0)
+        setPage(value);
+        setPhotos(stock[category].data[value]);
     } 
 
     //close search
     const handleClose = () => {
+        //return prevents clickway from dispatching 
         if(!searchDialog) return;
         dispatch(toggleSearchDialog(false))
     };
@@ -169,9 +170,10 @@ export default function SearchDialog(){
     },[photos]);
 
     useEffect(()=> {
+        //wait for firestore to load 
         if(isEmpty(stock)) return; 
 
-        //retrieve 300 photos from unsplash
+        //retrieve 300 photos from unsplash for specific category
         const getStock = async() => {
             const data = {};
             const id = '4229c9ccce8609e45051cea4103298e9a0bc85c2173c8c719dfde18bf2ea0ee2'
@@ -193,9 +195,10 @@ export default function SearchDialog(){
                     output.push(newObj);
                     return output;
                 },[])
+                //format photos for pagination
                 data[i] = reduced; 
             }
-
+            //store retrieved photos in fire store to retrigger useEffect
             firestore.collection('stock').doc(category).set({
                 data: data,
                 date: new Date().toString()
@@ -204,22 +207,22 @@ export default function SearchDialog(){
 
         //check if unsplash request has already been made within 24hours
         const checkDate = async () => {
+            //if no stock exists for category, get stock
             if(!stock[category]) return getStock(); 
             const categoryDate = stock[category].date;
             const today = new Date();
             const diffTime = today - new Date(categoryDate); 
             const diffDays = (diffTime / 86400000).toFixed(2);
-            //if over 24 hours, initiate request, otherwise use cache 
+            //if stock over 24 hours old, initiate request, otherwise use cache 
             if(diffDays > 1) {
                 toggleVisible(true);
+                //retriggger useEffect
                 await getStock();
             } else {
                 toggleVisible(true);
                 ref.current.scrollTop = 0; 
-                setTimeout(()=> {
-                    setPage(1)
-                    setPhotos(stock[category].data[1]);
-                },0)
+                setPage(1)
+                setPhotos(stock[category].data[1]);
             }
         }
         checkDate();
@@ -278,4 +281,3 @@ export default function SearchDialog(){
          
 }
 
-// 1.3 .2

@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react'
+import React, { useState, useLayoutEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'

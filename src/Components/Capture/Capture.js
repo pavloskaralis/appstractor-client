@@ -17,7 +17,6 @@ export default function Capture () {
         dispatch(toggleRendering(true));
         dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 20 seconds).'}))
         setTimeout(()=> {
-            console.log('capturing')
             domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
             .then(function (blob) {
                 dispatch(setSnackbar({success: true, capture: true, message: 'Uploading image to server.'}))
@@ -26,17 +25,16 @@ export default function Capture () {
                 setBlob(blob);
             });
         },0)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     useEffect(()=> {
         if(!blob) return;
-       console.log(blob)
 
         const storage = firebase.storage();
         const uploadTask = storage.ref(`images/appstractions/${uid}/${capture}`).put(blob);
         uploadTask.on("state_changed",
             snapshot => {
-                // progress function ...
                 const progress = Math.round(
                     (snapshot.bytesTransferred / snapshot.totalBytes) * 100
                 );
@@ -70,6 +68,7 @@ export default function Capture () {
                 });
             }
         );
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[blob])
 
     return(

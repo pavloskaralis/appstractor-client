@@ -1,7 +1,7 @@
 const defaultPreset = {
     quantity: {
-        row: 11,
-        block: 14,
+        row: 8,
+        block: 12,
         stripe: 3
     },
     pattern: 'alternate',
