@@ -1,7 +1,7 @@
 const cubicPreset = {
     quantity: {
         row: 8,
-        block: 12,
+        block: 10,
         stripe: 2
     },
     pattern: 'alternate',
@@ -12,9 +12,9 @@ const cubicPreset = {
         uniform: false
     },
     shadow: {
-        opacity: 0.10,
-        angle: 0.005,
-        size: 0.04
+        opacity: 0.35,
+        angle: 0.0375,
+        size: 0.0325
     }
 }
 

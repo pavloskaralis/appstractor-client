@@ -12,9 +12,9 @@ const patchworkPreset = {
         uniform: true
     },
     shadow: {
-        opacity: 0.03,
-        angle: 0,
-        size: 0.0025
+        opacity: 0.35,
+        angle: 0.0175,
+        size: 0.05
     }
 }
 

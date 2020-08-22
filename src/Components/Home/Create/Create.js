@@ -54,10 +54,11 @@ const styles = makeStyles(theme => ({
     }
 }))
 
+//when spawned from demo delay never toggles; prevents firestore error from no auth
 export default function Create({demo = false}) {
     const classes = styles();
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading, capture} = useSelector(state => state.interface);
+    const {rendering, loading, capture, searchDialog, linkDialog, saveDialog} = useSelector(state => state.interface);
     const [delay, toggleDelay] = useState(false);
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
@@ -70,6 +71,7 @@ export default function Create({demo = false}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
+        //search, link, and save must stay mounted for transition effects
         <Box 
             id='hometabpanel-0'
             aria-labelledby='hometab-0'

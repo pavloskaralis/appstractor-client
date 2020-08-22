@@ -1,7 +1,7 @@
 const defaultPreset = {
     quantity: {
         row: 8,
-        block: 12,
+        block: 10,
         stripe: 3
     },
     pattern: 'alternate',
@@ -12,9 +12,9 @@ const defaultPreset = {
         uniform: false
     },
     shadow: {
-        opacity: 0.025,
-        angle: 0.0075,
-        size: 0.01
+        opacity: 0.35,
+        angle: 0.025,
+        size: 0.0425
     }
 }
 

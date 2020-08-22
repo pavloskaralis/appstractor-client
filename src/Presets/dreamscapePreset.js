@@ -1,7 +1,7 @@
 const dreamscapePreset = {
     quantity: {
         row: 8,
-        block: 5,
+        block: 4,
         stripe: 16
     },
     pattern: 'horizontal',
@@ -12,9 +12,9 @@ const dreamscapePreset = {
         uniform: false
     },
     shadow: {
-        opacity: 0.1,
-        angle: 0.0125,
-        size: 0.025
+        opacity: 0.35,
+        angle: 0.025,
+        size: 0.035
     }
 }
 
