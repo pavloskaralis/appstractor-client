@@ -53,7 +53,6 @@ export default function ImageSelect({handleClose, type}){
         dispatch(toggleLoading(true));
         const small = await imageCompression(image, {maxSizeMB: .05, maxWidthOrHeight: 400});
         const medium = await imageCompression(image, {maxSizeMB: .5});
-        console.log(small.size, medium.size)
         const storage = firebase.storage();
 
         const getDownloadUrls = async () => {
@@ -81,7 +80,6 @@ export default function ImageSelect({handleClose, type}){
             storage.ref(`images/uploads/${uid}/medium`).put(medium)
                 .on("state_changed",
                     snapshot => {
-                        console.log(2)
                         // progress function ...
                         const progress = Math.round(
                             ((snapshot.bytesTransferred / snapshot.totalBytes) * 50) + 50 
@@ -101,7 +99,6 @@ export default function ImageSelect({handleClose, type}){
             .on("state_changed",
                 snapshot => {
                     // progress function ...
-                    console.log(1)
                     const progress = Math.round(
                         (snapshot.bytesTransferred / snapshot.totalBytes) * 50
                     );
@@ -114,12 +111,6 @@ export default function ImageSelect({handleClose, type}){
                 },
                 uploadMedium
             );    
-
-        
-      
-        
-        
-       
     
     }
 

@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect } from 'react'
 import {useDispatch } from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
-import {toggleLinkDialog, toggleCreateClicked, toggleFirstRender} from '../../../../Actions/Interface/allInterfaceActions'
+import {toggleLinkDialog, toggleCreateClicked, toggleFirstRender, toggleLoading, setProgress, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import Icon from '@material-ui/core/Icon'
 import LinkIcon from '@material-ui/icons/Link'
 import Typography from '@material-ui/core/Typography'
@@ -18,6 +18,8 @@ import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector} from 'react-redux'
 import Grow from '@material-ui/core/Grow'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import imageCompression from 'browser-image-compression'
+import {useFirebase} from 'react-redux-firebase'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -91,7 +93,10 @@ const styles = makeStyles(theme => ({
 export default function LinkDialog(){
     const classes = styles(); 
     const dispatch = useDispatch();
-    const linkDialog = useSelector(state => state.interface.linkDialog);
+    const {linkDialog,loading} = useSelector(state => state.interface);
+    const uid = useSelector(state => state.firebase.auth.uid);
+    const firebase = useFirebase();
+
     const [values, setValues] = useState({
         link: '',
     })
@@ -122,6 +127,77 @@ export default function LinkDialog(){
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[linkDialog])
 
+    const handleUpload = async (blob) => {
+        if(blob.size > 5 * 1024 * 1024) {
+            return setErrors({link: 'File size exceeds 5mb limit.'});
+        }
+
+        dispatch(toggleLoading(true));
+        const small = await imageCompression(blob, {maxSizeMB: .05, maxWidthOrHeight: 400});
+        const medium = await imageCompression(blob, {maxSizeMB: .5});
+        const storage = firebase.storage();
+
+        const getDownloadUrls = async () => {
+            let smallUrl = await storage
+            .ref(`images/uploads/${uid}`)
+            .child('small')
+            .getDownloadURL()
+
+            let mediumUrl = await storage
+            .ref(`images/uploads/${uid}`)
+            .child('medium')
+            .getDownloadURL()
+
+            dispatch(toggleCreateClicked(false))
+            dispatch(toggleFirstRender(true))
+            dispatch(setImage({small: smallUrl, medium: mediumUrl}));
+            dispatch(toggleLinkDialog(false));
+            
+            setTimeout(()=>{
+                dispatch(setProgress(0))
+                dispatch(toggleLoading(false))
+            }, 200)
+            
+        }
+
+        const uploadMedium = async () => {
+            storage.ref(`images/uploads/${uid}/medium`).put(medium)
+                .on("state_changed",
+                    snapshot => {
+                        // progress function ...
+                        const progress = Math.round(
+                            ((snapshot.bytesTransferred / snapshot.totalBytes) * 50) + 50 
+                        );
+                        dispatch(setProgress(progress));
+                    },
+                    () => {
+                        dispatch(setProgress(0))
+                        dispatch(toggleLoading(false))
+                        setErrors({link: 'File size exceeds 5mb limit.'});
+                    }, 
+                    getDownloadUrls
+                );   
+        }
+
+        storage.ref(`images/uploads/${uid}/small`).put(small)
+            .on("state_changed",
+                snapshot => {
+                    // progress function ...
+                    const progress = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 50
+                    );
+                    dispatch(setProgress(progress));
+                },
+                () => {
+                    dispatch(setProgress(0))
+                    dispatch(toggleLoading(false))
+                    setErrors({link: 'File size exceeds 5mb limit.'});
+                },
+                uploadMedium
+            );    
+    
+    }
+
     const handleSubmit = async (event) =>{
         event.preventDefault();
         const {link} = values; 
@@ -131,14 +207,17 @@ export default function LinkDialog(){
         if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/)) {
             return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
         }
-        dispatch(toggleCreateClicked(false))
-        dispatch(toggleFirstRender(true))
-        dispatch(setImage(link))
 
-        //delay to stop animation
-        setTimeout(()=> {
-            dispatch(toggleLinkDialog(false))  
-        },0)
+        fetch(link)
+            .then(function(response) {
+                return response.blob()
+            })
+            .then(function(blob) {
+
+                handleUpload(blob)
+            });
+        
+     
     }
 
     return (
@@ -149,35 +228,39 @@ export default function LinkDialog(){
         >
             <Grow in={linkDialog}>
                 <Box className={classes.container}>
-                    <Box className={classes.dialog}>
-                        <Avatar className={classes.avatar}>
-                            <Icon className={classes.icon}>
-                                <LinkIcon/>
-                            </Icon>
-                        </Avatar>
-                        <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
-                
-                        <form onSubmit={handleSubmit} className={classes.form}>
-                            <TextField
-                                error={Boolean(errors.link)}
-                                helperText={errors.link && <Error>{errors.link}</Error>}
-                                color='secondary'
-                                id='link'
-                                label='Image URL'
-                                fullWidth
-                                value={values.link}
-                                onChange={handleChange}
-                                variant='filled'
-                                className={classes.textField}
-                            />
-                            <Button type='submit' fullWidth color='secondary' variant='contained'>Link Url</Button>
-                        </form>            
-                    </Box>
-                    <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
-                        <Tooltip title="Close" aria-label="close">
-                            <CloseIcon fontSize='small'/>
-                        </Tooltip>
-                    </IconButton>  
+                    {!loading &&
+                        <>
+                            <Box className={classes.dialog}>
+                                <Avatar className={classes.avatar}>
+                                    <Icon className={classes.icon}>
+                                        <LinkIcon/>
+                                    </Icon>
+                                </Avatar>
+                                <Typography className={classes.title} variant='h6'>Provide Image Url</Typography>
+                        
+                                <form onSubmit={handleSubmit} className={classes.form}>
+                                    <TextField
+                                        error={Boolean(errors.link)}
+                                        helperText={errors.link && <Error>{errors.link}</Error>}
+                                        color='secondary'
+                                        id='link'
+                                        label='Image URL'
+                                        fullWidth
+                                        value={values.link}
+                                        onChange={handleChange}
+                                        variant='filled'
+                                        className={classes.textField}
+                                    />
+                                    <Button type='submit' fullWidth color='secondary' variant='contained'>Link Url</Button>
+                                </form>            
+                            </Box>
+                            <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+                                <Tooltip title="Close" aria-label="close">
+                                    <CloseIcon fontSize='small'/>
+                                </Tooltip>
+                            </IconButton>
+                        </>
+                    }  
                 </Box>     
             </Grow>   
         </ClickAwayListener>

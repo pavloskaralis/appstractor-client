@@ -139,16 +139,16 @@ export default function Canvas(){
         )
     }
 
-    //determines whether small or medium image gets used for background
+    //determines whether small or medium image gets used for backgroundz
     const totalStripes = quantity.stripe * quantity.block * quantity.row;
-    console.log(totalStripes, totalStripes < 1000, image.small, image.medium)
+
     //dynamic background
     const backgroundStyle = {
         //animation on render only
         transition: animation && !capture && !loading && !linkDialog && !searchDialog ? `opacity .5s linear 1.5s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
-        backgroundImage: `url(${totalStripes < 1000 ? image.medium : image.small})`,
+        backgroundImage: `url(${image.medium})`,
         backgroundSize: !background.stretch ? 
             `${background.detail}%` : `${background.detail}% 100%`
     }
@@ -175,7 +175,7 @@ export default function Canvas(){
                 },
             },
             stripeContext:{
-                backgroundImage: `url(${totalStripes < 1000 ? image.medium : image.small})`,
+                backgroundImage: `url(${totalStripes < 200 ? image.medium : image.small})`,
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
@@ -183,7 +183,7 @@ export default function Canvas(){
             },
         }}>
             <div ref={canvasRef} className='canvas'>
-                <div className='static' style={{backgroundImage:`url(${totalStripes < 1000 ? image.medium : image.small})`}} />
+                <div className='static' style={{backgroundImage:`url(${image.medium})`}} />
                 {delay && <div className='background' style={backgroundStyle} />}
                 {delay && rowComponents}
             </div>

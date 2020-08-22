@@ -91,7 +91,3 @@ export default function Create() {
         </Box>
     );
 }
-
-//12.9 1.8
-
-//

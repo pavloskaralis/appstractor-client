@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Box from '@material-ui/core/Box'
 import Canvas from '../Canvas/Canvas'
 import domtoimage from 'dom-to-image'
 import {useSelector, useDispatch} from 'react-redux'
@@ -8,8 +7,7 @@ import {toggleCapture, setProgress, setSnackbar, toggleLoading, toggleRendering}
 
 export default function Capture () {
     const dispatch = useDispatch(); 
-    const {row,block,stripe} = useSelector(state => state.canvas.quantity);
-    const {capture, rendering, loading}= useSelector(state => state.interface);
+    const capture = useSelector(state => state.interface.capture);
     const uid = useSelector(state => state.firebase.auth.uid);
     const firebase = useFirebase();
     const firestore = useFirestore();
@@ -17,7 +15,7 @@ export default function Capture () {
 
     useEffect(()=> {
         dispatch(toggleRendering(true));
-        dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 90 seconds).'}))
+        dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 20 seconds).'}))
         setTimeout(()=> {
             console.log('capturing')
             domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
