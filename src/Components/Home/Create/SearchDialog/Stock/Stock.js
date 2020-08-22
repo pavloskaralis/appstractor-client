@@ -67,7 +67,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Stock({url,name,link, download}) {
+export default function Stock({urls,name,link, download}) {
     const classes = styles(); 
     const dispatch = useDispatch();
 
@@ -83,7 +83,7 @@ export default function Stock({url,name,link, download}) {
         axios.get(api + id);
         dispatch(toggleCreateClicked(false))
         dispatch(toggleFirstRender(true))
-        dispatch(setImage(url))
+        dispatch(setImage({small: urls.small, medium: urls.medium}))
         setTimeout(()=> {
             dispatch(toggleSearchDialog(false))
         },0)
@@ -103,7 +103,7 @@ export default function Stock({url,name,link, download}) {
                  
                     <CardMedia
                         className={classes.cardMedia}
-                        image={url}
+                        image={urls.medium}
                         title="Image title"
                     />  
                     

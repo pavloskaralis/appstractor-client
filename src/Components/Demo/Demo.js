@@ -9,7 +9,7 @@ export default function Demo(){
 
     //set demo/landing image on load
     useEffect(()=> {
-        dispatch(setImage(defaultImage))
+        dispatch(setImage({small: defaultImage, medium: defaultImage}))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     

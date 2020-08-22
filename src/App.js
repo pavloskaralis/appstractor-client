@@ -65,7 +65,7 @@ function App() {
           <PrivateRoute path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
           <PrivateRoute path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
           <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
-          
+
           <PublicRoute exact path={ROUTES.DEMO} component={Demo}/>
           <PublicRoute exact path={ROUTES.SIGNUP} component={Signup}/>
           <PublicRoute exact path={ROUTES.LOGIN} component={Login}/>

@@ -11,3 +11,4 @@ export const ACCOUNT_EMAIL = '/account/email';
 export const ACCOUNT_PASSWORD = '/account/password';
 export const ACCOUNT_DELETE = '/account/delete';
 export const PAGE_NOT_FOUND = '/404';
+export const CAPTURE = '/capture'

@@ -67,7 +67,7 @@ export default function Canvas(){
         if(preset === 'custom' || firstRender)dispatch(saveCustomPreset({quantity,shadow, pattern, background}))
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[quantity,shadow, pattern, background])
-
+    
     //percentage of canvas a single row or block takes up; used to calculate background positions
     const blockRelativeSize = 1/quantity.block * 100
     const rowRelativeSize = 1/quantity.row * 100;
@@ -139,13 +139,16 @@ export default function Canvas(){
         )
     }
 
+    //determines whether small or medium image gets used for background
+    const totalStripes = quantity.stripe * quantity.block * quantity.row;
+    console.log(totalStripes, totalStripes < 1000, image.small, image.medium)
     //dynamic background
     const backgroundStyle = {
         //animation on render only
         transition: animation && !capture && !loading && !linkDialog && !searchDialog ? `opacity .5s linear 1.5s` : '',
         opacity: !createClicked ? '0' : '1',
         //user can alter
-        backgroundImage: `url(${image})`,
+        backgroundImage: `url(${totalStripes < 1000 ? image.medium : image.small})`,
         backgroundSize: !background.stretch ? 
             `${background.detail}%` : `${background.detail}% 100%`
     }
@@ -172,7 +175,7 @@ export default function Canvas(){
                 },
             },
             stripeContext:{
-                backgroundImage: `url(${image})`,
+                backgroundImage: `url(${totalStripes < 1000 ? image.medium : image.small})`,
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
@@ -180,7 +183,7 @@ export default function Canvas(){
             },
         }}>
             <div ref={canvasRef} className='canvas'>
-                <div className='static' style={{backgroundImage:`url(${image})`}} />
+                <div className='static' style={{backgroundImage:`url(${totalStripes < 1000 ? image.medium : image.small})`}} />
                 {delay && <div className='background' style={backgroundStyle} />}
                 {delay && rowComponents}
             </div>

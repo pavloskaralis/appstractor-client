@@ -20,67 +20,65 @@ export default function Capture () {
         dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (up to 90 seconds).'}))
         setTimeout(()=> {
             console.log('capturing')
-            console.log(row * block * stripe)
             domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
             .then(function (blob) {
-                // dispatch(setSnackbar({success: true, capture: true, message: 'Uploading image to server.'}))
-                // dispatch(toggleLoading(true));
-                // dispatch(toggleRendering(false));
+                dispatch(setSnackbar({success: true, capture: true, message: 'Uploading image to server.'}))
+                dispatch(toggleLoading(true));
+                dispatch(toggleRendering(false));
                 setBlob(blob);
-                // console.log(blob)
             });
         },0)
     },[])
 
     useEffect(()=> {
         if(!blob) return;
-        setTimeout(()=> console.log(blob),100)
+       console.log(blob)
 
-        // const storage = firebase.storage();
-        // const uploadTask = storage.ref(`images/appstractions/${uid}/${capture}`).put(blob);
-        // uploadTask.on("state_changed",
-        //     snapshot => {
-        //         // progress function ...
-        //         const progress = Math.round(
-        //             (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        //         );
-        //         dispatch(setProgress(progress));
-        //     },
-        //     () => {
-        //         dispatch(setProgress(0));
-        //         dispatch(toggleLoading(false));
-        //         dispatch(toggleCapture(false));
-        //         dispatch(setSnackbar({success: false, message: 'Image failed to save.'}))
-        //     },
-        //     () => {
-        //         storage
-        //         .ref(`images/appstractions/${uid}`)
-        //         .child(capture)
-        //         .getDownloadURL()
-        //         .then(url => {
-        //             firestore.collection(`users/${uid}/appstractions`)
-        //                 .doc(capture)
-        //                 .set({
-        //                     url: url, 
-        //                     title: capture
-        //                 })
+        const storage = firebase.storage();
+        const uploadTask = storage.ref(`images/appstractions/${uid}/${capture}`).put(blob);
+        uploadTask.on("state_changed",
+            snapshot => {
+                // progress function ...
+                const progress = Math.round(
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                );
+                dispatch(setProgress(progress));
+            },
+            () => {
+                dispatch(setProgress(0));
+                dispatch(toggleLoading(false));
+                dispatch(toggleCapture(false));
+                dispatch(setSnackbar({success: false, message: 'Image failed to save.'}))
+            },
+            () => {
+                storage
+                .ref(`images/appstractions/${uid}`)
+                .child(capture)
+                .getDownloadURL()
+                .then(url => {
+                    firestore.collection(`users/${uid}/appstractions`)
+                        .doc(capture)
+                        .set({
+                            url: url, 
+                            title: capture
+                        })
                     
-        //             dispatch(toggleCapture(false));
-        //             setTimeout(()=>{
-        //                 dispatch(toggleLoading(false));
-        //                 dispatch(setProgress(0));
-        //                 dispatch(setSnackbar({success: true, message: 'Image saved to gallery.'}));
-        //             },0)
-        //         });
-        //     }
-        // );
+                    dispatch(toggleCapture(false));
+                    setTimeout(()=>{
+                        dispatch(toggleLoading(false));
+                        dispatch(setProgress(0));
+                        dispatch(setSnackbar({success: true, message: 'Image saved to gallery.'}));
+                    },0)
+                });
+            }
+        );
     },[blob])
 
     return(
         <div id='capture' style={{
             zIndex: 1,
-            width: '1800px',
-            height: '1200px',
+            width: '1500px',
+            height: '1000px',
             position: 'absolute'
         }}>
             <Canvas/>

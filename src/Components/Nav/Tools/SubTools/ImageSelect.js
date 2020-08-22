@@ -12,6 +12,7 @@ import CloudUploadIcon from '@material-ui/icons/CloudUpload'
 import LinkIcon from '@material-ui/icons/Link'
 import SearchIcon from '@material-ui/icons/Search'
 import MenuItem from '@material-ui/core/MenuItem'
+import imageCompression from 'browser-image-compression'
 
 const styles = makeStyles(theme => ({
     group:{
@@ -41,19 +42,68 @@ export default function ImageSelect({handleClose, type}){
         inputRef.current.click(); 
     }
 
-    const handleUpload = (event) => {
+    const handleUpload = async (event) => {
         if(handleClose)handleClose();
 
-        dispatch(toggleLoading(true));
         const target = event.target;
         const image = target.files[0];
+        if(image.size > 5 * 1024 * 1024) {
+            return dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
+        }
+        dispatch(toggleLoading(true));
+        const small = await imageCompression(image, {maxSizeMB: .05, maxWidthOrHeight: 400});
+        const medium = await imageCompression(image, {maxSizeMB: .5});
+        console.log(small.size, medium.size)
         const storage = firebase.storage();
-        const uploadTask = storage.ref(`images/uploads/${uid}`).put(image);
-            uploadTask.on("state_changed",
+
+        const getDownloadUrls = async () => {
+            let smallUrl = await storage
+            .ref(`images/uploads/${uid}`)
+            .child('small')
+            .getDownloadURL()
+
+            let mediumUrl = await storage
+            .ref(`images/uploads/${uid}`)
+            .child('medium')
+            .getDownloadURL()
+
+            dispatch(toggleCreateClicked(false))
+            dispatch(toggleFirstRender(true))
+            dispatch(setImage({small: smallUrl, medium: mediumUrl}));
+            setTimeout(()=>{
+                dispatch(setProgress(0))
+                dispatch(toggleLoading(false))
+            }, 200)
+            
+        }
+
+        const uploadMedium = async () => {
+            storage.ref(`images/uploads/${uid}/medium`).put(medium)
+                .on("state_changed",
+                    snapshot => {
+                        console.log(2)
+                        // progress function ...
+                        const progress = Math.round(
+                            ((snapshot.bytesTransferred / snapshot.totalBytes) * 50) + 50 
+                        );
+                        dispatch(setProgress(progress));
+                    },
+                    () => {
+                        dispatch(setProgress(0))
+                        dispatch(toggleLoading(false))
+                        dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
+                    }, 
+                    getDownloadUrls
+                );   
+        }
+
+        storage.ref(`images/uploads/${uid}/small`).put(small)
+            .on("state_changed",
                 snapshot => {
                     // progress function ...
+                    console.log(1)
                     const progress = Math.round(
-                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 50
                     );
                     dispatch(setProgress(progress));
                 },
@@ -62,22 +112,15 @@ export default function ImageSelect({handleClose, type}){
                     dispatch(toggleLoading(false))
                     dispatch(setSnackbar({success: false, message: 'File size exceeds 5mb limit.'}))
                 },
-            () => {
-                storage
-                .ref("images/uploads")
-                .child(uid)
-                .getDownloadURL()
-                .then(url => {
-                    dispatch(toggleCreateClicked(false))
-                    dispatch(toggleFirstRender(true))
-                    dispatch(setImage(url))
-                    setTimeout(()=>{
-                        dispatch(setProgress(0))
-                        dispatch(toggleLoading(false))
-                    }, 200)
-                });
-            }
-        );    
+                uploadMedium
+            );    
+
+        
+      
+        
+        
+       
+    
     }
 
     const linkClick = () => {

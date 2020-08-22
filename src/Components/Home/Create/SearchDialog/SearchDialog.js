@@ -184,7 +184,8 @@ export default function SearchDialog(){
                 const reduced = results.reduce((output, obj) => {
                     const newObj = {
                         id: obj.id, 
-                        url: obj.urls.regular,
+                        small: obj.urls.small,
+                        medium: obj.urls.regular,
                         name: obj.user.name,
                         link: obj.user.links.html,
                         download: obj.links.download_location
@@ -254,7 +255,7 @@ export default function SearchDialog(){
                         <Box className={classes.stock}>
                             {photos.map((photo,i)=>{
                                 return(
-                                    <Stock name={photo.name} url={photo.url} link={photo.link} key={photo.id} download={photo.download}/>
+                                    <Stock name={photo.name} urls={{small: photo.small, medium: photo.medium}} link={photo.link} key={photo.id} download={photo.download}/>
                                 )
                             })}
                         </Box>
