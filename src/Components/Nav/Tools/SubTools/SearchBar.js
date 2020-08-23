@@ -4,7 +4,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import InputBase from '@material-ui/core/InputBase'
 import Box from '@material-ui/core/Box'
 import {useSelector, useDispatch} from 'react-redux'
-import updateSearch from '../../../../Actions/Interface/updateSearch'
+import {updateSearch, updateSelected} from '../../../../Actions/Interface/allInterfaceActions'
 
 const styles = makeStyles(theme => ({
 
@@ -61,8 +61,12 @@ export default function SearchBar(){
     const handleChange = (event) => {
         dispatch(updateSearch(event.target.value));
     }
+
+    const deselectAll = () => {
+        dispatch(updateSelected([]));
+    }
     return (
-        <Box className={classes.container}>
+        <Box className={classes.container} onClick={deselectAll}>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>
                     <SearchIcon />

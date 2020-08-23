@@ -117,6 +117,7 @@ export default function Photo({title,url, deselect}) {
 
     useEffect(()=> {
         selected.includes(title) ? toggleIsSelected(true) : toggleIsSelected(false);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selected])
 
     const handleClose = (event) => {
@@ -131,7 +132,6 @@ export default function Photo({title,url, deselect}) {
             dispatch(updateSelected(selected.filter( ele => ele !== title)));
         //add to selected if select toggled true
         } else if (!isSelected) {
-            console.log('B')
             dispatch(updateSelected([...selected,title]));
         }
     }

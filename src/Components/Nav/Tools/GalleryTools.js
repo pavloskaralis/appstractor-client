@@ -12,6 +12,9 @@ import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import SearchBar from './SubTools/SearchBar'
+import {useDispatch, useSelector} from 'react-redux'
+import {updateSelected} from '../../../Actions/Interface/allInterfaceActions'
+import {useFirestoreConnect} from 'react-redux-firebase'
 
 const styles = makeStyles(theme => ({
     iconButton: {
@@ -34,14 +37,22 @@ const styles = makeStyles(theme => ({
     },
     icon:{
         marginRight: theme.spacing(2)
+    },
+    disabled: {
+        color: theme.palette.text.secondary
     }
 }))
 
 export default function GalleryTools(){
     const classes = styles();
     const matches = useMediaQuery('(min-width:600px)');
+    const dispatch = useDispatch();
     const [anchorEl, setAnchorEl] = useState(null)
-
+    const selected = useSelector(state => state.interface.selected);
+    //load appstractions
+    const uid = useSelector(state => state.firebase.auth.uid);
+    useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
+    const appstractions = useSelector( state => state.firestore.data.appstractions);
  
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -51,13 +62,47 @@ export default function GalleryTools(){
         setAnchorEl(null);
     };
 
+    const selectAll = () => {
+        dispatch(updateSelected(Object.keys(appstractions)));
+    }
+
+    const navDownload = () => {
+        if(!selected.length) return;
+
+        function download(img) {
+
+           
+        
+            const xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = function(event) {
+                const blob = xhr.response;
+                const blobUrl = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.download = `appstractorart_${img.title}`;
+                a.href = blobUrl;
+                a.click();          
+            };
+            xhr.open('GET', img.url);
+            xhr.send()
+           
+           
+        }
+        
+        for (let i = 0; i < selected.length; i++) {
+            const img = appstractions[selected[i]];
+            download(img);
+        }
+        
+    }
+
     
     return (
         <>
             {matches ?
                 <>
                     <SearchBar/>
-                    <Button size='small' className={classes.selectAll} variant='outlined'>
+                    <Button size='small' onClick={selectAll} className={classes.selectAll} variant='outlined'>
                         Select All
                     </Button>
                 
@@ -72,7 +117,7 @@ export default function GalleryTools(){
 
                 <>
     
-                    <IconButton className={classes.iconButton}                      aria-label='select-all'>
+                    <IconButton  onClick={selectAll} className={classes.iconButton}                      aria-label='select-all'>
                         <Tooltip title="Select All" aria-label="select-all">
                             <SelectAllIcon />
                         </Tooltip>
@@ -95,10 +140,10 @@ export default function GalleryTools(){
                 open={Boolean(anchorEl)}
                 onClose={handleClose}
             >
-                <MenuItem id='Download'>
+                <MenuItem onClick={navDownload} id='Download' className={!selected.length ? classes.disabled : ''}>
                     <GetAppIcon fontSize='small' className={classes.icon}/>Download
                 </MenuItem>
-                <MenuItem id='Delete' >
+                <MenuItem id='Delete' className={!selected.length ? classes.disabled : ''}>
                     <DeleteForeverIcon fontSize='small' className={classes.icon}/>Delete
                 </MenuItem>
             </Menu>     
