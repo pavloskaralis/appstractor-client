@@ -15,11 +15,13 @@ import toggleSaveDialog from './toggleSaveDialog'
 import toggleCapture from './toggleCapture'
 import updateSelected from './updateSelected'
 import updateSearch from './updateSearch'
+import toggleDeleteDialog from './toggleDeleteDialog'
 
 export {
     saveCustomPreset, setPreset, toggleAnimation, 
     toggleCreateClicked, toggleFirstRender, toggleRendering, 
     toggleRerenderClicked, setSnackbar, resetInterface,
     toggleLoading, setProgress, toggleLinkDialog, toggleSearchDialog,
-    toggleSaveDialog, toggleCapture, updateSelected, updateSearch
+    toggleSaveDialog, toggleCapture, updateSelected, updateSearch,
+    toggleDeleteDialog
 }

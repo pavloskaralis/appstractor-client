@@ -20,7 +20,7 @@ import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/all
 const styles = makeStyles(theme => ({
     container: {
         position:'absolute', 
-        padding:'12px', 
+        padding: theme.spacing(1.5), 
         zIndex:1, 
         height:'100%', 
         width:'100%', 

@@ -9,6 +9,7 @@ import {useFirestoreConnect, isEmpty} from 'react-redux-firebase'
 import {useSelector, useDispatch} from 'react-redux'
 import {setSnackbar, updateSelected} from '../../../Actions/Interface/allInterfaceActions'
 import CanvasSpinner from '../Create/CanvasSpinner/CanvasSpinner'
+import DeleteDialog from './DeleteDialog/DeleteDialog'
 
 const styles = makeStyles(theme => ({
     box: {
@@ -63,11 +64,11 @@ export default function Create() {
 
     useEffect(()=>{
         //wait for firestore connection
-        if(typeof appstractions === 'undefined') return;
+        if(typeof uid === 'undefined') return;
         //if no images alert empty state; sync with spinner stop 
         if(isEmpty(appstractions)) setTimeout(()=>dispatch(setSnackbar({success:false, message: 'You have not created any images.'})),500)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[appstractions])
+    },[uid])
 
     //notifies photos to deselect if selected
     const deselectAll = (event) => {
@@ -77,31 +78,34 @@ export default function Create() {
 
 
     return (
-        <Box 
-            id='hometabpanel-1'
-            aria-labelledby='hometab-1'
-            className={classes.box}
-            onClick={deselectAll} 
-        >
-            {visible && <CanvasSpinner/>}
-            <Box className={classes.photoContainer}>
-                {delay && appstractions &&  
-                   Object.values(appstractions)
-                   .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
-                   .map((image, i) => {
-                       return (
-                           <Photo url={image.url} title={image.title} key={image.title} />
-                       )
-                   })
+        <>
+            {delay && <DeleteDialog/>}
+            <Box 
+                id='hometabpanel-1'
+                aria-labelledby='hometab-1'
+                className={classes.box}
+                onClick={deselectAll} 
+            >
+                {visible && <CanvasSpinner/>}
+                <Box className={classes.photoContainer}>
+                    {delay && appstractions &&  
+                    Object.values(appstractions)
+                    .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
+                    .map((image, i) => {
+                        return (
+                            <Photo url={image.url} title={image.title} key={image.title} />
+                        )
+                    })
+                    }
+                </Box>
+
+                <Box flexGrow={1}/>
+                {matches && 
+                    <BottomNavagation > 
+                        <SearchBar/>
+                    </BottomNavagation>
                 }
             </Box>
-
-            <Box flexGrow={1}/>
-            {matches && 
-                <BottomNavagation > 
-                    <SearchBar/>
-                </BottomNavagation>
-            }
-        </Box>
+        </>
     );
 }

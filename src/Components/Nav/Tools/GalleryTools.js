@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import SearchBar from './SubTools/SearchBar'
 import {useDispatch, useSelector} from 'react-redux'
-import {updateSelected} from '../../../Actions/Interface/allInterfaceActions'
+import {updateSelected, toggleDeleteDialog} from '../../../Actions/Interface/allInterfaceActions'
 import {useFirestoreConnect} from 'react-redux-firebase'
 
 const styles = makeStyles(theme => ({
@@ -63,15 +63,24 @@ export default function GalleryTools(){
     };
 
     const selectAll = () => {
-        dispatch(updateSelected(Object.keys(appstractions)));
+        handleClose();
+        if(selected.length === Object.keys(appstractions).length) {
+            dispatch(updateSelected([]));
+        } else {
+            dispatch(updateSelected(Object.keys(appstractions)));
+        }
+    }
+
+    const deleteSelected = () => {
+        if(!selected.length) return;
+        handleClose();
+        dispatch(toggleDeleteDialog(true));
     }
 
     const navDownload = () => {
         if(!selected.length) return;
-
+        handleClose();
         function download(img) {
-
-           
         
             const xhr = new XMLHttpRequest();
             xhr.responseType = 'blob';
@@ -84,11 +93,8 @@ export default function GalleryTools(){
                 a.click();          
             };
             xhr.open('GET', img.url);
-            xhr.send()
-           
-           
+            xhr.send()   
         }
-        
         for (let i = 0; i < selected.length; i++) {
             const img = appstractions[selected[i]];
             download(img);
@@ -143,7 +149,7 @@ export default function GalleryTools(){
                 <MenuItem onClick={navDownload} id='Download' className={!selected.length ? classes.disabled : ''}>
                     <GetAppIcon fontSize='small' className={classes.icon}/>Download
                 </MenuItem>
-                <MenuItem id='Delete' className={!selected.length ? classes.disabled : ''}>
+                <MenuItem onClick={deleteSelected} id='Delete' className={!selected.length ? classes.disabled : ''}>
                     <DeleteForeverIcon fontSize='small' className={classes.icon}/>Delete
                 </MenuItem>
             </Menu>     

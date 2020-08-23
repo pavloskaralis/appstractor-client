@@ -25,6 +25,8 @@ const initialState = {
     searchDialog: false,
     //makes save dialog visible
     saveDialog: false,
+    //makes delete dialog visible
+    deleteDialog: false,
     //initiates canvas capture; true value holds title string
     capture: null,
     //contains array of selected titles 
@@ -75,6 +77,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, searchDialog: action.payload}
         case 'TOGGLE_SAVE_DIALOG':
             return {...state, saveDialog: action.payload}
+        case 'TOGGLE_DELETE_DIALOG':
+            return {...state, deleteDialog: action.payload}
         case 'TOGGLE_CAPTURE':
             return {...state, capture: action.payload}
         case 'UPDATE_SELECTED':
