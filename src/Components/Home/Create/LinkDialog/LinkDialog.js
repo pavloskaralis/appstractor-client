@@ -245,6 +245,7 @@ export default function LinkDialog(){
                 
                         <form onSubmit={handleSubmit} className={classes.form}>
                             <TextField
+                                required
                                 error={Boolean(errors.link)}
                                 helperText={errors.link && <Error>{errors.link}</Error>}
                                 color='secondary'

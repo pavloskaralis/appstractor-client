@@ -106,7 +106,7 @@ export default function Photo({title,url, deselect}) {
     const classes = styles(); 
     const dispatch = useDispatch(); 
     const selected = useSelector(state => state.interface.selected)
-    const [select, toggleSelect] = useState(false);
+
     const [anchorEl, setAnchorEl] = useState(null);  
     const [ref, inView] = useInView({
         triggerOnce: true, 
@@ -114,6 +114,9 @@ export default function Photo({title,url, deselect}) {
         rootMargin: '0px 0px -15px 0px'
     })
 
+    useEffect(()=> {
+
+    },[selected])
     const handleClose = (event) => {
         event.stopPropagation(); 
         setAnchorEl(null);
@@ -121,7 +124,15 @@ export default function Photo({title,url, deselect}) {
 
     const handleCheckboxChange = (event) => {
         event.stopPropagation(); 
-        toggleSelect(select => !select)
+         //remove from selected if select toggled false 
+        if(selected.includes(title)) {
+            console.log('A')
+            dispatch(updateSelected(selected.filter( ele => ele !== title)));
+        //add to selected if select toggled true
+        } else if (!selected.includes(title) ) {
+            console.log('B')
+            dispatch(updateSelected([...selected,title]));
+        }
     }
 
     const handleMenuClick = (event) => {
@@ -129,30 +140,14 @@ export default function Photo({title,url, deselect}) {
         setAnchorEl(event.target)
     }
 
-    //on select change
-    useEffect(()=> {
-
-        //remove from selected if select toggled false 
-        if(selected.includes(title) && !select ) {
-            console.log('A')
-            dispatch(updateSelected(selected.filter( ele => ele !== title)));
-        //add to selected if select toggled true
-        } else if (!selected.includes(title) && select) {
-            console.log('B')
-            dispatch(updateSelected([...selected,title]));
-        }
-    },[select])
-
-    useEffect(()=>{
-        if(deselect && select) toggleSelect(false);
-    },[deselect])
-
+ 
+ 
     return(
         
         <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
-                    <Box border={select ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
+                    <Box border={selected.includes(title) ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
                         <Tooltip title="Actions" aria-label="Actions">
                             <MoreVertIcon />
@@ -199,7 +194,7 @@ export default function Photo({title,url, deselect}) {
                     <Box className={classes.cardContent}>
                         <Checkbox
                             size='small'
-                            checked={select}
+                            checked={selected.includes(title)}
                             onClick={handleCheckboxChange}
                             name="confirm"
                             className={classes.checkbox}

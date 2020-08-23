@@ -47,8 +47,6 @@ export default function Create() {
     const appstractions = useSelector( state => state.firestore.data.appstractions);
     //spinner state
     const [visible, toggleVisible] = useState(true);
-    //deselect event listiner (rather than one for each photo)
-    const [deselect, toggleDeselect] = useState(false);
 
     //faster page load delaying images
     useEffect(()=> {
@@ -57,6 +55,8 @@ export default function Create() {
             toggleVisible(false);
             toggleDelay(delay=>!delay)
         },500)
+        //deselect all on unmount
+        return () =>  dispatch(updateSelected([]));
     },[])
 
     useEffect(()=>{
@@ -67,11 +67,9 @@ export default function Create() {
     },[appstractions])
 
     //notifies photos to deselect if selected
-    const shouldDeselect = (event) => {
+    const deselectAll = (event) => {
         event.stopPropagation(); 
         dispatch(updateSelected([]));
-        toggleDeselect(true);
-        setTimeout(()=> toggleDeselect(false),0);
     }
 
 
@@ -79,20 +77,21 @@ export default function Create() {
         <Box 
             id='hometabpanel-1'
             aria-labelledby='hometab-1'
-            className={classes.box} 
+            className={classes.box}
+            onClick={deselectAll} 
         >
             {visible && <CanvasSpinner/>}
-            <Box className={classes.photoContainer} onClick={shouldDeselect}>
+            <Box className={classes.photoContainer}>
                 {delay && appstractions &&  
                    Object.values(appstractions).map((image, i) => {
                        return (
-                           <Photo url={image.url} title={image.title} key={image.title} deselect={deselect}/>
+                           <Photo url={image.url} title={image.title} key={image.title} />
                        )
                    })
                 }
             </Box>
 
-            <Box flexGrow={1} onClick={shouldDeselect}/>
+            <Box flexGrow={1}/>
             {matches && 
                 <BottomNavagation > 
                     <SearchBar/>

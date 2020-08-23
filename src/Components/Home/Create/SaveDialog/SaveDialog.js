@@ -132,8 +132,8 @@ export default function SaveDialog(){
             setErrors({        
                 title: '',
             }); 
-            if(!title) {
-                return setErrors(errors => ({...errors, title:'Image title cannot be left blank.'}))
+            if(!title.match(/^\w+$/)){
+                return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
             }
             if(appstractions && appstractions[title]){
                 return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
@@ -175,6 +175,7 @@ export default function SaveDialog(){
                                 onChange={handleChange}
                                 variant='filled'
                                 className={classes.textField}
+                                required
                             />
                             <Button type='submit' fullWidth color='secondary' variant='contained'>Save Image</Button>
                         </form>            
