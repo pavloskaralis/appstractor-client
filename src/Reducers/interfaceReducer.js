@@ -28,7 +28,9 @@ const initialState = {
     //initiates canvas capture; true value holds title string
     capture: null,
     //contains array of selected titles 
-    selected: []
+    selected: [],
+    //search bar string
+    search: ''
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -77,6 +79,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, capture: action.payload}
         case 'UPDATE_SELECTED':
             return {...state, selected: action.payload}
+        case 'UPDATE_SEARCH': 
+            return {...state, search: action.payload}
         default:
             return state        
     }

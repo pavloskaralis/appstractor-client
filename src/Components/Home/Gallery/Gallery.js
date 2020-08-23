@@ -41,6 +41,7 @@ export default function Create() {
     const matches = useMediaQuery('(max-width:599px)');
     const [delay, toggleDelay] = useState(false)
     const dispatch = useDispatch();
+    const search = useSelector(state => state.interface.search);
     //load appstractions
     const uid = useSelector(state => state.firebase.auth.uid);
     useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
@@ -83,7 +84,9 @@ export default function Create() {
             {visible && <CanvasSpinner/>}
             <Box className={classes.photoContainer}>
                 {delay && appstractions &&  
-                   Object.values(appstractions).map((image, i) => {
+                   Object.values(appstractions)
+                   .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
+                   .map((image, i) => {
                        return (
                            <Photo url={image.url} title={image.title} key={image.title} />
                        )

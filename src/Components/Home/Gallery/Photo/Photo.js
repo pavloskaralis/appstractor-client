@@ -106,6 +106,7 @@ export default function Photo({title,url, deselect}) {
     const classes = styles(); 
     const dispatch = useDispatch(); 
     const selected = useSelector(state => state.interface.selected)
+    const [isSelected, toggleIsSelected]= useState(false);
 
     const [anchorEl, setAnchorEl] = useState(null);  
     const [ref, inView] = useInView({
@@ -115,8 +116,9 @@ export default function Photo({title,url, deselect}) {
     })
 
     useEffect(()=> {
-
+        selected.includes(title) ? toggleIsSelected(true) : toggleIsSelected(false);
     },[selected])
+
     const handleClose = (event) => {
         event.stopPropagation(); 
         setAnchorEl(null);
@@ -125,11 +127,10 @@ export default function Photo({title,url, deselect}) {
     const handleCheckboxChange = (event) => {
         event.stopPropagation(); 
          //remove from selected if select toggled false 
-        if(selected.includes(title)) {
-            console.log('A')
+        if(isSelected) {
             dispatch(updateSelected(selected.filter( ele => ele !== title)));
         //add to selected if select toggled true
-        } else if (!selected.includes(title) ) {
+        } else if (!isSelected) {
             console.log('B')
             dispatch(updateSelected([...selected,title]));
         }
@@ -147,7 +148,7 @@ export default function Photo({title,url, deselect}) {
         <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
-                    <Box border={selected.includes(title) ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
+                    <Box border={isSelected ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
                         <Tooltip title="Actions" aria-label="Actions">
                             <MoreVertIcon />
@@ -194,7 +195,7 @@ export default function Photo({title,url, deselect}) {
                     <Box className={classes.cardContent}>
                         <Checkbox
                             size='small'
-                            checked={selected.includes(title)}
+                            checked={isSelected}
                             onClick={handleCheckboxChange}
                             name="confirm"
                             className={classes.checkbox}
