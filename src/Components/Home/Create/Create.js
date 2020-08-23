@@ -28,7 +28,6 @@ const styles = makeStyles(theme => ({
         }
     },
     artboard:{
-        zIndex: 1202, 
         backgroundColor: theme.palette.background.default,
         display: 'flex',
         height:'100%',
@@ -82,7 +81,7 @@ export default function Create() {
             className={classes.page} 
         >
             {matchesA && <CreateDrawer/>}
-            <Box className={classes.artboard}>
+            <Box className={classes.artboard} zIndex={capture ? 1202 : 1}>
                 <CanvasContainer>
                     <Canvas/>
                     {rendering && image && <CanvasSpinner/>}

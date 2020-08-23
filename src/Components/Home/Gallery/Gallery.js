@@ -7,7 +7,7 @@ import BottomNavagation from '@material-ui/core/BottomNavigation'
 import SearchBar from '../../Nav/Tools/SubTools/SearchBar'
 import {useFirestoreConnect, isEmpty} from 'react-redux-firebase'
 import {useSelector, useDispatch} from 'react-redux'
-import {setSnackbar} from '../../../Actions/Interface/allInterfaceActions'
+import {setSnackbar, updateSelected} from '../../../Actions/Interface/allInterfaceActions'
 import CanvasSpinner from '../Create/CanvasSpinner/CanvasSpinner'
 
 const styles = makeStyles(theme => ({
@@ -17,12 +17,11 @@ const styles = makeStyles(theme => ({
         width:'100%',
         height:'100%',
         overflow:'auto',
-        flexDirection: 'column',
+        flexDirection: 'column'
     },
     photoContainer: {
         display:'flex',
         flexWrap:'wrap',
-        // flexGrow: 1, 
         width: '100%',
         margin: '0 auto',
         padding: theme.spacing(3, 1),
@@ -48,6 +47,8 @@ export default function Create() {
     const appstractions = useSelector( state => state.firestore.data.appstractions);
     //spinner state
     const [visible, toggleVisible] = useState(true);
+    //deselect event listiner (rather than one for each photo)
+    const [deselect, toggleDeselect] = useState(false);
 
     //faster page load delaying images
     useEffect(()=> {
@@ -65,8 +66,15 @@ export default function Create() {
         if(isEmpty(appstractions)) setTimeout(()=>dispatch(setSnackbar({success:false, message: 'You have not created any images.'})),500)
     },[appstractions])
 
+    //notifies photos to deselect if selected
+    const shouldDeselect = (event) => {
+        event.stopPropagation(); 
+        dispatch(updateSelected([]));
+        toggleDeselect(true);
+        setTimeout(()=> toggleDeselect(false),0);
+    }
 
-   
+
     return (
         <Box 
             id='hometabpanel-1'
@@ -74,17 +82,17 @@ export default function Create() {
             className={classes.box} 
         >
             {visible && <CanvasSpinner/>}
-            <Box className={classes.photoContainer}>
+            <Box className={classes.photoContainer} onClick={shouldDeselect}>
                 {delay && appstractions &&  
                    Object.values(appstractions).map((image, i) => {
                        return (
-                           <Photo url={image.url} title={image.title} key={image.title}/>
+                           <Photo url={image.url} title={image.title} key={image.title} deselect={deselect}/>
                        )
                    })
                 }
             </Box>
 
-            <Box flexGrow={1}/>
+            <Box flexGrow={1} onClick={shouldDeselect}/>
             {matches && 
                 <BottomNavagation > 
                     <SearchBar/>

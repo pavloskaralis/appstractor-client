@@ -64,7 +64,7 @@ export default function CreateTabs() {
   const patternIcon = <Tooltip title="Pattern" aria-label="pattern"><FingerprintIcon/></Tooltip>
   const shadowIcon = <Tooltip title="Shadow" aria-label="shadow"><Brightness6Icon/></Tooltip>
   return (
-    <Box>
+    <Box zIndex={2}>
       <CreatePanel heading='Render' value={bottomNavValue} index={0}>
         <RenderControls context={{image, rerenderClicked, preset,  customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>

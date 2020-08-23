@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -16,6 +16,8 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import {useInView} from 'react-intersection-observer';
+import {updateSelected} from '../../../../Actions/Interface/allInterfaceActions'
+import {useDispatch, useSelector} from 'react-redux'
 
 const styles = makeStyles(theme => ({
     card: {
@@ -45,10 +47,7 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary
     },
     cardMedia: {
-        width: '100%',
-        height: '66.66%',
-        backgroundSize: 'cover',
-        
+        paddingTop: '66.66%', 
     },
     cardContent: {
         display: 'flex',
@@ -103,8 +102,10 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo({title,url}) {
+export default function Photo({title,url, deselect}) {
     const classes = styles(); 
+    const dispatch = useDispatch(); 
+    const selected = useSelector(state => state.interface.selected)
     const [select, toggleSelect] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);  
     const [ref, inView] = useInView({
@@ -113,21 +114,42 @@ export default function Photo({title,url}) {
         rootMargin: '0px 0px -15px 0px'
     })
 
-    const handleClose = () => {
+    const handleClose = (event) => {
+        event.stopPropagation(); 
         setAnchorEl(null);
     };
 
     const handleCheckboxChange = (event) => {
-        toggleSelect(event.target.checked)
+        event.stopPropagation(); 
+        toggleSelect(select => !select)
     }
 
     const handleMenuClick = (event) => {
+        event.stopPropagation(); 
         setAnchorEl(event.target)
     }
 
+    //on select change
+    useEffect(()=> {
+
+        //remove from selected if select toggled false 
+        if(selected.includes(title) && !select ) {
+            console.log('A')
+            dispatch(updateSelected(selected.filter( ele => ele !== title)));
+        //add to selected if select toggled true
+        } else if (!selected.includes(title) && select) {
+            console.log('B')
+            dispatch(updateSelected([...selected,title]));
+        }
+    },[select])
+
+    useEffect(()=>{
+        if(deselect && select) toggleSelect(false);
+    },[deselect])
+
     return(
         
-        <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} >
+        <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
                     <Box border={select ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
@@ -153,9 +175,10 @@ export default function Photo({title,url}) {
                         </MenuItem>
                     </Menu>     
                     
-                    <Box
+                    <CardMedia
                         className={classes.cardMedia}
-                        style={{backgroundImage:`url(${url})`}}
+                        image={url}
+                        title={title}
                     />
                     
                     <ButtonGroup  variant='text' className={classes.group}>
@@ -177,7 +200,7 @@ export default function Photo({title,url}) {
                         <Checkbox
                             size='small'
                             checked={select}
-                            onChange={handleCheckboxChange}
+                            onClick={handleCheckboxChange}
                             name="confirm"
                             className={classes.checkbox}
                         />

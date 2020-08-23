@@ -26,7 +26,9 @@ const initialState = {
     //makes save dialog visible
     saveDialog: false,
     //initiates canvas capture; true value holds title string
-    capture: null
+    capture: null,
+    //contains array of selected titles 
+    selected: []
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -73,6 +75,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, saveDialog: action.payload}
         case 'TOGGLE_CAPTURE':
             return {...state, capture: action.payload}
+        case 'UPDATE_SELECTED':
+            return {...state, selected: action.payload}
         default:
             return state        
     }
