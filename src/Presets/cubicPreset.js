@@ -1,7 +1,7 @@
 const cubicPreset = {
     quantity: {
         row: 8,
-        block: 10,
+        block: 9,
         stripe: 2
     },
     pattern: 'alternate',

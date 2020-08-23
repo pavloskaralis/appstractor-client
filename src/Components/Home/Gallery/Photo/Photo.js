@@ -45,7 +45,10 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary
     },
     cardMedia: {
-        paddingTop: '66.66%', 
+        width: '100%',
+        height: '66.66%',
+        backgroundSize: 'cover',
+        
     },
     cardContent: {
         display: 'flex',
@@ -100,7 +103,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo() {
+export default function Photo({title,url}) {
     const classes = styles(); 
     const [select, toggleSelect] = useState(false);
     const [anchorEl, setAnchorEl] = useState(null);  
@@ -150,10 +153,9 @@ export default function Photo() {
                         </MenuItem>
                     </Menu>     
                     
-                    <CardMedia
-                    className={classes.cardMedia}
-                    image="https://source.unsplash.com/random"
-                    title="Image title"
+                    <Box
+                        className={classes.cardMedia}
+                        style={{backgroundImage:`url(${url})`}}
                     />
                     
                     <ButtonGroup  variant='text' className={classes.group}>
@@ -181,7 +183,7 @@ export default function Photo() {
                         />
                         <Box display='flex' height='100%' flexDirection='column' justifyContent='center'>
                             <Typography className={classes.title} variant="h6" >
-                                Title
+                                {title}
                             </Typography>
                         </Box>
 

@@ -7,6 +7,7 @@ import {toggleCapture, setProgress, setSnackbar, toggleLoading, toggleRendering}
 
 export default function Capture () {
     const dispatch = useDispatch(); 
+    const {quantity, background, pattern, shadow, randomValues, swapPattern}  = useSelector(state => state.canvas);
     const capture = useSelector(state => state.interface.capture);
     const uid = useSelector(state => state.firebase.auth.uid);
     const firebase = useFirebase();
@@ -56,9 +57,9 @@ export default function Capture () {
                         .doc(capture)
                         .set({
                             url: url, 
-                            title: capture
+                            title: capture,
+                            state: {quantity, background, pattern, shadow, randomValues, swapPattern}
                         })
-                    
                     dispatch(toggleCapture(false));
                     setTimeout(()=>{
                         dispatch(toggleLoading(false));
@@ -74,9 +75,10 @@ export default function Capture () {
     return(
         <div id='capture' style={{
             zIndex: 1,
-            width: '1500px',
-            height: '1000px',
-            position: 'absolute'
+            width: '1800px',
+            height: '1200px',
+            position: 'absolute',
+            top: 0
         }}>
             <Canvas/>
         </div>

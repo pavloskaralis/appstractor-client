@@ -122,6 +122,7 @@ export default function SearchDialog(){
     const dispatch = useDispatch();
     const firestore = useFirestore();
     useFirestoreConnect('stock') ;
+    //connects to cache of stock on server
     const stock = useSelector( state => state.firestore.data.stock);
     //condition for Slide
     const searchDialog = useSelector(state => state.interface.searchDialog);

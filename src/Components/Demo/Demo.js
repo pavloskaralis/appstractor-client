@@ -15,6 +15,6 @@ export default function Demo(){
     
 
     return (
-        <Create demo={true}/>
+        <Create/>
     )
 }

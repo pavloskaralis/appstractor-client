@@ -175,7 +175,7 @@ export default function Canvas(){
                 },
             },
             stripeContext:{
-                backgroundImage: `url(${totalStripes < 200 ? image.medium : image.small})`,
+                backgroundImage: `url(${totalStripes < 500 ? image.medium : image.small})`,
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,

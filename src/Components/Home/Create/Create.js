@@ -14,6 +14,7 @@ import LinkDialog from './LinkDialog/LinkDialog'
 import SearchDialog from './SearchDialog/SearchDialog'
 import SaveDialog from './SaveDialog/SaveDialog'
 import Capture from '../../Capture/Capture'
+import { isLoaded, isEmpty } from 'react-redux-firebase'
 
 const styles = makeStyles(theme => ({
     page: {
@@ -54,20 +55,23 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-//when spawned from demo delay never toggles; prevents firestore error from no auth
-export default function Create({demo = false}) {
+export default function Create() {
     const classes = styles();
+    const auth = useSelector(state => state.firebase.auth)
     const image = useSelector(state => state.canvas.image)
-    const {rendering, loading, capture, searchDialog, linkDialog, saveDialog} = useSelector(state => state.interface);
+
+    const {rendering, loading, capture} = useSelector(state => state.interface);
     const [delay, toggleDelay] = useState(false);
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
     const matchesB = useMediaQuery('(max-width:599px)');
+
     //improve page load
     useEffect(()=> {
-        //dont allow dialogs to mount during demo
-        if(demo) return
-        setTimeout(()=> toggleDelay(true),500)
+        //dont allow dialogs to mount during demo; prevents firestore error
+        if(isLoaded(auth) && !isEmpty(auth)) {
+            setTimeout(()=> toggleDelay(true),500)
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
     return (
