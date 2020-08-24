@@ -23,6 +23,7 @@ import {useSelector} from 'react-redux'
 import {isEmpty} from 'react-redux-firebase'
 import GlobalSnackbar from './Components/GlobalSnackbar/GlobalSnackbar'
 import GlobalBackdrop from './Components/GlobalBackdrop/GlobalBackdrop'
+import View from './Components/View/View'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -58,13 +59,14 @@ function App() {
         <Switch>        
           <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
           <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
+          <Route exact path={ROUTES.VIEW} component={View}/>
 
-          <PrivateRoute path={ROUTES.CREATE} component={Create}/>
-          <PrivateRoute path={ROUTES.GALLERY} component={Gallery}/>
-          <PrivateRoute path={ROUTES.FEEDBACK} component={Feedback}/>
-          <PrivateRoute path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
-          <PrivateRoute path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
-          <PrivateRoute path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
+          <PrivateRoute exact path={ROUTES.CREATE} component={Create}/>
+          <PrivateRoute exact path={ROUTES.GALLERY} component={Gallery}/>
+          <PrivateRoute exact path={ROUTES.FEEDBACK} component={Feedback}/>
+          <PrivateRoute exact path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>
+          <PrivateRoute exact path={ROUTES.ACCOUNT_DELETE} component={Delete}/>
+          <PrivateRoute exact path={[ROUTES.ACCOUNT, ROUTES.ACCOUNT_EMAIL]} component={Email}/>
 
           <PublicRoute exact path={ROUTES.DEMO} component={Demo}/>
           <PublicRoute exact path={ROUTES.SIGNUP} component={Signup}/>

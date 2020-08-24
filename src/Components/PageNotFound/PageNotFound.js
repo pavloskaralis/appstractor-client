@@ -35,7 +35,7 @@ export default function Signup(){
     const history = useHistory();
 
     const handleClick = () =>{
-        history.goBack();
+        history.goBack();  
     }
 
     return (

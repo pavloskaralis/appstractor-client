@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 import {useFirestoreConnect} from 'react-redux-firebase'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
-import {useHistory, useParams} from 'react-router-dom'
+import {useHistory, useParams, Redirect} from 'react-router-dom'
 import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos'
 import Fade from '@material-ui/core/Fade'
-import setSnackbar from '../../../../Actions/Interface/setSnackbar'
+import {PAGE_NOT_FOUND} from '../../../../Routes/routes'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -22,9 +22,11 @@ const styles = makeStyles(theme => ({
         justifyContent: 'center',
         flexDirection: 'column',
         backgroundColor: 'rgba(66,66,66,.9)',
-        zIndex: 1201
+        zIndex: 1201,
+        overflow: 'auto'
     },
     dialog: {
+        position: 'relative',
         boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
         backgroundColor: 'rgba(46,46,46,.85)',
         maxWidth: 930,
@@ -111,7 +113,6 @@ const styles = makeStyles(theme => ({
 
 export default function Lightbox() {
     const classes = styles(); 
-    const dispatch = useDispatch();
     const history = useHistory();
     const params = useParams(); 
     const [values, setValues] = useState({
@@ -166,20 +167,14 @@ export default function Lightbox() {
         }
       
         return ()=> window.removeEventListener('keydown', handleKeyDown);
-    },[params, appstractions, values, setValues])
+    },[params, appstractions, values, setValues, history])
    
 
     //set url on params change
     useEffect(()=>{
         if(!appstractions) return;
         if(!params.id) return;
-        if(params.id && !appstractions[params.id]){
-            const imageNotFound = ()=> {
-                history.push('/gallery')
-                dispatch(setSnackbar({success:false, message: 'Image does not exist.'}))
-            }
-            return imageNotFound();
-        }
+        if(!appstractions[params.id]) return;
         setValues({
             url: appstractions[params.id].url,
             length: Object.keys(appstractions).length,
@@ -189,31 +184,47 @@ export default function Lightbox() {
 
    
     return (
-        <Fade in={params.id}>
-            <Box className={classes.container} onClick={handleClose}>
-                <IconButton onClick={handleClose} className={classes.closeButton} aria-label='close'>
-                    <Tooltip title="Close" aria-label="close">
-                        <CloseIcon />
-                    </Tooltip>
-                </IconButton>         
-                <Box className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
-                    <Box 
-                        className={classes.image} 
-                        style={{backgroundImage: appstractions && params.id ? `url(${values.url})` : ''}}
-                    >
-                        <Box className={classes.buttonContainer}>
-                            <IconButton onClick={leftClick} className={classes.iconButton} aria-label='left'>
-                                <ArrowForwardIosIcon  className={classes.backArrow} />
-                            </IconButton> 
-                            <IconButton onClick={rightClick} className={classes.iconButton} aria-label='right'>
-                                <ArrowForwardIosIcon />
-                            </IconButton> 
-                        </Box>
-                    </Box>
-                </Box>
-                <Typography variant='h6' className={classes.title}>{params.id}</Typography>
-                <Typography className={classes.text}>{values.index + 1} of {values.length}</Typography>
-            </Box>
-        </Fade>
+        <>
+            { appstractions && params &&
+                <>
+                    {appstractions[params.id] || !params.id ? 
+                        <Fade in={Boolean(params.id)}>
+                            <Box className={classes.container} onClick={handleClose}>
+                                <Box overflow='auto' display='flex' padding='16px 0' flexDirection='column'>
+                            
+                                <IconButton onClick={handleClose} className={classes.closeButton} aria-label='close'>
+                                    <Tooltip title="Close" aria-label="close">
+                                        <CloseIcon />
+                                    </Tooltip>
+                                </IconButton>         
+                                <Box className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
+                                    <Box 
+                                        className={classes.image} 
+                                        style={{backgroundImage: appstractions && params.id ? `url(${values.url})` : ''}}
+                                    >
+                                        <Box className={classes.buttonContainer}>
+                                            <IconButton onClick={leftClick} className={classes.iconButton} aria-label='left'>
+                                                <Tooltip title="Back" aria-label="back">
+                                                    <ArrowForwardIosIcon  className={classes.backArrow} />
+                                                </Tooltip>
+                                            </IconButton> 
+                                            <IconButton onClick={rightClick} className={classes.iconButton} aria-label='right'>
+                                                <Tooltip title="Forward" aria-label="forward">
+                                                    <ArrowForwardIosIcon />
+                                                </Tooltip>
+                                            </IconButton> 
+                                        </Box> 
+                                    </Box> 
+                                </Box>
+                                <Typography variant='h6' className={classes.title}>{params.id}</Typography>
+                                <Typography className={classes.text}>{values.index + 1} of {values.length}</Typography>
+                                </Box>
+                            </Box>
+                        </Fade> : 
+                        <Redirect to={PAGE_NOT_FOUND}/>
+                    }
+                </>    
+            }
+        </>
     );
   }

@@ -16,7 +16,7 @@ import MoreVertIcon from '@material-ui/icons/MoreVert'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import {useInView} from 'react-intersection-observer';
-import {updateSelected} from '../../../../Actions/Interface/allInterfaceActions'
+import {updateSelected, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
@@ -103,7 +103,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo({title,url, deselect}) {
+export default function Photo({title,url, uid}) {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
@@ -149,7 +149,7 @@ export default function Photo({title,url, deselect}) {
     }
 
     const buttonDownload = (event) => {
-        event.preventDefault();
+        event.stopPropagation();
         const xhr = new XMLHttpRequest();
         xhr.responseType = 'blob';
         xhr.onload = function(event) {
@@ -163,6 +163,17 @@ export default function Photo({title,url, deselect}) {
         xhr.open('GET',url);
         xhr.send()         
     } 
+
+    const copyLink = (event) => {
+        event.stopPropagation();
+        const el = document.createElement('textarea');
+        el.value = `http://localhost:3000/view/${uid}/${title}`;
+        document.body.appendChild(el);
+        el.select();
+        document.execCommand('copy');
+        document.body.removeChild(el);
+        dispatch(setSnackbar({success: true, message:'Link copied to clipboard.'}))
+    }
 
     return(
         
@@ -205,7 +216,7 @@ export default function Photo({title,url, deselect}) {
                         <Button onClick={buttonDownload} classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             Download
                         </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button onClick={copyLink} classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             Link
                         </Button>
                         <Button classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">

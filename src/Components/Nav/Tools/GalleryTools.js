@@ -131,7 +131,7 @@ export default function GalleryTools(){
                 
                     
                     <IconButton onClick={handleMenuClick} className={classes.iconButton} aria-label='actions'>
-                        <Tooltip title="Actions" aria-label="Actions">
+                        <Tooltip title="Actions" aria-label="actions">
                             <MoreVertIcon />
                         </Tooltip>
                     </IconButton> 

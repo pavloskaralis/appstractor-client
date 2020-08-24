@@ -47,7 +47,7 @@ export default function Canvas(){
         setTimeout(()=>{
             toggleDelay(delay => !delay);
             if(image)dispatch(toggleRendering(false));
-        },500)
+        },350)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

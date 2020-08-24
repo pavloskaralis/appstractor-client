@@ -69,7 +69,7 @@ export default function Create() {
     useEffect(()=> {
         //dont allow dialogs to mount during demo; prevents firestore error
         if(isLoaded(auth) && !isEmpty(auth)) {
-            setTimeout(()=> toggleDelay(true),500)
+            setTimeout(()=> toggleDelay(true),350)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])

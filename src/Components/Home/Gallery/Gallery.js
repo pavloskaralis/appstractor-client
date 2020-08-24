@@ -19,7 +19,7 @@ const styles = makeStyles(theme => ({
         width:'100%',
         height:'100%',
         overflow:'auto',
-        flexDirection: 'column'
+        flexDirection: 'column',
     },
     photoContainer: {
         display:'flex',
@@ -59,7 +59,7 @@ export default function Create() {
             //stop spinner
             toggleVisible(false);
             toggleDelay(delay=>!delay)
-        },500)
+        },350)
         //deselect all on unmount
         return () =>  dispatch(updateSelected([]));
         // eslint-disable-next-line react-hooks/exhaustive-deps     
@@ -73,7 +73,7 @@ export default function Create() {
         if(emptyState) return;
         toggleEmptyState(true);
         //if no images alert empty state; sync with spinner stop 
-        if(isEmpty(appstractions)) setTimeout(()=>dispatch(setSnackbar({success:false, message: 'You have not created any images.'})),500)
+        if(isEmpty(appstractions)) setTimeout(()=>dispatch(setSnackbar({success:false, message: 'You have not created any images.'})),350)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[appstractions])
 
@@ -84,35 +84,33 @@ export default function Create() {
     }
 
     return (
-        <>
+        <Box 
+            id='hometabpanel-1'
+            aria-labelledby='hometab-1'
+            className={classes.box}
+            onClick={deselectAll} 
+        >
             {delay && <DeleteDialog/>}
             {delay && <LightBox/>}
-            <Box 
-                id='hometabpanel-1'
-                aria-labelledby='hometab-1'
-                className={classes.box}
-                onClick={deselectAll} 
-            >
-                {visible && <CanvasSpinner/>}
-                <Box className={classes.photoContainer}>
-                    {delay && appstractions &&  
-                    Object.values(appstractions)
-                    .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
-                    .map((image, i) => {
-                        return (
-                            <Photo url={image.url} title={image.title} key={image.title} />
-                        )
-                    })
-                    }
-                </Box>
-
-                <Box flexGrow={1}/>
-                {matches && 
-                    <BottomNavagation > 
-                        <SearchBar/>
-                    </BottomNavagation>
+            {visible && <CanvasSpinner/>}
+            <Box className={classes.photoContainer}>
+                {delay && appstractions &&  
+                Object.values(appstractions)
+                .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
+                .map((image, i) => {
+                    return (
+                        <Photo url={image.url} uid={uid} title={image.title} key={image.title} />
+                    )
+                })
                 }
             </Box>
-        </>
+
+            <Box flexGrow={1}/>
+            {matches && 
+                <BottomNavagation > 
+                    <SearchBar/>
+                </BottomNavagation>
+            }
+        </Box>
     );
 }
