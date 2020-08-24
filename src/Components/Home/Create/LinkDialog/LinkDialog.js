@@ -16,7 +16,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector} from 'react-redux'
-import Grow from '@material-ui/core/Grow'
+import Fade from '@material-ui/core/Fade'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import imageCompression from 'browser-image-compression'
 import {useFirebase} from 'react-redux-firebase'
@@ -233,7 +233,7 @@ export default function LinkDialog(){
             touchEvent="onTouchStart"
             onClickAway={handleClose}
         >
-            <Grow in={linkDialog}>
+            <Fade in={linkDialog}>
                 <Box className={classes.container}>
                     <Box className={classes.dialog}>
                         <Avatar className={classes.avatar}>
@@ -266,7 +266,7 @@ export default function LinkDialog(){
                         </Tooltip>
                     </IconButton>              
                 </Box>     
-            </Grow>   
+            </Fade>   
         </ClickAwayListener>
     );
          

@@ -111,7 +111,7 @@ const categories = [
     'Neon',
     'Space',
     'Texture',
-    'Wildlife'
+    'Wild'
 ]
 
 export default function SearchDialog(){

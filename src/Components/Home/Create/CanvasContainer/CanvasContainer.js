@@ -7,6 +7,7 @@ const styles = makeStyles((theme) => ({
       background: theme.palette.background.darkDefault,
       margin: theme.spacing(2, 'auto'),
       position: 'relative',
+      boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
       flexShrink: 0, 
       [theme.breakpoints.up('xs')]: {
         width: '300px',
@@ -47,7 +48,7 @@ function canvasContainer({children}) {
     const classes = styles();
         
     return (
-        <Box boxShadow={3} className={classes.canvasContainer}>
+        <Box className={classes.canvasContainer}>
             {children}
         </Box>
     );

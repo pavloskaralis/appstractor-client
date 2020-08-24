@@ -10,6 +10,7 @@ import {useSelector, useDispatch} from 'react-redux'
 import {setSnackbar, updateSelected} from '../../../Actions/Interface/allInterfaceActions'
 import CanvasSpinner from '../Create/CanvasSpinner/CanvasSpinner'
 import DeleteDialog from './DeleteDialog/DeleteDialog'
+import LightBox from './Lightbox/Lightbox'
 
 const styles = makeStyles(theme => ({
     box: {
@@ -49,6 +50,8 @@ export default function Create() {
     const appstractions = useSelector( state => state.firestore.data.appstractions);
     //spinner state
     const [visible, toggleVisible] = useState(true);
+    //empty state snackbar on mount only 
+    const [emptyState, toggleEmptyState] = useState(false);
 
     //faster page load delaying images
     useEffect(()=> {
@@ -62,13 +65,17 @@ export default function Create() {
         // eslint-disable-next-line react-hooks/exhaustive-deps     
     },[])
 
+    //empty state
     useEffect(()=>{
         //wait for firestore connection
-        if(typeof uid === 'undefined') return;
+        if(typeof appstractions === 'undefined') return;
+        //prevent snackbar alert when all images are deleted
+        if(emptyState) return;
+        toggleEmptyState(true);
         //if no images alert empty state; sync with spinner stop 
         if(isEmpty(appstractions)) setTimeout(()=>dispatch(setSnackbar({success:false, message: 'You have not created any images.'})),500)
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[uid])
+    },[appstractions])
 
     //notifies photos to deselect if selected
     const deselectAll = (event) => {
@@ -76,10 +83,10 @@ export default function Create() {
         dispatch(updateSelected([]));
     }
 
-
     return (
         <>
             {delay && <DeleteDialog/>}
+            {delay && <LightBox/>}
             <Box 
                 id='hometabpanel-1'
                 aria-labelledby='hometab-1'

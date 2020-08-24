@@ -12,7 +12,7 @@ import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
 import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector,useDispatch} from 'react-redux'
-import Grow from '@material-ui/core/Grow'
+import Fade from '@material-ui/core/Fade'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import {useFirestoreConnect} from 'react-redux-firebase'
 import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/allInterfaceActions'
@@ -153,7 +153,7 @@ export default function SaveDialog(){
             touchEvent="onTouchStart"
             onClickAway={handleClose}
         >
-            <Grow in={saveDialog}>
+            <Fade in={saveDialog}>
                 <Box className={classes.container}>
                     <Box className={classes.dialog}>
                         <Avatar className={classes.avatar}>
@@ -186,7 +186,7 @@ export default function SaveDialog(){
                         </Tooltip>
                     </IconButton>  
                 </Box>     
-            </Grow>   
+            </Fade>   
         </ClickAwayListener>
     );
          

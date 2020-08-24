@@ -18,6 +18,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import {useInView} from 'react-intersection-observer';
 import {updateSelected} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
+import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     card: {
@@ -104,6 +105,7 @@ const styles = makeStyles(theme => ({
 
 export default function Photo({title,url, deselect}) {
     const classes = styles(); 
+    const history = useHistory(); 
     const dispatch = useDispatch(); 
     const selected = useSelector(state => state.interface.selected)
     const [isSelected, toggleIsSelected]= useState(false);
@@ -141,16 +143,20 @@ export default function Photo({title,url, deselect}) {
         setAnchorEl(event.target)
     }
 
+    const openLightbox = () => {
+        history.push('/gallery/' + title);
+    }
+
  
  
     return(
         
-        <Box ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
+        <Box onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
                     <Box border={isSelected ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
-                        <Tooltip title="Actions" aria-label="Actions">
+                        <Tooltip title="Actions" aria-label="actions">
                             <MoreVertIcon />
                         </Tooltip>
                     </IconButton> 
