@@ -143,12 +143,27 @@ export default function Photo({title,url, deselect}) {
         setAnchorEl(event.target)
     }
 
-    const openLightbox = () => {
+    const openLightbox = (event) => {
+        event.stopPropagation();
         history.push('/gallery/' + title);
     }
 
- 
- 
+    const buttonDownload = (event) => {
+        event.preventDefault();
+        const xhr = new XMLHttpRequest();
+        xhr.responseType = 'blob';
+        xhr.onload = function(event) {
+            const blob = xhr.response;
+            const blobUrl = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.download = `appstractorart_${title}`;
+            a.href = blobUrl;
+            a.click();          
+        };
+        xhr.open('GET',url);
+        xhr.send()         
+    } 
+
     return(
         
         <Box onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
@@ -184,10 +199,10 @@ export default function Photo({title,url, deselect}) {
                     />
                     
                     <ButtonGroup  variant='text' className={classes.group}>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button onClick={openLightbox} classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             View
                         </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button onClick={buttonDownload} classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             Download
                         </Button>
                         <Button classes={{root: classes.button, label:classes.label}} size="small" color="default">

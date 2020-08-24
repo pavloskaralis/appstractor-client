@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
@@ -21,7 +21,7 @@ const styles = makeStyles(theme => ({
         display: 'flex',
         justifyContent: 'center',
         flexDirection: 'column',
-        backgroundColor: 'rgba(66,66,66,.85)',
+        backgroundColor: 'rgba(66,66,66,.9)',
         zIndex: 1201
     },
     dialog: {
