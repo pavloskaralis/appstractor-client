@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
@@ -82,7 +82,6 @@ const styles = makeStyles(theme => ({
         }
     },
     title: {
-        // marginTop: theme.spacing(1.5),
         textAlign: 'center',
         color: theme.palette.text.primary,
     },
@@ -142,6 +141,35 @@ export default function Lightbox() {
         history.push(`/gallery/${key}`) 
     }
 
+    //key toggle
+    useEffect(()=> {
+        const leftKey = () => {
+            const keys = Object.keys(appstractions);
+            const key = values.index < 1 ? keys[values.length-1] : keys[values.index-1]
+            history.push(`/gallery/${key}`) 
+        }
+    
+        const rightKey = () => {
+            const keys = Object.keys(appstractions);
+            const key = values.index > values.length - 2 ? keys[0] : keys[values.index+1]
+            history.push(`/gallery/${key}`) 
+        }
+
+        const handleKeyDown = (event) => {
+            const key = event.key;
+            if(key === 'ArrowLeft') return leftKey();
+            if(key === 'ArrowRight') return rightKey();
+        }
+
+        if(params.id){
+            window.addEventListener('keydown',handleKeyDown)
+        }
+      
+        return ()=> window.removeEventListener('keydown', handleKeyDown);
+    },[params, appstractions, values, setValues])
+   
+
+    //set url on params change
     useEffect(()=>{
         if(!appstractions) return;
         if(!params.id) return;
