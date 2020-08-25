@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
-import {useFirestore} from 'react-redux-firebase'
+import {useFirestore, useFirebase} from 'react-redux-firebase'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
@@ -38,6 +38,7 @@ export default function DeleteDialog() {
     const dispatch = useDispatch();
     const {deleteDialog, selected} = useSelector(state => state.interface);
     const firestore = useFirestore();
+    const firebase = useFirebase();
     const uid = useSelector(state => state.firebase.auth.uid);
 
     const handleClose = () => {
@@ -45,6 +46,8 @@ export default function DeleteDialog() {
     };
 
     const deleteSelected = () => {
+        const storage = firebase.storage();
+        const path = storage.ref(`images/appstractions/${uid}`);
         const batch = firestore.batch();
         for(let i = 0; i < selected.length; i ++) {
             const ref = firestore.collection('users').doc(uid)
@@ -52,6 +55,10 @@ export default function DeleteDialog() {
             batch.delete(ref);
         }
         batch.commit();
+        for(let i = 0; i < selected.length; i++){
+            console.log(path, selected[i])
+            path.child(selected[i]).delete();
+        }
         dispatch(updateSelected([]));
         handleClose(); 
     }

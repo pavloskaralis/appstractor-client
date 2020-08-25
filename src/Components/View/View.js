@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
-import {Helmet} from 'react-helmet'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -70,19 +69,11 @@ export default function View (){
 
     return(
         <Box className={classes.container}>
-            <Helmet>
-                <meta name='image' content='http://images.unsplash.com/photo-1598274560998-f5b91d19d1f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80'/>
-                <meta property='og:image' content='http://images.unsplash.com/photo-1598274560998-f5b91d19d1f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80'/>
-                <meta property='og:image:secure' content='https://images.unsplash.com/photo-1598274560998-f5b91d19d1f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80'/>
-
-            </Helmet>
             {visible && <CanvasSpinner/>}
             {typeof appstractions !== 'undefined' && params &&
                 <Box overflow='auto' padding='16px 0' display='flex' flexDirection='column'>
                     {appstractions !== null && appstractions[params.title] ?
-                        <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}>
-                            
-                        </Box>:
+                        <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}/>:
                         <Redirect to={PAGE_NOT_FOUND}/>
                     }
                 </Box>
