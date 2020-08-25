@@ -19,6 +19,7 @@ import {useInView} from 'react-intersection-observer';
 import {updateSelected, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
+import { fbind } from 'q';
 
 const styles = makeStyles(theme => ({
     card: {
@@ -177,10 +178,11 @@ export default function Photo({title,url, uid}) {
     }
 
     const facebookShare = () => {
+       
         const fb = 'http://www.facebook.com/sharer.php?display=popup';
-        const url = `&u=http://www.appstractorart.com/view/${uid}/${title}`;
-        const image = `&picture=` + decodeURIComponent(url);
-        window.open(fb+url+image,'sharer','toolbar=0,status=0,width=626,height=436')
+        const u = `&u=` + decodeURIComponent(`http://www.appstractorart.com/view/${uid}/${title}`);
+        const picture = `&picture=` + decodeURIComponent(url);
+        window.open(fb+u+picture,'sharer','toolbar=0,status=0,width=626,height=436')
     }
 
     return(
