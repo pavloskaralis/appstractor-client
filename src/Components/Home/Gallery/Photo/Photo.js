@@ -177,7 +177,7 @@ export default function Photo({title,url, uid}) {
     }
 
     const facebookShare = () => {
-        window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(`http://www.appstractorart.com/view/${uid}/${title}`)+'&t='+encodeURIComponent(title),'sharer','toolbar=0,status=0,width=626,height=436')
+        window.open('http://www.facebook.com/sharer.php?display=popup&u='+encodeURIComponent(`http://www.appstractorart.com/view/${uid}/${title}`),'sharer','toolbar=0,status=0,width=626,height=436')
     }
 
     return(
