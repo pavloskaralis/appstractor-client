@@ -84,6 +84,7 @@ export default function Nav(){
         'feedback': <Typography className={classes.title}>Feedback</Typography>, 
         'account':  <Typography className={classes.title}>Account</Typography>, 
         '404':   <Typography className={classes.title}>404 Error</Typography>,
+        'view': <Typography className={classes.title}>{pathname.split('/')[3]}</Typography>,
     }[pathname.split('/')[1]]
 
     const tabs={
