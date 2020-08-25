@@ -67,7 +67,7 @@ export default function Capture () {
                     setTimeout(()=>{
                         dispatch(toggleLoading(false));
                         dispatch(setProgress(0));
-                        if(pathname.match('edit')[0]) {
+                        if(pathname.match('edit')) {
                             history.push('/gallery')
                             dispatch(setSnackbar({success: true, message: 'Edit saved to gallery.'}));
                         }else{

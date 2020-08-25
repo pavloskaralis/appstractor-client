@@ -77,7 +77,9 @@ export default function EditTools({title}){
     },[])
 
     const saveClick = () => {
-        dispatch(toggleCapture(title));
+        setTimeout(()=>{
+            dispatch(toggleCapture(title));
+        },0)
     }
 
     const cancelClick = () => {
