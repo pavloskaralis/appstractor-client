@@ -20,7 +20,6 @@
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-facebook": "^8.1.4",
-    "react-helmet": "^6.1.0",
     "react-intersection-observer": "^8.26.2",
     "react-redux": "^7.2.1",
     "react-redux-firebase": "^3.7.0",

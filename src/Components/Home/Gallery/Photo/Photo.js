@@ -184,7 +184,9 @@ export default function Photo({title,url, uid}) {
         window.FB.ui(
             {
                 method: 'share',
-                href: `https://www.appstractorart.com/view/${uid}/${title}`,
+                href: url,
+                // href: `https://www.appstractorart.com/view/${uid}/${title}`,
+                
             },
             null
         );
