@@ -77,6 +77,8 @@ export default function View (){
                         <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}>
                             <Helmet>
                                 <meta name='image' content={appstractions[params.title].url}/>
+                                <meta property='og:image' content={appstractions[params.title].url}/>
+
                             </Helmet>
                         </Box>:
                         <Redirect to={PAGE_NOT_FOUND}/>
