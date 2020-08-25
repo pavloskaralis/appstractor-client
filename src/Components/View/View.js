@@ -6,6 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
+import MetaTags from 'react-meta-tags';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -69,6 +70,9 @@ export default function View (){
 
     return(
         <Box className={classes.container}>
+            <MetaTags>
+                <meta property='og:image:secure_url' content='https://firebasestorage.googleapis.com/v0/b/appstractor-e1551.appspot.com/o/images%2Fappstractions%2Fsy6KYbgR58NsbDQezTEd11YGL562%2Ftest?alt=media&token=c2b919ba-4c4b-4ec8-b8d6-95fca6005c89'/>
+            </MetaTags>
             {visible && <CanvasSpinner/>}
             {typeof appstractions !== 'undefined' && params &&
                 <Box overflow='auto' padding='16px 0' display='flex' flexDirection='column'>
