@@ -19,7 +19,6 @@ import {useInView} from 'react-intersection-observer';
 import {updateSelected, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
-import { fbind } from 'q';
 
 const styles = makeStyles(theme => ({
     card: {
@@ -169,7 +168,7 @@ export default function Photo({title,url, uid}) {
     const copyLink = (event) => {
         event.stopPropagation();
         const el = document.createElement('textarea');
-        el.value = `http://localhost:3000/view/${uid}/${title}`;
+        el.value = `https://localhost:3000/view/${uid}/${title}`;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
@@ -178,11 +177,23 @@ export default function Photo({title,url, uid}) {
     }
 
     const facebookShare = () => {
-       
-        const fb = 'http://www.facebook.com/sharer.php?display=popup';
-        const u = `&u=` + decodeURIComponent(`http://www.appstractorart.com/view/${uid}/${title}`);
-        const picture = `&picture=` + decodeURIComponent(url);
-        window.open(fb+u+picture,'sharer','toolbar=0,status=0,width=626,height=436')
+        // window.FB.getLoginStatus(function(response) {
+        
+        //     console.log(response)
+        // });
+        window.FB.ui(
+            {
+                method: 'share',
+                href: `https://appstractorart.com/view/${uid}/${title}`,
+                picture: url
+            },
+            null
+          );
+          
+        // const fb = 'http://www.facebook.com/sharer.php?display=popup';
+        // const u = `&u=http://www.appstractorart.com/view/${uid}/${title}`;
+        // const picture = `&picture=` + decodeURIComponent(url);
+        // window.open(fb+u+picture,'sharer','toolbar=0,status=0,width=626,height=436')
     }
 
     return(
