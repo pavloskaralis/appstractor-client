@@ -19,6 +19,7 @@ import {useLocation, Link as RouterLink} from 'react-router-dom'
 import * as ROUTES from '../../Routes/routes'
 import {useSelector} from 'react-redux'
 import {isEmpty, useFirebase} from 'react-redux-firebase'
+import EditTools from './Tools/EditTools'
 
 const useStyles = makeStyles( theme => ({
     landingBar: {
@@ -30,7 +31,7 @@ const useStyles = makeStyles( theme => ({
         flexGrow: 1,
     },
     menuToolbar: {
-        paddingLeft: '4px',
+        paddingLeft: 0,
         [theme.breakpoints.up('sm')]: {
            paddingLeft: theme.spacing(1.5),
         }
@@ -77,6 +78,7 @@ export default function Nav(){
         '': isEmpty(auth) ? '' : <CreateTools/>,
         'create': <CreateTools/>,   
         'gallery': <GalleryTools/>, 
+        'edit':  <EditTools title={pathname.split('/')[2]}/>, 
         'demo':  <Typography className={classes.title}>Demo</Typography>, 
         'signup':  <Typography className={classes.title}>Signup</Typography>, 
         'recover': <Typography className={classes.title}>Account Recovery</Typography>, 

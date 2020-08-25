@@ -32,7 +32,9 @@ const initialState = {
     //contains array of selected titles 
     selected: [],
     //search bar string
-    search: ''
+    search: '',
+    //prevents animation on edit load in
+    edit: false, 
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -85,6 +87,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, selected: action.payload}
         case 'UPDATE_SEARCH': 
             return {...state, search: action.payload}
+        case 'TOGGLE_EDIT': 
+            return {...state, edit: action.payload}
         default:
             return state        
     }

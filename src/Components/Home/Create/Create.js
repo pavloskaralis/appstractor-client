@@ -59,7 +59,7 @@ export default function Create() {
     const auth = useSelector(state => state.firebase.auth)
     const image = useSelector(state => state.canvas.image)
 
-    const {rendering, loading, capture} = useSelector(state => state.interface);
+    const {rendering, loading, edit, capture} = useSelector(state => state.interface);
     const [delay, toggleDelay] = useState(false);
     //must create 2; negative matches cause memory leak warning
     const matchesA = useMediaQuery('(min-width:600px)');
@@ -84,7 +84,7 @@ export default function Create() {
             <Box className={classes.artboard} zIndex={capture ? 1202 : 1}>
                 <CanvasContainer>
                     <Canvas/>
-                    {rendering && image && <CanvasSpinner/>}
+                    {rendering && (image || edit) && <CanvasSpinner/>}
                     {loading && <CanvasLoader/>}
                     {!image && !loading && <EmptyCanvas/>}
                     {delay && <LinkDialog/>}

@@ -19,6 +19,7 @@ import {useInView} from 'react-intersection-observer';
 import {updateSelected, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
+import Actions from './Actions/Actions'
 
 const styles = makeStyles(theme => ({
     card: {
@@ -95,16 +96,11 @@ const styles = makeStyles(theme => ({
             backgroundColor: 'rgba(0, 0, 0, 0.29)'
         }
     },
-
-    icon:{
-        marginRight: theme.spacing(2)
-    }
-
 }))
 
 
 
-export default function Photo({title,url, uid}) {
+export default function Photo({uid, image:{url,title,state}}) {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
@@ -123,8 +119,7 @@ export default function Photo({title,url, uid}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selected])
 
-    const handleClose = (event) => {
-        event.stopPropagation(); 
+    const handleClose = () => {
         setAnchorEl(null);
     };
 
@@ -177,28 +172,17 @@ export default function Photo({title,url, uid}) {
     }
 
     const facebookShare = () => {
-        // window.FB.getLoginStatus(function(response) {
-        
-        //     console.log(response)
-        // });
         window.FB.ui(
             {
                 method: 'share',
                 href: url,
-                // href: `https://www.appstractorart.com/view/${uid}/${title}`,
-                
+                // href: `https://www.appstractorart.com/view/${uid}/${title}`,   
             },
             null
-        );
-          
-        // const fb = 'http://www.facebook.com/sharer.php?display=popup';
-        // const u = `&u=http://www.appstractorart.com/view/${uid}/${title}`;
-        // const picture = `&picture=` + decodeURIComponent(url);
-        // window.open(fb+u+picture,'sharer','toolbar=0,status=0,width=626,height=436')
+        );       
     }
 
     return(
-        
         <Box onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
@@ -213,16 +197,10 @@ export default function Photo({title,url, uid}) {
                         keepMounted
                         open={Boolean(anchorEl)}
                         onClose={handleClose}
+                        onClick={(e)=>e.stopPropagation()}
+                        onDoubleClick={(e)=>e.stopPropagation()}
                     >
-                        <MenuItem id='Edit'>
-                            <EditIcon fontSize='small' className={classes.icon}/>Edit
-                        </MenuItem>
-                        <MenuItem id='Rename' >
-                            <TitleIcon fontSize='small' className={classes.icon}/>Rename
-                        </MenuItem>
-                        <MenuItem id='Delete' >
-                            <DeleteForeverIcon fontSize='small' className={classes.icon}/>Delete
-                        </MenuItem>
+                        <Actions title={title} handleClose={handleClose}/>
                     </Menu>     
                     
                     <CardMedia
@@ -232,16 +210,37 @@ export default function Photo({title,url, uid}) {
                     />
                     
                     <ButtonGroup  variant='text' className={classes.group}>
-                        <Button onClick={openLightbox} classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button 
+                            onClick={openLightbox}  
+                            classes={{root: classes.button, label:classes.label}} 
+                            size="small" color="default"
+                            onDoubleClick={(e)=>e.stopPropagation()}
+                        >
                             View
                         </Button>
-                        <Button onClick={buttonDownload} classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button 
+                            onClick={buttonDownload} 
+                            classes={{root: classes.button, label:classes.label}} 
+                            size="small" color="default"
+                            onDoubleClick={(e)=>e.stopPropagation()}
+                        >
                             Download
                         </Button>
-                        <Button onClick={copyLink} classes={{root: classes.button, label:classes.label}} size="small" color="default">
+                        <Button 
+                            onClick={copyLink} 
+                            classes={{root: classes.button, label:classes.label}} 
+                            size="small" color="default"
+                            onDoubleClick={(e)=>e.stopPropagation()}
+                        >
                             Link
                         </Button>
-                        <Button onClick={facebookShare} classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
+                        <Button 
+                            onClick={facebookShare} 
+                            classes={{root: classes.button, label:classes.label}} 
+                            startIcon={<FacebookIcon className={classes.facebook}/>} 
+                            size="small" color="default"
+                            onDoubleClick={(e)=>e.stopPropagation()}
+                        >
                             Share
                         </Button>
                     </ButtonGroup>

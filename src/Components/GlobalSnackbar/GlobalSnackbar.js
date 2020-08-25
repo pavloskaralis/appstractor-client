@@ -21,8 +21,22 @@ const styles = makeStyles((theme) => ({
         
     },
     text: {
-        fontSize: theme.typography.pxToRem(14),
-        lineHeight: 1.75
+        fontSize: theme.typography.pxToRem(13),
+        lineHeight: 2,
+        [theme.breakpoints.up('sm')]:{
+            fontSize: theme.typography.pxToRem(14),
+            lineHeight: 1.75,
+        }
+    },
+    snackbar: {
+        margin: '0 auto',
+        maxWidth: 300,
+        minWidth: 300,
+        [theme.breakpoints.up('sm')]:{
+            minWidth: 320,
+            maxWidth: 320,
+
+        }
     }
 }));
 
@@ -49,6 +63,7 @@ export default function GlobalSnackbar(){
 
     return(
         <Snackbar
+            className={classes.snackbar}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={Boolean(snackbar)}
             autoHideDuration={snackbar && snackbar.capture ? null : 6000}

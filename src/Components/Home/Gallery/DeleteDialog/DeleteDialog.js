@@ -54,13 +54,13 @@ export default function DeleteDialog() {
                 .collection('appstractions').doc(selected[i])
             batch.delete(ref);
         }
+        handleClose(); 
         batch.commit();
         for(let i = 0; i < selected.length; i++){
             console.log(path, selected[i])
             path.child(selected[i]).delete();
         }
         dispatch(updateSelected([]));
-        handleClose(); 
     }
   
     return (

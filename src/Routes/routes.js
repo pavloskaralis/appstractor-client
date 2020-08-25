@@ -3,6 +3,7 @@ export const DEMO = '/demo';
 export const SIGNUP = '/signup';
 export const LOGIN = '/login';
 export const RECOVER = '/recover';
+export const EDIT = '/edit/:title';
 export const CREATE = '/create';
 export const GALLERY = '/gallery/:id?';
 export const FEEDBACK = '/feedback';

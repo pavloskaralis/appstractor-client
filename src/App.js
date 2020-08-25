@@ -62,6 +62,7 @@ function App() {
           <Route exact path={ROUTES.VIEW} component={View}/>
 
           <PrivateRoute exact path={ROUTES.CREATE} component={Create}/>
+          <PrivateRoute exact path={ROUTES.EDIT} component={Create}/>
           <PrivateRoute exact path={ROUTES.GALLERY} component={Gallery}/>
           <PrivateRoute exact path={ROUTES.FEEDBACK} component={Feedback}/>
           <PrivateRoute exact path={ROUTES.ACCOUNT_PASSWORD} component={Password}/>

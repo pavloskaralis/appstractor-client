@@ -176,6 +176,7 @@ export default function SaveDialog(){
                                 variant='filled'
                                 className={classes.textField}
                                 required
+                                inputProps={{ maxLength: 12 }}
                             />
                             <Button type='submit' fullWidth color='secondary' variant='contained'>Save Image</Button>
                         </form>            

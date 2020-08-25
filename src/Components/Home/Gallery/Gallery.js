@@ -99,7 +99,7 @@ export default function Create() {
                 .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
                 .map((image, i) => {
                     return (
-                        <Photo url={image.url} uid={uid} title={image.title} key={image.title} />
+                        <Photo  uid={uid} image={image} key={image.title} />
                     )
                 })
                 }
