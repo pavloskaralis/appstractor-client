@@ -76,8 +76,8 @@ export default function View (){
                     {appstractions !== null && appstractions[params.title] ?
                         <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}>
                             <Helmet>
-                                <meta name='image' content={appstractions[params.title].url}/>
-                                <meta property='og:image' content={appstractions[params.title].url}/>
+                                <meta name='image' content='https://images.unsplash.com/photo-1598274560998-f5b91d19d1f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80'/>
+                                <meta property='og:image' content='https://images.unsplash.com/photo-1598274560998-f5b91d19d1f1?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=934&q=80'/>
 
                             </Helmet>
                         </Box>:
