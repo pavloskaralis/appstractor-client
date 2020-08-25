@@ -54,6 +54,7 @@ function App() {
   return (
     <Box height='100vh' display='flex' flexDirection='column' >
       <Helmet>
+        <meta property='og:image:secure' content='https://firebasestorage.googleapis.com/v0/b/appstractor-e1551.appspot.com/o/images%2Fappstractions%2Fsy6KYbgR58NsbDQezTEd11YGL562%2Ftest?alt=media&token=c2b919ba-4c4b-4ec8-b8d6-95fca6005c89'/>
         <meta property='og:image' content='http://firebasestorage.googleapis.com/v0/b/appstractor-e1551.appspot.com/o/images%2Fappstractions%2Fsy6KYbgR58NsbDQezTEd11YGL562%2Ftest?alt=media&token=c2b919ba-4c4b-4ec8-b8d6-95fca6005c89'/>
       </Helmet>
       <AuthIsLoaded>
