@@ -10,12 +10,8 @@ import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
 import Tooltip from '@material-ui/core/Tooltip'
 import Menu from '@material-ui/core/Menu'
-import MenuItem from '@material-ui/core/MenuItem'
-import TitleIcon from '@material-ui/icons/Title'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import {useInView} from 'react-intersection-observer';
+import {useInView} from 'react-intersection-observer'
 import {updateSelected, setSnackbar} from '../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
@@ -100,7 +96,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo({uid, image:{url,title,state}}) {
+export default function Photo({uid, image:{url,title}}) {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 

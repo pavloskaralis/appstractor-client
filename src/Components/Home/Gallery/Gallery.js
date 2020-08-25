@@ -46,12 +46,14 @@ export default function Create() {
     const search = useSelector(state => state.interface.search);
     //load appstractions
     const uid = useSelector(state => state.firebase.auth.uid);
-    useFirestoreConnect(()=> [ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
-    const appstractions = useSelector( ({ firestore: { data } }) => data.appstractions);
+    useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
+    //glitch with firestore saveAs, where empty fields are delete; compensate with filter in return
+    const appstractions = useSelector( state => state.firestore.data.appstractions);
     //spinner state
     const [visible, toggleVisible] = useState(true);
     //empty state snackbar on mount only 
     const [emptyState, toggleEmptyState] = useState(false);
+
 
     //faster page load delaying images
     useEffect(()=> {
@@ -61,12 +63,13 @@ export default function Create() {
             toggleDelay(delay=>!delay)
         },350)
         //deselect all on unmount
-        return () =>  dispatch(updateSelected([]));
+        return () => dispatch(updateSelected([]))
         // eslint-disable-next-line react-hooks/exhaustive-deps     
     },[])
 
     //empty state
     useEffect(()=>{
+        console.log("CHANGE", appstractions)
         //wait for firestore connection
         if(typeof appstractions === 'undefined') return;
         //prevent snackbar alert when all images are deleted
@@ -81,7 +84,6 @@ export default function Create() {
     const deselectAll = (event) => {
         event.stopPropagation(); 
         dispatch(updateSelected([]));
-        console.log('test')
     }
 
     return (
@@ -97,7 +99,7 @@ export default function Create() {
             <Box className={classes.photoContainer}>
                 {delay && appstractions &&  
                 Object.values(appstractions)
-                .filter(val => search ? val.title.toLowerCase().includes(search.toLowerCase()) : true)
+                .filter(val => val && val.title.toLowerCase().includes(search.toLowerCase()))
                 .map((image, i) => {
                     return (
                         <Photo  uid={uid} image={image} key={image.title} />
