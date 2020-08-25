@@ -119,7 +119,8 @@ export default function Photo({uid, image:{url,title,state}}) {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selected])
 
-    const handleClose = () => {
+    const handleClose = (event) => {
+        event.stopPropagation();
         setAnchorEl(null);
     };
 

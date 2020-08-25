@@ -2,7 +2,7 @@ const patchworkPreset = {
     quantity: {
         row: 8,
         block: 12,
-        stripe: 16
+        stripe: 15
     },
     pattern: 'alternate',
     background: {

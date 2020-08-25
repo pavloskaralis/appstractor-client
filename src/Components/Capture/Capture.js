@@ -19,7 +19,7 @@ export default function Capture () {
 
     useEffect(()=> {
         dispatch(toggleRendering(true));
-        dispatch(setSnackbar({success: true, capture: true, message: 'Converting to image (~15 seconds).'}))
+        dispatch(setSnackbar({success: true, capture: true, message: 'Converting html to image.'}))
         setTimeout(()=> {
             domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
             .then(function (blob) {
@@ -28,7 +28,7 @@ export default function Capture () {
                 dispatch(toggleRendering(false));
                 setBlob(blob);
             });
-        },0)
+        },350)
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 

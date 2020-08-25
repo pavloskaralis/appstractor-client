@@ -46,6 +46,8 @@ export default function DeleteDialog() {
     };
 
     const deleteSelected = () => {
+        
+
         const storage = firebase.storage();
         const path = storage.ref(`images/appstractions/${uid}`);
         const batch = firestore.batch();
@@ -54,13 +56,17 @@ export default function DeleteDialog() {
                 .collection('appstractions').doc(selected[i])
             batch.delete(ref);
         }
-        handleClose(); 
+
         batch.commit();
+        
         for(let i = 0; i < selected.length; i++){
-            console.log(path, selected[i])
             path.child(selected[i]).delete();
         }
-        dispatch(updateSelected([]));
+
+        handleClose(); 
+        setTimeout(()=>{
+            dispatch(updateSelected([]));
+        },350)
     }
   
     return (
@@ -69,6 +75,7 @@ export default function DeleteDialog() {
           onClose={handleClose}
           aria-labelledby="delete-title"
           className={classes.dialog}
+          onClick={(e)=>e.stopPropagation()}
         >   
             <Avatar className={classes.avatar}>
                 <Icon className={classes.icon}>

@@ -46,8 +46,8 @@ export default function Create() {
     const search = useSelector(state => state.interface.search);
     //load appstractions
     const uid = useSelector(state => state.firebase.auth.uid);
-    useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
-    const appstractions = useSelector( state => state.firestore.data.appstractions);
+    useFirestoreConnect(()=> [ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
+    const appstractions = useSelector( ({ firestore: { data } }) => data.appstractions);
     //spinner state
     const [visible, toggleVisible] = useState(true);
     //empty state snackbar on mount only 
@@ -81,6 +81,7 @@ export default function Create() {
     const deselectAll = (event) => {
         event.stopPropagation(); 
         dispatch(updateSelected([]));
+        console.log('test')
     }
 
     return (
