@@ -22,6 +22,7 @@ import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     card: {
+        boxShadow: '0px 2px 4px -1px rgba(0,0,0,0.2), 0px 4px 5px 0px rgba(0,0,0,0.14), 0px 1px 10px 0px rgba(0,0,0,0.12)',
         minHeight: 250,
         cursor: 'pointer',
         position: 'relative',
@@ -175,6 +176,10 @@ export default function Photo({title,url, uid}) {
         dispatch(setSnackbar({success: true, message:'Link copied to clipboard.'}))
     }
 
+    const facebookShare = () => {
+        window.open('http://www.facebook.com/sharer.php?u='+encodeURIComponent(`http://www.appstractorart.com/view/${uid}/${title}`)+'&t='+encodeURIComponent(title),'sharer','toolbar=0,status=0,width=626,height=436')
+    }
+
     return(
         
         <Box onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
@@ -219,7 +224,7 @@ export default function Photo({title,url, uid}) {
                         <Button onClick={copyLink} classes={{root: classes.button, label:classes.label}} size="small" color="default">
                             Link
                         </Button>
-                        <Button classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
+                        <Button onClick={facebookShare} classes={{root: classes.button, label:classes.label}} startIcon={<FacebookIcon className={classes.facebook}/>} size="small" color="default">
                             Share
                         </Button>
                     </ButtonGroup>
