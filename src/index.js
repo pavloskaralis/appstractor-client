@@ -43,7 +43,7 @@ const rrfProps = {
 }
   
 ReactDOM.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={store}>
       <ReactReduxFirebaseProvider {...rrfProps}>
         <CssBaseline/>
@@ -53,8 +53,8 @@ ReactDOM.render(
           </BrowserRouter>
         </ThemeProvider>
       </ReactReduxFirebaseProvider> 
-    </Provider>
-  </React.StrictMode>,
+    </Provider>,
+ 
   document.getElementById('root')
 );
 

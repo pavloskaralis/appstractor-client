@@ -168,7 +168,7 @@ export default function Photo({title,url, uid}) {
     const copyLink = (event) => {
         event.stopPropagation();
         const el = document.createElement('textarea');
-        el.value = `https://localhost:3000/view/${uid}/${title}`;
+        el.value = `https://www.appstractorart.com/view/${uid}/${title}`;
         document.body.appendChild(el);
         el.select();
         document.execCommand('copy');
@@ -184,11 +184,10 @@ export default function Photo({title,url, uid}) {
         window.FB.ui(
             {
                 method: 'share',
-                href: `https://appstractorart.com/view/${uid}/${title}`,
-                picture: url
+                href: `https://www.appstractorart.com/view/${uid}/${title}`,
             },
             null
-          );
+        );
           
         // const fb = 'http://www.facebook.com/sharer.php?display=popup';
         // const u = `&u=http://www.appstractorart.com/view/${uid}/${title}`;
