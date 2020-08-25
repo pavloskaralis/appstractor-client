@@ -6,7 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
-import { Helmet } from 'react-helmet'
+import {Helmet} from 'react-helmet'
 
 const styles = makeStyles(theme => ({
     container: {
@@ -76,7 +76,7 @@ export default function View (){
                     {appstractions !== null && appstractions[params.title] ?
                         <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}>
                             <Helmet>
-                                <meta property="og:image" itemProp="image" content={appstractions[params.title].url}/>
+                                <meta name='image' content={appstractions[params.title].url}/>
                             </Helmet>
                         </Box>:
                         <Redirect to={PAGE_NOT_FOUND}/>
