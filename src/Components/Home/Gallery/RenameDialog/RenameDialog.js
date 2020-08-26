@@ -6,10 +6,10 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useFirestore, useFirebase} from 'react-redux-firebase'
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import TitleIcon from '@material-ui/icons/Title'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
-import {updateSelected, toggleDeleteDialog }from '../../../../Actions/Interface/allInterfaceActions';
+import {updateSelected, toggleRenameDialog }from '../../../../Actions/Interface/allInterfaceActions';
 
 const styles = makeStyles(theme => ({
     dialog: {
@@ -36,15 +36,14 @@ const styles = makeStyles(theme => ({
 export default function DeleteDialog() {
     const classes = styles(); 
     const dispatch = useDispatch();
-    const {deleteDialog, selected} = useSelector(state => state.interface);
+    const {renameDialog, selected} = useSelector(state => state.interface);
     const firestore = useFirestore();
     const firebase = useFirebase();
     const uid = useSelector(state => state.firebase.auth.uid);
 
     const handleClose = () => {
-        dispatch(toggleDeleteDialog(false));
+        dispatch(toggleRenameDialog(false));
     };
-
     const deleteSelected = () => {    
 
         const storage = firebase.storage();
@@ -52,14 +51,13 @@ export default function DeleteDialog() {
         const batch = firestore.batch();
         for(let i = 0; i < selected.length; i ++) {
             const ref = firestore.collection('users').doc(uid)
-                .collection('appstractions').doc(selected[i].doc)
+                .collection('appstractions').doc(selected[i])
             batch.delete(ref);
         }
         batch.commit();
-
-        //delete storage after doc
+        
         for(let i = 0; i < selected.length; i++){
-            path.child(selected[i].doc).delete();
+            path.child(selected[i]).delete();
         }
 
         handleClose(); 
@@ -71,7 +69,7 @@ export default function DeleteDialog() {
   
     return (
         <Dialog
-          open={deleteDialog}
+          open={renameDialog}
           onClose={handleClose}
           aria-labelledby="delete-title"
           className={classes.dialog}
@@ -79,21 +77,15 @@ export default function DeleteDialog() {
         >   
             <Avatar className={classes.avatar}>
                 <Icon className={classes.icon}>
-                    <DeleteForeverIcon/>
+                    <TitleIcon/>
                 </Icon>
             </Avatar>
             <Typography id="delete-title" className={classes.title} variant='h6'>
-                {selected.length > 1 || !selected.length ? `Delete ${selected.length} images?` : `Delete "${selected[0].title}"?`}
+                {`Rename "${selected[0]}"`}
             </Typography>
 
             <Box display='flex' justifyContent='space-evenly'>
-                <Button variant='contained' onClick={handleClose} color="default">
-                    Cancel
-                </Button>
-                <Box width='12px'/>
-                <Button variant='contained' onClick={deleteSelected} color='secondary' >
-                    Delete
-                </Button>
+               
             </Box>
         </Dialog>
     );

@@ -115,7 +115,7 @@ export default function Lightbox() {
     const classes = styles(); 
     const history = useHistory();
     const params = useParams(); 
-    const [values, setValues] = useState({
+    const [lightbox, updateLightbox] = useState({
         index: null,
         length: null,
         url: null
@@ -131,29 +131,29 @@ export default function Lightbox() {
     };
 
     const leftClick = () => {
-        const keys = Object.keys(appstractions);
-        const key = values.index < 1 ? keys[values.length-1] : keys[values.index-1]
-        history.push(`/gallery/${key}`) 
+        const values = Object.values(appstractions);
+        const title = lightbox.index < 1 ? values[lightbox.length-1].title : values[lightbox.index-1].title
+        history.push(`/gallery/${title}`) 
     }
 
     const rightClick = () => {
-        const keys = Object.keys(appstractions);
-        const key = values.index > values.length - 2 ? keys[0] : keys[values.index+1]
-        history.push(`/gallery/${key}`) 
+        const values = Object.values(appstractions);
+        const title = lightbox.index > lightbox.length - 2 ? values[0].title : values[lightbox.index+1].title
+        history.push(`/gallery/${title}`) 
     }
 
     //key toggle
     useEffect(()=> {
         const leftKey = () => {
-            const keys = Object.keys(appstractions);
-            const key = values.index < 1 ? keys[values.length-1] : keys[values.index-1]
-            history.push(`/gallery/${key}`) 
+            const values = Object.values(appstractions);
+            const title = lightbox.index < 1 ? values[lightbox.length-1].title : values[lightbox.index-1].title
+            history.push(`/gallery/${title}`) 
         }
     
         const rightKey = () => {
-            const keys = Object.keys(appstractions);
-            const key = values.index > values.length - 2 ? keys[0] : keys[values.index+1]
-            history.push(`/gallery/${key}`) 
+            const values = Object.values(appstractions);
+            const title = lightbox.index > lightbox.length - 2 ? values[0].title : values[lightbox.index+1].title
+            history.push(`/gallery/${title}`) 
         }
 
         const handleKeyDown = (event) => {
@@ -162,69 +162,63 @@ export default function Lightbox() {
             if(key === 'ArrowRight') return rightKey();
         }
 
-        if(params.id){
+        if(params.title){
             window.addEventListener('keydown',handleKeyDown)
         }
       
         return ()=> window.removeEventListener('keydown', handleKeyDown);
-    },[params, appstractions, values, setValues, history])
+    },[params, appstractions, lightbox, updateLightbox, history])
    
 
     //set url on params change
     useEffect(()=>{
-        if(!appstractions) return;
-        if(!params.id) return;
-        if(!appstractions[params.id]) return;
-        setValues({
-            url: appstractions[params.id].url,
-            length: Object.keys(appstractions).length,
-            index: Object.keys(appstractions).indexOf(params.id)
+        if(!appstractions || !params.title) return;
+        const values = Object.values(appstractions);
+        const index  = values.findIndex(obj => obj.title === params.title);
+        updateLightbox({
+            url: index > -1 ? values[index].url : null,
+            length: values.length,
+            index: index
         })
-       },[appstractions, params])
+    },[appstractions, params])
 
    
     return (
         <>
-            { appstractions && params &&
-                <>
-                    {appstractions[params.id] || !params.id ? 
-                        <Fade in={Boolean(params.id)}>
-                            <Box className={classes.container} onClick={handleClose}>
-                                <Box overflow='auto' display='flex' padding='16px 0' flexDirection='column'>
-                            
-                                <IconButton onClick={handleClose} className={classes.closeButton} aria-label='close'>
-                                    <Tooltip title="Close" aria-label="close">
-                                        <CloseIcon />
+            {lightbox.index === -1 && <Redirect to={PAGE_NOT_FOUND}/>}
+            <Fade in={Boolean(params.title && lightbox.index !== null && lightbox.index > -1)}>
+                <Box className={classes.container} onClick={handleClose}>
+                    <Box overflow='auto' display='flex' padding='16px 0' flexDirection='column'>
+                
+                    <IconButton onClick={handleClose} className={classes.closeButton} aria-label='close'>
+                        <Tooltip title="Close" aria-label="close">
+                            <CloseIcon />
+                        </Tooltip>
+                    </IconButton>         
+                    <Box className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
+                        <Box 
+                            className={classes.image} 
+                            style={{backgroundImage: appstractions && lightbox.url ? `url(${lightbox.url})` : ''}}
+                        >
+                            <Box className={classes.buttonContainer}>
+                                <IconButton onClick={leftClick} className={classes.iconButton} aria-label='left'>
+                                    <Tooltip title="Back" aria-label="back">
+                                        <ArrowForwardIosIcon  className={classes.backArrow} />
                                     </Tooltip>
-                                </IconButton>         
-                                <Box className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
-                                    <Box 
-                                        className={classes.image} 
-                                        style={{backgroundImage: appstractions && params.id ? `url(${values.url})` : ''}}
-                                    >
-                                        <Box className={classes.buttonContainer}>
-                                            <IconButton onClick={leftClick} className={classes.iconButton} aria-label='left'>
-                                                <Tooltip title="Back" aria-label="back">
-                                                    <ArrowForwardIosIcon  className={classes.backArrow} />
-                                                </Tooltip>
-                                            </IconButton> 
-                                            <IconButton onClick={rightClick} className={classes.iconButton} aria-label='right'>
-                                                <Tooltip title="Forward" aria-label="forward">
-                                                    <ArrowForwardIosIcon />
-                                                </Tooltip>
-                                            </IconButton> 
-                                        </Box> 
-                                    </Box> 
-                                </Box>
-                                <Typography variant='h6' className={classes.title}>{params.id}</Typography>
-                                <Typography className={classes.text}>{values.index + 1} of {values.length}</Typography>
-                                </Box>
-                            </Box>
-                        </Fade> : 
-                        <Redirect to={PAGE_NOT_FOUND}/>
-                    }
-                </>    
-            }
+                                </IconButton> 
+                                <IconButton onClick={rightClick} className={classes.iconButton} aria-label='right'>
+                                    <Tooltip title="Forward" aria-label="forward">
+                                        <ArrowForwardIosIcon />
+                                    </Tooltip>
+                                </IconButton> 
+                            </Box> 
+                        </Box> 
+                    </Box>
+                    <Typography variant='h6' className={classes.title}>{params.title}</Typography>
+                    <Typography className={classes.text}>{lightbox.index + 1} of {lightbox.length}</Typography>
+                    </Box>
+                </Box>
+            </Fade>         
         </>
     );
   }

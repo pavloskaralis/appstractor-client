@@ -140,10 +140,12 @@ export default function SearchDialog(){
     //on pagination change
     const handlePageChange = (event, value) => {
         //toggle spinner; reset scroll; set new page value; set new photos
-        toggleVisible(true);
-        ref.current.scrollTop = 0; 
-        setPage(value);
-        setPhotos(stock[category].data[value]);
+        if(value !== page)toggleVisible(true);
+        setTimeout(()=>{
+            ref.current.scrollTop = 0; 
+            setPage(value);
+            setPhotos(stock[category].data[value]);
+        },0)
     } 
 
     //close search

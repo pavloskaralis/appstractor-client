@@ -67,7 +67,7 @@ export default function GalleryTools(){
         if(selected.length === Object.keys(appstractions).length) {
             dispatch(updateSelected([]));
         } else {
-            dispatch(updateSelected(Object.keys(appstractions)));
+            dispatch(updateSelected(Object.entries(appstractions).map(([key,val])=>({doc: key, title: val.title }))));
         }
     }
 

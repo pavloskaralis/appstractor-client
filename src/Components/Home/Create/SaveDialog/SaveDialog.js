@@ -135,7 +135,7 @@ export default function SaveDialog(){
             if(!title.match(/^\w+$/)){
                 return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
             }
-            if(appstractions && appstractions[title]){
+            if(appstractions && Object.values(appstractions).some(obj => obj.title === title)){
                 return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
             }
             //trigger capture and pass title 

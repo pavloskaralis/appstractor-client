@@ -5,7 +5,7 @@ import createSwapPattern from '../Functions/createSwapPattern'
 const maxUnits = {
     row: 8, 
     block: 12, 
-    stripe: 15
+    stripe: 14
 }
 //aerial neon cityscape sky graffiti texture experimental
 const initialState = {

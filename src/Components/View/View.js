@@ -6,6 +6,7 @@ import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
+import { object } from 'prop-types';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -61,19 +62,21 @@ export default function View (){
     useFirestoreConnect([ { collection: 'users', doc: params.uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
     const appstractions = useSelector( state => state.firestore.data.appstractions);
     const [visible,toggleVisible] = useState(true);
-
+    const [target,setTarget] = useState(null);
     useEffect(() => {
-        if(!appstractions) return;
-        toggleVisible(false);
+        if(typeof appstractions === 'undefined') return;
+        const target = appstractions ? Object.values(appstractions).find(obj => obj.title === params.title) : false; 
+        setTarget(target);
+        setTimeout(()=>toggleVisible(false),0);
     },[appstractions]);
 
     return(
         <Box className={classes.container}>
             {visible && <CanvasSpinner/>}
-            {typeof appstractions !== 'undefined' && params &&
+            {typeof appstractions !== 'undefined' && target !== null &&
                 <Box overflow='auto' padding='16px 0' display='flex' flexDirection='column'>
-                    {appstractions !== null && appstractions[params.title] ?
-                        <Box className={classes.image} style={{backgroundImage:`url(${appstractions[params.title].url})`}}/>:
+                    {appstractions !== null && target ?
+                        <Box className={classes.image} style={{backgroundImage:`url(${target.url})`}}/>:
                         <Redirect to={PAGE_NOT_FOUND}/>
                     }
                 </Box>

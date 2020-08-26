@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@material-ui/core/Button'
 import IconButton from '@material-ui/core/IconButton'
 import SaveIcon from '@material-ui/icons/Save'
@@ -47,13 +47,16 @@ export default function EditTools({title}){
     const uid = useSelector(state => state.firebase.auth.uid);
     useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
     const appstractions = useSelector( state => state.firestore.data.appstractions);
+    const [target, setTarget] = useState(null);
 
     useEffect(()=>{
-        if(!appstractions) return; 
-        if(!appstractions[title]) return;
-        dispatch(setImage(appstractions[title].state.image));
+        if(typeof appstractions === 'undefined') return;
+        const target = Object.values(appstractions).find(obj => obj.title === title); 
+        setTarget(target);
+        if(!target) return;
+        dispatch(setImage(target.state.image));
         setTimeout(()=>{
-            dispatch(loadPreset(appstractions[title].state));
+            dispatch(loadPreset(target.state));
             setTimeout(()=>{
                 dispatch(toggleCreateClicked(true)); 
                 dispatch(toggleEdit(false));
@@ -88,7 +91,7 @@ export default function EditTools({title}){
 
     return (
         <> 
-            {typeof appstractions !== 'undefined' && !appstractions[title] && <Redirect to={PAGE_NOT_FOUND}/>}
+            {typeof appstractions !== 'undefined' && typeof target === 'undefined' && <Redirect to={PAGE_NOT_FOUND}/>}
 
             {matches ? 
                 <>

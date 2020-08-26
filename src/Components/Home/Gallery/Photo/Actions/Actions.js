@@ -4,8 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TitleIcon from '@material-ui/icons/Title'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import loadPreset from '../../../../../Actions/Canvas/loadPreset'
-import {updateSelected, setSnackbar, setPreset, toggleFirstRender, toggleCreateClicked} from '../../../../../Actions/Interface/allInterfaceActions'
+import {toggleRenameDialog, updateSelected} from '../../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
@@ -17,15 +16,20 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Actions({handleClose,  title}) {
+export default function Actions({handleClose, doc, title}) {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
  
     const editClick = () => {
         handleClose();
-        
-        history.push(`/edit/${title}`);
+        setTimeout(()=> history.push(`/edit/${title}`));
+    }
+
+    const renameClick  = () => {
+        handleClose();
+        dispatch(updateSelected([{doc,title}]));
+        dispatch(toggleRenameDialog(true));
     }
 
     return(   
@@ -33,7 +37,7 @@ export default function Actions({handleClose,  title}) {
             <MenuItem onClick={editClick} id='Edit'>
                 <EditIcon fontSize='small' className={classes.icon}/>Edit
             </MenuItem>
-            <MenuItem id='Rename' >
+            <MenuItem onClick={renameClick} id='Rename' >
                 <TitleIcon fontSize='small' className={classes.icon}/>Rename
             </MenuItem>
             <MenuItem id='Delete' >

@@ -21,6 +21,8 @@ const initialState = {
     progress: 0,
     //makes link dialog visible
     linkDialog: false,
+    //makes rename dialog visible; 
+    renameDialog: false,
     //makes search dialog visible
     searchDialog: false,
     //makes save dialog visible
@@ -34,7 +36,7 @@ const initialState = {
     //search bar string
     search: '',
     //prevents animation on edit load in
-    edit: false, 
+    edit: false,
 }
 
 //all properties which relate to the render interface, but not required to replicate a canvas
@@ -81,6 +83,8 @@ export default function canvasReducer(state = initialState, action){
             return {...state, saveDialog: action.payload}
         case 'TOGGLE_DELETE_DIALOG':
             return {...state, deleteDialog: action.payload}
+        case 'TOGGLE_RENAME_DIALOG':
+            return {...state, renameDialog: action.payload}
         case 'TOGGLE_CAPTURE':
             return {...state, capture: action.payload}
         case 'UPDATE_SELECTED':

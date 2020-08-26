@@ -11,6 +11,7 @@ import {setSnackbar, updateSelected} from '../../../Actions/Interface/allInterfa
 import CanvasSpinner from '../Create/CanvasSpinner/CanvasSpinner'
 import DeleteDialog from './DeleteDialog/DeleteDialog'
 import LightBox from './Lightbox/Lightbox'
+import RenameDialog from './RenameDialog/RenameDialog'
 
 const styles = makeStyles(theme => ({
     box: {
@@ -69,7 +70,6 @@ export default function Create() {
 
     //empty state
     useEffect(()=>{
-        console.log("CHANGE", appstractions)
         //wait for firestore connection
         if(typeof appstractions === 'undefined') return;
         //prevent snackbar alert when all images are deleted
@@ -94,15 +94,17 @@ export default function Create() {
             onClick={deselectAll} 
         >
             {delay && <DeleteDialog/>}
+            {delay && <RenameDialog/>}
             {delay && <LightBox/>}
             {visible && <CanvasSpinner/>}
             <Box className={classes.photoContainer}>
                 {delay && appstractions &&  
-                Object.values(appstractions)
-                .filter(val => val && val.title.toLowerCase().includes(search.toLowerCase()))
-                .map((image, i) => {
+                Object.entries(appstractions)
+                .filter(([key,val]) => val && val.title.toLowerCase().includes(search.toLowerCase()))
+                .map(([key, val]) => {
+                    console.log('this',key, val)
                     return (
-                        <Photo  uid={uid} image={image} key={image.title} />
+                        <Photo  uid={uid} image={val} doc={key} key={key}/>
                     )
                 })
                 }

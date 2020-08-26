@@ -96,7 +96,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Photo({uid, image:{url,title}}) {
+export default function Photo({uid, doc, image:{url,title}}) {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
@@ -111,12 +111,11 @@ export default function Photo({uid, image:{url,title}}) {
     })
 
     useEffect(()=> {
-        selected.includes(title) ? toggleIsSelected(true) : toggleIsSelected(false);
+        selected.find(obj => obj.doc === doc) ? toggleIsSelected(true) : toggleIsSelected(false);
         // eslint-disable-next-line react-hooks/exhaustive-deps
     },[selected])
 
-    const handleClose = (event) => {
-        event.stopPropagation();
+    const handleClose = () => {
         setAnchorEl(null);
     };
 
@@ -124,10 +123,10 @@ export default function Photo({uid, image:{url,title}}) {
         event.stopPropagation(); 
          //remove from selected if select toggled false 
         if(isSelected) {
-            dispatch(updateSelected(selected.filter( ele => ele !== title)));
+            dispatch(updateSelected(selected.filter(obj => obj.doc !== doc)));
         //add to selected if select toggled true
         } else if (!isSelected) {
-            dispatch(updateSelected([...selected,title]));
+            dispatch(updateSelected([...selected,{doc, title}]));
         }
     }
 
@@ -197,7 +196,7 @@ export default function Photo({uid, image:{url,title}}) {
                         onClick={(e)=>e.stopPropagation()}
                         onDoubleClick={(e)=>e.stopPropagation()}
                     >
-                        <Actions title={title} handleClose={handleClose}/>
+                        <Actions title={title} doc={doc} handleClose={handleClose}/>
                     </Menu>     
                     
                     <CardMedia
@@ -246,7 +245,6 @@ export default function Photo({uid, image:{url,title}}) {
                         <Checkbox
                             size='small'
                             checked={isSelected}
-                            onClick={handleCheckboxChange}
                             name="confirm"
                             className={classes.checkbox}
                         />
