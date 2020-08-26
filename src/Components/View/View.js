@@ -63,6 +63,7 @@ export default function View (){
     const appstractions = useSelector( state => state.firestore.data.appstractions);
     const [visible,toggleVisible] = useState(true);
     const [target,setTarget] = useState(null);
+    
     useEffect(() => {
         if(typeof appstractions === 'undefined') return;
         const target = appstractions ? Object.values(appstractions).find(obj => obj.title === params.title) : false; 

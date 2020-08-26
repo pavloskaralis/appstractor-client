@@ -1,15 +1,17 @@
-import React from 'react';
+import React, {useState, useLayoutEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
-import {useFirestore, useFirebase} from 'react-redux-firebase'
-import Button from '@material-ui/core/Button'
+import {useFirestore, useFirestoreConnect} from 'react-redux-firebase'
 import Icon from '@material-ui/core/Icon'
 import TitleIcon from '@material-ui/icons/Title'
 import Typography from '@material-ui/core/Typography'
 import Avatar from '@material-ui/core/Avatar'
-import {updateSelected, toggleRenameDialog }from '../../../../Actions/Interface/allInterfaceActions';
+import {updateSelected, setSnackbar, toggleRenameDialog }from '../../../../Actions/Interface/allInterfaceActions';
+import Button from '@material-ui/core/Button'
+import TextField from '@material-ui/core/TextField'
+import Error from '../../../FormPage/Error/Error'
 
 const styles = makeStyles(theme => ({
     dialog: {
@@ -30,42 +32,83 @@ const styles = makeStyles(theme => ({
         color: theme.palette.text.primary,
         marginBottom: theme.spacing(2),
     },
-
-
+    textField: {
+        '@media (max-width: 779px) and (min-width: 600px)':{
+            marginBottom: theme.spacing(.5)
+        },
+        '@media (max-width: 399px)':{
+            marginBottom: theme.spacing(.5)
+        }    
+    },
+    form: {
+        maxWidth: 296,
+        '& .MuiFormHelperText-root':{
+            backgroundColor: theme.palette.background.paper,
+        },
+    },
 }))
 export default function DeleteDialog() {
     const classes = styles(); 
     const dispatch = useDispatch();
     const {renameDialog, selected} = useSelector(state => state.interface);
-    const firestore = useFirestore();
-    const firebase = useFirebase();
+    const firestore = useFirestore(); 
+    //load appstractions
     const uid = useSelector(state => state.firebase.auth.uid);
+    useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
+    const appstractions = useSelector( state => state.firestore.data.appstractions);
+
+    const [values, setValues] = useState({
+        title: '',
+    })
+
+    const [errors, setErrors] = useState({
+        title: '',
+    })
 
     const handleClose = () => {
+        if(!renameDialog) return;
         dispatch(toggleRenameDialog(false));
+        dispatch(updateSelected([]));
     };
-    const deleteSelected = () => {    
 
-        const storage = firebase.storage();
-        const path = storage.ref(`images/appstractions/${uid}`);
-        const batch = firestore.batch();
-        for(let i = 0; i < selected.length; i ++) {
-            const ref = firestore.collection('users').doc(uid)
-                .collection('appstractions').doc(selected[i])
-            batch.delete(ref);
-        }
-        batch.commit();
-        
-        for(let i = 0; i < selected.length; i++){
-            path.child(selected[i]).delete();
-        }
+    const handleChange = (event) => {
+        const id = event.target.id
+        const value = event.target.value
+        setValues(values => ({ ...values, [id]: value }));
+    };
 
-        handleClose(); 
-        //prevent undefined text 
-        setTimeout(()=>{
-            dispatch(updateSelected([]));
-        },200)
+     //erase errors and values on
+     useLayoutEffect(()=> {
+        if(errors.title){
+            setErrors({title: ''});
+        }
+        if(values.title){
+            setValues({title: ''});
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[renameDialog])
+    
+    const handleSubmit = (event) => {
+        event.preventDefault();
+      
+        const {title} = values; 
+        setErrors({        
+            title: '',
+        }); 
+        if(!title.match(/^\w+$/)){
+            return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
+        }
+        if(appstractions && Object.values(appstractions).some(obj => obj.title === title)){
+            return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
+        }
+        handleClose();
+
+        firestore.collection('users').doc(uid).collection('appstractions').doc(selected[0].doc)
+            .update({title: title})
+          
+          
     }
+
   
     return (
         <Dialog
@@ -81,12 +124,27 @@ export default function DeleteDialog() {
                 </Icon>
             </Avatar>
             <Typography id="delete-title" className={classes.title} variant='h6'>
-                {`Rename "${selected[0]}"`}
+                {selected[0] && `Rename "${selected[0].title}"`}
             </Typography>
 
-            <Box display='flex' justifyContent='space-evenly'>
-               
-            </Box>
+            <form onSubmit={handleSubmit} className={classes.form}>
+                <TextField
+                    error={Boolean(errors.title)}
+                    helperText={errors.title && <Error>{errors.title}</Error>}
+                    color='secondary'
+                    id='title'
+                    label='Image Title'
+                    fullWidth
+                    value={values.title}
+                    onChange={handleChange}
+                    variant='filled'
+                    className={classes.textField}
+                    required
+                    inputProps={{ maxLength: 12 }}
+                />
+                <Button type='submit' fullWidth color='secondary' variant='contained'>Rename Image</Button>
+            </form>  
+
         </Dialog>
     );
   }
