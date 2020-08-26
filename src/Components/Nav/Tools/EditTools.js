@@ -51,12 +51,12 @@ export default function EditTools({title}){
 
     useEffect(()=>{
         if(typeof appstractions === 'undefined') return;
-        const target = Object.values(appstractions).find(obj => obj.title === title); 
-        setTarget(target);
+        const target = Object.entries(appstractions).find(([key,val]) => val.title === title); 
+        setTarget(target[0]);
         if(!target) return;
-        dispatch(setImage(target.state.image));
+        dispatch(setImage(target[1].state.image));
         setTimeout(()=>{
-            dispatch(loadPreset(target.state));
+            dispatch(loadPreset(target[1].state));
             setTimeout(()=>{
                 dispatch(toggleCreateClicked(true)); 
                 dispatch(toggleEdit(false));
@@ -81,8 +81,8 @@ export default function EditTools({title}){
 
     const saveClick = () => {
         setTimeout(()=>{
-            dispatch(toggleCapture(title));
-        },0)
+            dispatch(toggleCapture(target));
+        },150)
     }
 
     const cancelClick = () => {

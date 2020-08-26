@@ -102,7 +102,6 @@ export default function Create() {
                 Object.entries(appstractions)
                 .filter(([key,val]) => val && val.title.toLowerCase().includes(search.toLowerCase()))
                 .map(([key, val]) => {
-                    console.log('this',key, val)
                     return (
                         <Photo  uid={uid} image={val} doc={key} key={key}/>
                     )

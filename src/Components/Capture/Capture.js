@@ -34,70 +34,99 @@ export default function Capture () {
 
     useEffect(()=> {
         if(!blob) return;
-
-        //create firestore doc first to get docRef.id for matching storage path 
-        firestore.collection(`users/${uid}/appstractions`)
-            .add({
-                url: null, 
-                title: capture,
-                state: {image, quantity, background, pattern, shadow, randomValues, swapPattern},
-                date: new Date().toString()
-            })
-            .then(function(docRef) {
-                const storage = firebase.storage();
-                const uploadTask = storage.ref(`images/appstractions/${uid}/${docRef.id}`).put(blob);
-                uploadTask.on("state_changed",
-                    //provide storage upload progress
-                    snapshot => {
-                        const progress = Math.round(
-                            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-                        );
-                        dispatch(setProgress(progress));
-                    },
-                    () => {
-                        //if error, make sure to delete firestore doc
-                        dispatch(setProgress(0));
-                        dispatch(toggleLoading(false));
+        //if edit and not first save
+        if(capture.length > 12) {
+            const storage = firebase.storage();
+            const uploadTask = storage.ref(`images/appstractions/${uid}/${capture}`).put(blob);
+            uploadTask.on("state_changed",
+                //provide storage upload progress
+                snapshot => {
+                    const progress = Math.round(
+                        (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                    );
+                    dispatch(setProgress(progress));
+                },
+                () => {
+                    //if error, make sure to delete firestore doc
+                    dispatch(setProgress(0));
+                    dispatch(toggleLoading(false));
+                    dispatch(toggleCapture(false));
+                    dispatch(setSnackbar({success: false, message: 'Edit failed to save.'}))
+                },
+                () => {
+                    //on success, update doc with storage download url
+                    storage
+                    .ref(`images/appstractions/${uid}`)
+                    .child(capture)
+                    .getDownloadURL()
+                    .then(url => {
+                        console.log(url)
+                        firestore.collection(`users/${uid}/appstractions`)
+                            .doc(capture)
+                            .update({url: url})
                         dispatch(toggleCapture(false));
-                        dispatch(setSnackbar({success: false, message: 'Image failed to save.'}))
-                        firestore.collection(`users/${uid}/appstractions`).doc(docRef.id).delete()
-                    },
-                    () => {
-                        //on success, update doc with storage download url
-                        storage
-                        .ref(`images/appstractions/${uid}`)
-                        .child(docRef.id)
-                        .getDownloadURL()
-                        .then(url => {
-                            firestore.collection(`users/${uid}/appstractions`)
-                                .doc(docRef.id)
-                                .update({url: url})
+                        setTimeout(()=>{
+                            dispatch(toggleLoading(false));
+                            dispatch(setProgress(0));
+                            history.push('/gallery')
+                            dispatch(setSnackbar({success: true, message: 'Edit saved to gallery.'}));
+                        },0)
+                    });
+                }
+            );
+        } else {
+            //create firestore doc first to get docRef.id for matching storage path 
+            firestore.collection(`users/${uid}/appstractions`)
+                .add({
+                    url: null, 
+                    title: capture,
+                    state: {image, quantity, background, pattern, shadow, randomValues, swapPattern},
+                    date: new Date().toString()
+                })
+                .then(function(docRef) {
+                    const storage = firebase.storage();
+                    const uploadTask = storage.ref(`images/appstractions/${uid}/${docRef.id}`).put(blob);
+                    uploadTask.on("state_changed",
+                        //provide storage upload progress
+                        snapshot => {
+                            const progress = Math.round(
+                                (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+                            );
+                            dispatch(setProgress(progress));
+                        },
+                        () => {
+                            //if error, make sure to delete firestore doc
+                            dispatch(setProgress(0));
+                            dispatch(toggleLoading(false));
                             dispatch(toggleCapture(false));
-                            setTimeout(()=>{
-                                dispatch(toggleLoading(false));
-                                dispatch(setProgress(0));
-                                if(pathname.match('edit')) {
-                                    history.push('/gallery')
-                                    dispatch(setSnackbar({success: true, message: 'Edit saved to gallery.'}));
-                                }else{
+                            dispatch(setSnackbar({success: false, message: 'Image failed to save.'}))
+                            firestore.collection(`users/${uid}/appstractions`).doc(docRef.id).delete()
+                        },
+                        () => {
+                            //on success, update doc with storage download url
+                            storage
+                            .ref(`images/appstractions/${uid}`)
+                            .child(docRef.id)
+                            .getDownloadURL()
+                            .then(url => {
+                                console.log(url)
+                                firestore.collection(`users/${uid}/appstractions`)
+                                    .doc(docRef.id)
+                                    .update({url: url})
+                                dispatch(toggleCapture(false));
+                                setTimeout(()=>{
+                                    dispatch(toggleLoading(false));
+                                    dispatch(setProgress(0));
                                     dispatch(setSnackbar({success: true, message: 'Image saved to gallery.'}));
-                                }
-                            },0)
-                        });
-                    }
-                );
-
-
-
-
-
-
-
-
-        })
-
+                                    
+                                },0)
+                            });
+                        }
+                    );
+            })
+        }          
         
-        // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[blob])
 
     return(
