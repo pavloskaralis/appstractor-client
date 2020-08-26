@@ -4,7 +4,7 @@ import MenuItem from '@material-ui/core/MenuItem'
 import TitleIcon from '@material-ui/icons/Title'
 import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import {toggleRenameDialog, updateSelected} from '../../../../../Actions/Interface/allInterfaceActions'
+import {toggleRenameDialog, updateSelected, toggleDeleteDialog} from '../../../../../Actions/Interface/allInterfaceActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {useHistory} from 'react-router-dom'
 
@@ -32,6 +32,12 @@ export default function Actions({handleClose, doc, title}) {
         dispatch(toggleRenameDialog(true));
     }
 
+    const deleteClick = () => {
+        handleClose();
+        dispatch(updateSelected([{doc,title}]));
+        dispatch(toggleDeleteDialog(true));
+    }
+
     return(   
         <>
             <MenuItem onClick={editClick} id='Edit'>
@@ -40,7 +46,7 @@ export default function Actions({handleClose, doc, title}) {
             <MenuItem onClick={renameClick} id='Rename' >
                 <TitleIcon fontSize='small' className={classes.icon}/>Rename
             </MenuItem>
-            <MenuItem id='Delete' >
+            <MenuItem id='Delete' onClick={deleteClick}>
                 <DeleteForeverIcon fontSize='small' className={classes.icon}/>Delete
             </MenuItem>
         </>
