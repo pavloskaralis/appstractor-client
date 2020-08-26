@@ -111,7 +111,7 @@ const categories = [
     'Neon',
     'Space',
     'Texture',
-    'Wild'
+    'Wildlife'
 ]
 
 export default function SearchDialog(){
@@ -182,7 +182,7 @@ export default function SearchDialog(){
             //max 30 return limit
             for(let i = 1; i <= 10; i ++) {
                 const params = '&page=' + i + '&per_page=30&orientation=landscape&query=' 
-                const query = api + id + params + category;
+                const query = api + id + params + (category !== 'Wildlife' ? category : 'Wild Animals');
                 const {data:{results}} = await axios.get(query);
                 const reduced = results.reduce((output, obj) => {
                     const newObj = {
