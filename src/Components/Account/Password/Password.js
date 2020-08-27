@@ -89,7 +89,7 @@ export default function Signup(){
                 newPassword: '',
                 confirm: ''
             });
-            dispatch(setSnackbar({success:true, message: 'Password has been updated.'}));
+            dispatch(setSnackbar({success:true, message: 'Password has been changed.'}));
 
         } catch (error) {
             switch(error.code) {

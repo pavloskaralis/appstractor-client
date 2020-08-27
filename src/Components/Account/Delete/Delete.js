@@ -108,11 +108,6 @@ export default function Signup(){
             firestore.collection('users').doc(auth.uid).delete();
             firebase.auth().currentUser.delete();
 
-            setValues({
-                password: '',
-                reason: ''
-            });
-
             dispatch(setSnackbar({success:true, message: 'Account has been deleted.'}));
 
         } catch (error) {

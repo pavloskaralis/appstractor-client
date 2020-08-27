@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -41,7 +41,7 @@ export default function  Email(){
     const classes = styles();
     const firebase = useFirebase();
     const dispatch = useDispatch();
-    const profile = useSelector(state => state.firebase.profile);
+    const {auth, profile} = useSelector(state => state.firebase);
     const [visibility, toggleVisibility] = useState(false)
     const [updating, toggleUpdating] = useState(false);
 
@@ -54,6 +54,12 @@ export default function  Email(){
         password: '',
     })
 
+    //incase of email reset
+    useEffect(()=>{
+        if(auth.email !== profile.email){
+            firebase.updateProfile({email: auth.email})
+        }
+    },[])
 
     const handleChange = (event) => {
         const id = event.target.id

@@ -7,12 +7,12 @@ import {useLocation} from 'react-router-dom'
 export default function Recover(){
     const location = useLocation();
     const [code, setCode] = useState(location.search.match(/(?<=Code=)[\w_-]+(?=&)/) ? location.search.match(/(?<=Code=)[\w_-]+(?=&)/)[0] : null);
-
+    const email = location.search.match(/(Email)/)[0];
     
     return (
         <>
         {code ?
-            <Reset code={code} resetCode={()=> setCode(null)}/> :
+            <Reset code={code} email={Boolean(email)} resetCode={()=> setCode(null)}/> :
             <Request/>
         }
         </>

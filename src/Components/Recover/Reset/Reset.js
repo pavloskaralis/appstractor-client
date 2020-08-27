@@ -13,7 +13,8 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import {LOGIN, RECOVER} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
-import { useFirebase } from 'react-redux-firebase'
+import { useFirebase, useFirestore } from 'react-redux-firebase'
+import EmailIcon from '@material-ui/icons/Email'
 import Error from '../../FormPage/Error/Error'
 import {useHistory} from 'react-router-dom'
 import Typography from '@material-ui/core/Typography'
@@ -40,21 +41,20 @@ const styles = makeStyles(theme => ({
     }
 }))
 
-export default function Reset({code, resetCode}){
+export default function Reset({code, resetCode, email}){
     const classes = styles();
     const firebase = useFirebase();
+    const firestore = useFirestore();
     const history = useHistory();
     const dispatch = useDispatch();
     const [invalid, toggleInvalid] = useState(false);
     //form values
     const [values, setValues] = useState({    
-        email: '',
         password: '',
         confirm: '',
     });
     //form errors; password match, email in use, invalid email, weak password
     const [errors, setErrors] = useState({    
-        email: '',
         password: '',
         confirm: '',
     });
@@ -72,11 +72,33 @@ export default function Reset({code, resetCode}){
         toggleVisibility(visibility => !visibility)   
     };
 
-    const handleResetSubmit = async (event) =>{
+    const handleEmailSubmit = async (event) =>{
+        event.preventDefault();
+
+        try {
+            await firebase.auth().checkActionCode(code)
+            
+            firebase.auth().applyActionCode(code);
+            
+            history.push(LOGIN);
+            dispatch(setSnackbar({success: true, message: 'Email has been restored.'}));
+        } catch (error) {
+            switch(error.code) {
+                case 'auth/invalid-action-code':
+                    return toggleInvalid(true);
+                default: 
+                    return;
+            }
+        }
+      
+    }
+
+    const handlePasswordSubmit = async (event) =>{
         event.preventDefault();
 
         const {password, confirm} = values; 
-        setErrors({        
+
+        setErrors({   
             password: '',
             confirm: '',
         });
@@ -104,79 +126,87 @@ export default function Reset({code, resetCode}){
 
     
     return (
-        <FormPage icon={invalid? <WarningIcon/> : <LockIcon/>} title={invalid ? 'Invalid Action Code' : 'Change Your Password'}>
+        <FormPage icon={invalid? <WarningIcon/> : email ? <EmailIcon/> : <LockIcon/>} title={invalid ? 'Invalid Action Code' : email ? 'Restore Email Address' : 'Change Your Password'}>
             {invalid ? 
                 <>
                     <Typography className={classes.text}>
                         This can happen if the code is malformed or expired.
                     </Typography>
-                    <Box margin='0 auto'>
-                        <Button onClick={resetCode} component={RouterLink} to={RECOVER} color="secondary" type='submit'  variant='contained'>
-                            Try Again
-                        </Button>
-                    </Box>
+                    {!email && 
+                        <>
+                            <Box margin='0 auto'>
+                                <Button onClick={resetCode} component={RouterLink} to={RECOVER} color="secondary" type='submit'  variant='contained'>
+                                    Try Again
+                                </Button>
+                            </Box>
 
-                    <Link component={RouterLink} to={LOGIN} className={classes.link}>
-                        Return to Login
-                    </Link>
+                            <Link component={RouterLink} to={LOGIN} className={classes.link}>
+                                Return to Login
+                            </Link>
+                        </>
+                    }
                 </> :
                 <>
-                    <form onSubmit={handleResetSubmit} className={classes.form}>
-                    <TextField
-                        error={Boolean(errors.password)}
-                        helperText={errors.password && <Error>{errors.password}</Error>}
-                        color='secondary'
-                        id='password'
-                        label='Password'
-                        type={visibility ? 'text' : 'password'}            
-                        required
-                        fullWidth
-                        value={values.password}
-                        onChange={handleChange}
-                        variant='filled'
-                        InputProps={{
-                            endAdornment:
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                >
-                                {visibility ? 
-                                    <Visibility  /> : <VisibilityOff />
-                                }
-                                </IconButton>
-                            </InputAdornment>
-                        }}
-                    />
-                    <TextField
-                        error={Boolean(errors.confirm)}
-                        helperText={errors.confirm && <Error>{errors.confirm}</Error>}
-                        color='secondary'
-                        id='confirm'
-                        label='Confirm Password'
-                        type={visibility ? 'text' : 'password'}            
-                        required
-                        fullWidth
-                        value={values.confirm}
-                        onChange={handleChange}
-                        variant='filled'
-                        InputProps={{
-                            endAdornment:
-                            <InputAdornment position="end">
-                                <IconButton
-                                    aria-label="toggle password visibility"
-                                    onClick={handleClickShowPassword}
-                                >
-                                {visibility ? 
-                                    <Visibility  /> : <VisibilityOff />
-                                }
-                                </IconButton>
-                            </InputAdornment>
-                        }}
-                    />
+                    <form onSubmit={email ? handleEmailSubmit : handlePasswordSubmit} className={classes.form}>
+                    {!email &&
+                        <>
+                            <TextField
+                                error={Boolean(errors.password)}
+                                helperText={errors.password && <Error>{errors.password}</Error>}
+                                color='secondary'
+                                id='password'
+                                label='Password'
+                                type={visibility ? 'text' : 'password'}            
+                                required
+                                fullWidth
+                                value={values.password}
+                                onChange={handleChange}
+                                variant='filled'
+                                InputProps={{
+                                    endAdornment:
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                        >
+                                        {visibility ? 
+                                            <Visibility  /> : <VisibilityOff />
+                                        }
+                                        </IconButton>
+                                    </InputAdornment>
+                                }}
+                            />
+                            <TextField
+                                error={Boolean(errors.confirm)}
+                                helperText={errors.confirm && <Error>{errors.confirm}</Error>}
+                                color='secondary'
+                                id='confirm'
+                                label='Confirm Password'
+                                type={visibility ? 'text' : 'password'}            
+                                required
+                                fullWidth
+                                value={values.confirm}
+                                onChange={handleChange}
+                                variant='filled'
+                                InputProps={{
+                                    endAdornment:
+                                    <InputAdornment position="end">
+                                        <IconButton
+                                            aria-label="toggle password visibility"
+                                            onClick={handleClickShowPassword}
+                                        >
+                                        {visibility ? 
+                                            <Visibility  /> : <VisibilityOff />
+                                        }
+                                        </IconButton>
+                                    </InputAdornment>
+                                }}
+                            />
+                        </>
+                    }
                     <Box height='16px'/>
                     <Button type='submit' fullWidth color='secondary' variant='contained'>
-                        Change Password
+                        {email ? 'Revoke Change' : 'Change Password'}
                     </Button>
                     </form>
                     <Link component={RouterLink} to={LOGIN} className={classes.link}>

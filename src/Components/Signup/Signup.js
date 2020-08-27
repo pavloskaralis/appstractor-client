@@ -18,6 +18,7 @@ import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import resetInterface from '../../Actions/Interface/resetInterface'
 import resetCanvas from '../../Actions/Canvas/resetCanvas' 
+import setImage from '../../Actions/Canvas/setImage'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -89,11 +90,13 @@ export default function Signup(){
                 } ,
                 subcollections: [{collection:'appstractions'}]
             });
-
-            dispatch(resetCanvas())
-            dispatch(resetInterface())
+            dispatch(setImage(''))
             
-            setTimeout(()=> history.push(HOME),0)
+            setTimeout(()=> {
+                dispatch(resetCanvas())
+                dispatch(resetInterface())
+                history.push(HOME)
+            },0)
         } catch (error) {
             switch(error.code) {
                 case 'auth/email-already-in-use':

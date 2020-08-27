@@ -18,6 +18,7 @@ import {useHistory} from 'react-router-dom'
 import {useDispatch} from 'react-redux'
 import resetInterface from '../../Actions/Interface/resetInterface'
 import resetCanvas from '../../Actions/Canvas/resetCanvas' 
+import setImage from '../../Actions/Canvas/setImage';
 
 const styles = makeStyles(theme => ({
     form: {
@@ -70,10 +71,13 @@ export default function Login(){
 
         try {
             await firebase.login({email, password});
-
-            dispatch(resetCanvas())
-            dispatch(resetInterface())
-            setTimeout(()=> history.push(HOME),0)
+            dispatch(setImage(''))
+            
+            setTimeout(()=> {
+                dispatch(resetCanvas())
+                dispatch(resetInterface())
+                history.push(HOME)
+            },0)
         } catch (error) {
             switch(error.code) {
                 case 'auth/invalid-email':
