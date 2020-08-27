@@ -12,7 +12,11 @@ import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
 import {HOME} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
-
+import {useSelector, useDispatch} from 'react-redux'
+import { useFirebase } from 'react-redux-firebase';
+import setSnackbar from '../../../Actions/Interface/setSnackbar';
+import Error from '../../FormPage/Error/Error'
+import Typography from '@material-ui/core/Typography'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -25,16 +29,33 @@ const styles = makeStyles(theme => ({
         textAlign: 'center',
         marginTop: theme.spacing(2),
     },
+    updating: {
+        color: theme.palette.text.primary,
+        textAlign: 'center',
+        marginBottom: theme.spacing(2),
+        marginTop: theme.spacing(-2)
+    }
 }))
 
 export default function Signup(){
     const classes = styles();
+    const firebase = useFirebase();
+    const dispatch = useDispatch();
+    const profile = useSelector(state => state.firebase.profile);
+    const [visibility, toggleVisibility] = useState(false)
+    const [updating, toggleUpdating] = useState(false);
+
+
     const [values, setValues] = useState({
         current: '',
-        new: '',
+        newPassword: '',
         confirm: '',
     })
-    const [visibility, toggleVisibility] = useState(false)
+    const [errors, setErrors] = useState({
+        current: '',
+        newPassword: '',
+        confirm: ''
+    })
 
     const handleChange = (event) => {
         const id = event.target.id
@@ -47,8 +68,55 @@ export default function Signup(){
         toggleVisibility(visibility => !visibility)   
     };
 
+    const handleSubmit = async (event) =>{
+        event.preventDefault();
+        const {current, newPassword, confirm} = values; 
+        setErrors({        
+            current: '',
+            newPassword: '',
+            confirm: ''
+        });
+
+        if( newPassword !== confirm){
+            return setErrors(errors => ({...errors, confirm:'Passwords do not match.'}))
+        }
+
+        const credential = firebase.auth.EmailAuthProvider.credential(
+            profile.email,
+            current
+        );
+
+        try {
+            // toggleUpdating(true)
+           
+            await firebase.reauthenticate({credential});
+            await firebase.auth().currentUser.updatePassword(newPassword)
+
+            toggleUpdating(false)
+            setValues({
+                current: '',
+                newPassword: '',
+                confirm: ''
+            });
+            dispatch(setSnackbar({success:true, message: 'Password has been updated.'}));
+
+        } catch (error) {
+            toggleUpdating(false)
+            switch(error.code) {
+                case 'auth/wrong-password': 
+                    return setErrors(errors => ({...errors, current: 'The password is invalid'}));
+                case 'auth/weak-password': 
+                    return setErrors(errors => ({...errors, newPassword: error.message}));
+                default: 
+                    return;
+            }
+        } 
+    }
+
     return (
         <FormPage icon={<LockIcon/>} title='Change Login Password'>
+            {updating && <Typography className={classes.updating}>Updating...</Typography>}
+
             <form className={classes.form}>
                 <TextField
                     color='secondary'
@@ -60,6 +128,8 @@ export default function Signup(){
                     value={values.current}
                     onChange={handleChange}
                     variant='filled'
+                    error={Boolean(errors.current)}
+                    helperText={errors.current && <Error>{errors.current}</Error>}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">
@@ -76,14 +146,16 @@ export default function Signup(){
                 />
                 <TextField
                     color='secondary'
-                    id='new'
+                    id='newPassword'
                     label='New Password'
                     type={visibility ? 'text' : 'password'}            
                     required
                     fullWidth
-                    value={values.new}
+                    value={values.newPassword}
                     onChange={handleChange}
                     variant='filled'
+                    error={Boolean(errors.newPassword)}
+                    helperText={errors.newPassword && <Error>{errors.newPassword}</Error>}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">
@@ -108,6 +180,8 @@ export default function Signup(){
                     value={values.confirm}
                     onChange={handleChange}
                     variant='filled'
+                    error={Boolean(errors.confirm)}
+                    helperText={errors.confirm && <Error>{errors.confirm}</Error>}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">
@@ -123,7 +197,7 @@ export default function Signup(){
                     }}
                 />
                 <Box height='16px'/>
-                <Button type='submit' fullWidth color='secondary' variant='contained'>
+                <Button onClick={handleSubmit} type='submit' fullWidth color='secondary' variant='contained'>
                     Change Password
                 </Button>
             </form>
