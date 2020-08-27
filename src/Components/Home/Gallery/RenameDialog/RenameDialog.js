@@ -105,8 +105,7 @@ export default function DeleteDialog() {
 
         firestore.collection('users').doc(uid).collection('appstractions').doc(selected[0].doc)
             .update({title: title})
-          
-          
+            
     }
 
   

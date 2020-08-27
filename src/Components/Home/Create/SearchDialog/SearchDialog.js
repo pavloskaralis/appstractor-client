@@ -192,7 +192,7 @@ export default function SearchDialog(){
                         small: obj.urls.small,
                         medium: obj.urls.regular,
                         name: obj.user.name,
-                        link: obj.user.links.html,
+                        link: obj.links.html,
                         download: obj.links.download_location
                     }
                     output.push(newObj);

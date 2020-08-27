@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Canvas from '../Canvas/Canvas'
 import domtoimage from 'dom-to-image'
 import {useSelector, useDispatch, } from 'react-redux'
-import {useHistory, useLocation} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import {useFirebase, useFirestore} from 'react-redux-firebase'
 import {toggleCapture, setProgress, setSnackbar, toggleLoading, toggleRendering} from '../../Actions/Interface/allInterfaceActions';
 
 export default function Capture () {
     const dispatch = useDispatch(); 
     const history = useHistory();
-    const {pathname} = useLocation(); 
     const {image, quantity, background, pattern, shadow, randomValues, swapPattern}  = useSelector(state => state.canvas);
     const capture = useSelector(state => state.interface.capture);
     const uid = useSelector(state => state.firebase.auth.uid);
