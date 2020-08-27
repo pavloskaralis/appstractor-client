@@ -59,7 +59,7 @@ export default function Feedback(){
         why:'',
         what:''
     });
-    const [rating, setRating] = useState();
+    const [rating, setRating] = useState(null);
 
 
     const handleInputChange = (event) => {
