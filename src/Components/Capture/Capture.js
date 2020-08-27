@@ -18,7 +18,7 @@ export default function Capture () {
 
     useEffect(()=> {
         dispatch(toggleRendering(true));
-        dispatch(setSnackbar({success: true, capture: true, message: 'Converting html to image.'}))
+        dispatch(setSnackbar({success: true, capture: true, message: 'Converting html into image.'}))
         setTimeout(()=> {
             domtoimage.toBlob(document.getElementById('capture'),{cacheBust: true})
             .then(function (blob) {

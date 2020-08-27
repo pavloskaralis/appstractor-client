@@ -64,7 +64,7 @@ export default function EditTools({title}){
                 dispatch(toggleFirstRender(true));
             },0)
         },0)
-        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[appstractions])
 
 
@@ -77,6 +77,7 @@ export default function EditTools({title}){
             dispatch(resetCanvas());
             dispatch(resetInterface());
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     },[])
 
     const saveClick = () => {

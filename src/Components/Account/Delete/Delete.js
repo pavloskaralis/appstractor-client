@@ -15,6 +15,11 @@ import {HOME} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
 import Checkbox from '@material-ui/core/Checkbox'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
+import {useSelector, useDispatch} from 'react-redux'
+import { useFirebase, useFirestore } from 'react-redux-firebase';
+import setSnackbar from '../../../Actions/Interface/setSnackbar';
+import Error from '../../FormPage/Error/Error'
+import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -46,12 +51,23 @@ const styles = makeStyles(theme => ({
 
 export default function Signup(){
     const classes = styles();
+    const firebase = useFirebase();
+    const firestore = useFirestore();
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const auth = useSelector(state => state.firebase.auth);
+    const [visibility, toggleVisibility] = useState(false)
+    const [confirm, toggleConfirm] = useState(false);
+
     const [values, setValues] = useState({
         password: '',
         reason:''
     })
-    const [visibility, toggleVisibility] = useState(false)
-    const [confirm, toggleConfirm] = useState(false);
+
+    const [errors, setErrors] = useState({
+        password: '',
+    })
+
 
     const handleInputChange = (event) => {
         const id = event.target.id
@@ -60,6 +76,7 @@ export default function Signup(){
     };
 
     const handleCheckboxChange = (event) => {
+        event.stopPropagation();
         toggleConfirm(event.target.checked)
     }
     
@@ -68,9 +85,52 @@ export default function Signup(){
         toggleVisibility(visibility => !visibility)   
     };
 
+    const handleSubmit = async (event) =>{
+        event.preventDefault();
+        const {password, reason} = values; 
+        setErrors({        
+            password: ''
+        });
+
+
+        const credential = firebase.auth.EmailAuthProvider.credential(
+            auth.email,
+            password
+        );
+
+        try {
+           
+            await firebase.reauthenticate({credential});
+            
+            await firestore.collection('deleted').add({
+                email: auth.email,
+                reason: reason
+            })
+
+            firestore.collection('users').doc(auth.uid).delete();
+            firebase.auth().currentUser.delete();
+
+            setValues({
+                password: '',
+                reason: ''
+            });
+
+
+            dispatch(setSnackbar({success:true, message: 'Account has been deleted.'}));
+
+        } catch (error) {
+            switch(error.code) {
+                case 'auth/wrong-password': 
+                    return setErrors(errors => ({...errors, password: 'The password is invalid'}));
+                default: 
+                    return;
+            }
+        } 
+    }
+
     return (
         <FormPage icon={<DeleteForeverIcon/>} title='Permanently Delete Account'>
-            <form className={classes.form}>
+            <form onSubmit={handleSubmit}  className={classes.form}>
                 <TextField
                     color='secondary'
                     id='reason'
@@ -88,9 +148,11 @@ export default function Signup(){
                     type={visibility ? 'text' : 'password'}            
                     required
                     fullWidth
-                    value={values.current}
+                    value={values.password}
                     onChange={handleInputChange}
                     variant='filled'
+                    error={Boolean(errors.password)}
+                    helperText={errors.password && <Error>{errors.password}</Error>}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">
@@ -105,18 +167,18 @@ export default function Signup(){
                         </InputAdornment>
                     }}
                 />
-                     <FormControlLabel
-                        classes={{root: classes.formControl, label: classes.label}}
-                        control={
-                        <Checkbox
-                            checked={confirm}
-                            onChange={handleCheckboxChange}
-                            name="confirm"
-                            className={classes.checkbox}
-                        />
-                        }
-                        label="All data will be permanently erased."
+                <FormControlLabel
+                    classes={{root: classes.formControl, label: classes.label}}
+                    control={
+                    <Checkbox
+                        checked={confirm}
+                        onChange={handleCheckboxChange}
+                        name="confirm"
+                        className={classes.checkbox}
                     />
+                    }
+                    label="All data will be permanently erased."
+                />
                 <Box height='16px'/>
                 <Button disabled={!confirm} startIcon={<WarningIcon/>} color="secondary" classes={{disabled: classes.disabled}} type='submit' fullWidth variant='contained'>
                     Delete Account

@@ -1,7 +1,6 @@
 import React, {useState, useLayoutEffect} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
-import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
 import {useFirestore, useFirestoreConnect} from 'react-redux-firebase'
 import Icon from '@material-ui/core/Icon'
@@ -102,7 +101,7 @@ export default function DeleteDialog() {
             return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
         }
         handleClose();
-
+        dispatch(setSnackbar({success: true, message: 'Image has been renamed.'}))
         firestore.collection('users').doc(uid).collection('appstractions').doc(selected[0].doc)
             .update({title: title})
             

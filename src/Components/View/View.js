@@ -6,7 +6,6 @@ import {makeStyles} from '@material-ui/core/styles'
 import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
-import { object } from 'prop-types';
 
 const styles = makeStyles(theme => ({
     container: {
@@ -69,6 +68,7 @@ export default function View (){
         const target = appstractions ? Object.values(appstractions).find(obj => obj.title === params.title) : false; 
         setTarget(target);
         setTimeout(()=>toggleVisible(false),0);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     },[appstractions]);
 
     return(

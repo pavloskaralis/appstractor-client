@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
@@ -106,8 +106,8 @@ export default function  Email(){
 
     return (
         <FormPage icon={<EmailIcon/>} title='Change Login Email Address'>
-            <Typography className={classes.email}>{profile && !updating ? profile.email : 'Updating...'}</Typography>
-            <form className={classes.form}>
+            <Typography className={classes.email}>{!updating ? profile.email : 'Updating...'}</Typography>
+            <form onSubmit={handleSubmit}  className={classes.form}>
                 <TextField
                     color='secondary'
                     id='email'
@@ -147,7 +147,7 @@ export default function  Email(){
                     }}
                 />
                 <Box height='16px'/>
-                <Button  onClick={handleSubmit} type='submit' fullWidth color='secondary' variant='contained'>
+                <Button type='submit' fullWidth color='secondary' variant='contained'>
                     Change Email Address
                 </Button>
             </form>
