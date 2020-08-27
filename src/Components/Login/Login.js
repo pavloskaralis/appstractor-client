@@ -73,7 +73,7 @@ export default function Login(){
 
             dispatch(resetCanvas())
             dispatch(resetInterface())
-            history.push(HOME);
+            setTimeout(()=> history.push(HOME),0)
         } catch (error) {
             switch(error.code) {
                 case 'auth/invalid-email':

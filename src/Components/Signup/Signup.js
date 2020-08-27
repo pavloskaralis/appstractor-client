@@ -93,7 +93,7 @@ export default function Signup(){
             dispatch(resetCanvas())
             dispatch(resetInterface())
             
-            history.push(HOME);
+            setTimeout(()=> history.push(HOME),0)
         } catch (error) {
             switch(error.code) {
                 case 'auth/email-already-in-use':

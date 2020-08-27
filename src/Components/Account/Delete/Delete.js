@@ -19,7 +19,6 @@ import {useSelector, useDispatch} from 'react-redux'
 import { useFirebase, useFirestore } from 'react-redux-firebase';
 import setSnackbar from '../../../Actions/Interface/setSnackbar';
 import Error from '../../FormPage/Error/Error'
-import {useHistory} from 'react-router-dom'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -54,7 +53,6 @@ export default function Signup(){
     const firebase = useFirebase();
     const firestore = useFirestore();
     const dispatch = useDispatch();
-    const history = useHistory();
     const auth = useSelector(state => state.firebase.auth);
     const [visibility, toggleVisibility] = useState(false)
     const [confirm, toggleConfirm] = useState(false);
@@ -114,7 +112,6 @@ export default function Signup(){
                 password: '',
                 reason: ''
             });
-
 
             dispatch(setSnackbar({success:true, message: 'Account has been deleted.'}));
 
