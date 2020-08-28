@@ -19,6 +19,7 @@ import {useDispatch} from 'react-redux'
 import resetInterface from '../../Actions/Interface/resetInterface'
 import resetCanvas from '../../Actions/Canvas/resetCanvas' 
 import setImage from '../../Actions/Canvas/setImage'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -31,6 +32,10 @@ const styles = makeStyles(theme => ({
         textAlign: 'center',
         marginTop: 16,
     },
+    policy: {
+        marginBottom: theme.spacing(2),
+        textAlign: 'center'
+    }
 }))
 
 
@@ -180,7 +185,10 @@ export default function Signup(){
                         </InputAdornment>
                     }}
                 />
-                <Box height='16px'/>
+                <FormHelperText className={classes.policy}>
+                    Appstractor does not distribute user data, <br/>
+                    or send out marketing emails. 
+                </FormHelperText>
                 <Button type='submit' fullWidth color='secondary' variant='contained'>Sign Up</Button>
             </form>
             <Link component={RouterLink} to={LOGIN} className={classes.link}>
