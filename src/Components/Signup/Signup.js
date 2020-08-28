@@ -186,8 +186,8 @@ export default function Signup(){
                     }}
                 />
                 <FormHelperText className={classes.policy}>
-                    Appstractor does not distribute user data, <br/>
-                    or send out marketing emails. 
+                    Appstractor is a free service and does not<br/>
+                    distribute user data or send marketing emails. 
                 </FormHelperText>
                 <Button type='submit' fullWidth color='secondary' variant='contained'>Sign Up</Button>
             </form>
