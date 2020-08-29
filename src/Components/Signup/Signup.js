@@ -10,7 +10,7 @@ import Button from '@material-ui/core/Button'
 import PersonIcon from '@material-ui/icons/Person'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
-import {LOGIN, HOME} from '../../Routes/routes'
+import {LOGIN, HOME, PRIVACY_POLICY, TERMS_OF_SERVICE} from '../../Routes/routes'
 import FormPage from '../FormPage/FormPage'
 import { useFirebase } from 'react-redux-firebase'
 import Error from '../FormPage/Error/Error'
@@ -34,8 +34,10 @@ const styles = makeStyles(theme => ({
     },
     policy: {
         marginBottom: theme.spacing(2),
-        textAlign: 'center'
-    }
+        textAlign: 'center',
+        color: theme.palette.text.primary
+    },
+
 }))
 
 
@@ -186,8 +188,14 @@ export default function Signup(){
                     }}
                 />
                 <FormHelperText className={classes.policy}>
-                    Appstractor is a free service and does not<br/>
-                    distribute user data or send marketing emails. 
+            
+                    <Link component={RouterLink} to={TERMS_OF_SERVICE} className={classes.link}>
+                        Terms of Sevice
+                    </Link> {' & '}
+                    <Link component={RouterLink} to={PRIVACY_POLICY} className={classes.link}>
+                        Privacy Policy
+                    </Link> 
+                 
                 </FormHelperText>
                 <Button type='submit' fullWidth color='secondary' variant='contained'>Sign Up</Button>
             </form>

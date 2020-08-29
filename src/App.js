@@ -24,6 +24,8 @@ import {isEmpty} from 'react-redux-firebase'
 import GlobalSnackbar from './Components/GlobalSnackbar/GlobalSnackbar'
 import GlobalBackdrop from './Components/GlobalBackdrop/GlobalBackdrop'
 import View from './Components/View/View'
+import Terms from './Components/Terms/Terms'
+import Privacy from './Components/Privacy/Privacy'
 
 const styles = makeStyles(theme => ({
   '@global': {
@@ -60,6 +62,8 @@ function App() {
           <Route exact path={ROUTES.HOME} component={isEmpty(auth) ? Landing: Create}/>             
           <Route exact path={ROUTES.PAGE_NOT_FOUND} component={PageNotFound}/>
           <Route exact path={ROUTES.VIEW} component={View}/>
+          <Route exact path={ROUTES.TERMS_OF_SERVICE} component={Terms}/>
+          <Route exact path={ROUTES.PRIVACY_POLICY} component={Privacy}/>
 
           <PrivateRoute exact path={ROUTES.CREATE} component={Create}/>
           <PrivateRoute exact path={ROUTES.EDIT} component={Create}/>

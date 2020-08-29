@@ -76,6 +76,8 @@ export default function Nav(){
 
     const buttons={
         '': isEmpty(auth) ? '' : <CreateTools/>,
+        'privacy_policy': <Typography className={classes.title}>Privacy Policy</Typography> ,
+        'terms_of_service': <Typography className={classes.title}>Terms of Service</Typography> ,
         'create': <CreateTools/>,   
         'gallery': <GalleryTools/>, 
         'edit':  <EditTools title={pathname.split('/')[2]}/>, 

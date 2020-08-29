@@ -45,7 +45,7 @@ export default function Signup(){
                 The content you are looking for does not exist or has been removed from the site.
             </Typography>
             <Box margin='0 auto'>
-                <Button onClick={handleClick} color="secondary" type='submit'  variant='contained'>
+                <Button onClick={handleClick} color="secondary"  variant='contained'>
                     Go Back
                 </Button>
             </Box>

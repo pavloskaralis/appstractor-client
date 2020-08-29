@@ -9,6 +9,16 @@ import {useDispatch} from 'react-redux'
 import setImage from '../../Actions/Canvas/setImage'
 
 const styles = makeStyles(theme => ({
+    container: {
+        backgroundImage: `url(${defaultImage})`,
+        display:'flex', 
+        minHeight:'568px', 
+        width:'100%', 
+        height:'100%', 
+        justifyContent:'space-evenly',
+        flexDirection:'column',
+        backgroundSize: 'cover'
+    },
     purpleGradient: {
         width: '100%',
         height: '100%',
@@ -37,7 +47,7 @@ export default function Landing(){
     },[])
     
     return (
-        <Box display='flex' minHeight='568px' width='100%' height='100%' justifyContent='space-evenly' flexDirection={'column'}>
+        <Box className={classes.container}>
             <Box zIndex={0} minHeight='568px' width='100%' height='100%' position='absolute'>
                 <Canvas/>
             </Box>

@@ -14,3 +14,5 @@ export const ACCOUNT_DELETE = '/account/delete';
 export const PAGE_NOT_FOUND = '/404';
 export const CAPTURE = '/capture';
 export const VIEW = '/view/:uid/:title'; 
+export const TERMS_OF_SERVICE = '/terms_of_service'
+export const PRIVACY_POLICY = '/privacy_policy'
