@@ -94,7 +94,6 @@ export default function Feedback(){
         <FormPage icon={<FeedbackIcon/>} title={submitted ? 'Thank You!' : 'Send Us Your Feedback'}>
             {submitted ?
                 <>
-            
                     <Typography className={classes.text}>
                         contact@appstractorart.com
                     </Typography>
@@ -110,6 +109,10 @@ export default function Feedback(){
                 <>
                     <form onSubmit={handleSubmit} className={classes.form}>
                         <Box marginTop='-16px' marginBottom='16px' >
+                            <Typography className={classes.text}>
+                                contact@appstractorart.com
+                            </Typography>
+                        
                             <Typography className={classes.ratingLabel}>Overall Rating</Typography>
                             <Box display='flex' justifyContent='center' width='100%'>
                                 <Rating

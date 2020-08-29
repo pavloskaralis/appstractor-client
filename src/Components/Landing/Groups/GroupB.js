@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
 import {LOGIN,SIGNUP,DEMO} from '../../../Routes/routes'
+import FormHelperText from '@material-ui/core/FormHelperText'
 
 const styles = makeStyles(theme => ({
     slogan: {
@@ -84,6 +85,10 @@ const styles = makeStyles(theme => ({
         [theme.breakpoints.up('md')]: {
             marginTop: 20,
         } ,
+    },
+    helperText: {
+        color: theme.palette.text.primary,
+        margin: '0 auto',
     }
 }))
 
@@ -111,6 +116,9 @@ export default function GroupB(){
             <Link component={RouterLink} to={LOGIN} className={classes.link}>
                 Already have an account? Log In
             </Link>
+            <FormHelperText className={classes.helperText}>
+                contact@appstractorart.com
+            </FormHelperText>
         </Box>
     )
 }
