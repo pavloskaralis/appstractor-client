@@ -29,7 +29,7 @@ const styles = makeStyles(theme => ({
 //component appears in nav and empty canvas; combined to have image select logic in 1 file
 //type param prevents mediaQuery change for empty canvas instance
 //handleClose param passes nav menu close (when width is < 600)
-export default function ImageSelect({handleClose, type}){
+export default React.forwardRef (({handleClose, type},ref) => {
     const classes = styles(); 
     const matches = useMediaQuery('(min-width:600px)');
     //used to proxy click hidden input
@@ -162,6 +162,6 @@ export default function ImageSelect({handleClose, type}){
             }
         </>
     )
-}
+})
 
 

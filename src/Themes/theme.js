@@ -135,7 +135,13 @@ const theme = createMuiTheme({
                
                 '@media (pointer: coarse)':{
                     padding: 13,
-                    width: 'initial'
+                    width: 'initial',
+                    '& .MuiSlider-rail':{
+                        width: 204
+                    },
+                    '& .MuiSlider-track':{
+                        width: 204
+                    }
                 },
                 color: blue[500],
             },
@@ -144,13 +150,11 @@ const theme = createMuiTheme({
             },
             track: {
                 height: 3,
-                width: 204
             },
             rail: {
                 backgroundColor: blue[200],
                 opacity: .9,
                 height: 3,
-                width: 204
             },
         },
         MuiSwitch: {

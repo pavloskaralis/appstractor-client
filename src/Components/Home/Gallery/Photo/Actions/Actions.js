@@ -16,7 +16,7 @@ const styles = makeStyles(theme => ({
 
 
 
-export default function Actions({handleClose, doc, title}) {
+export default React.forwardRef( ({handleClose, doc, title},ref) => {
     const classes = styles(); 
     const history = useHistory(); 
     const dispatch = useDispatch(); 
@@ -51,4 +51,4 @@ export default function Actions({handleClose, doc, title}) {
             </MenuItem>
         </>
     )
-}
+})
