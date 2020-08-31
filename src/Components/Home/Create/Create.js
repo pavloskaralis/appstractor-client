@@ -20,7 +20,7 @@ const styles = makeStyles(theme => ({
     page: {
         display:'flex', 
         width:'100%',
-        height:'100%',
+        height:'100vh',
         flexDirection: 'column',
         overflow: 'auto',
         [theme.breakpoints.up('sm')]: {
