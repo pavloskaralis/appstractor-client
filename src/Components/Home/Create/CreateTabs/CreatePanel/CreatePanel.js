@@ -34,7 +34,7 @@ export default function CreatePanel({heading, children, value, index, ...other }
         aria-labelledby={`createtab-${index}`}
         {...other}
       >
-        <Box  width='100%' height='220px'> 
+        <Box  width='100%' height='220px' overflow='hidden'> 
             <Box width='276px' padding='0 16px' margin='0 auto'>
               {heading !== 'Render' && <Typography className={classes.heading}>{heading}</Typography>}
               <Box width='100%' padding='16px' display='flex' flexDirection='column'>
