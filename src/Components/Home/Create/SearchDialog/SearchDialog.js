@@ -136,6 +136,8 @@ export default function SearchDialog(){
     const [tab, setTab] = useState(0);
     //current page value
     const [page, setPage] = useState(1);
+    //catch unsplash api error
+    const [error,toggleError] = useState(false);
 
     //on pagination change
     const handlePageChange = (event, value) => {
@@ -182,42 +184,47 @@ export default function SearchDialog(){
             const id = '4229c9ccce8609e45051cea4103298e9a0bc85c2173c8c719dfde18bf2ea0ee2'
             const api = 'https://api.unsplash.com/search/photos?client_id='
             //max 30 return limit
-            for(let i = 1; i <= 10; i ++) {
-                const params = '&page=' + i + '&per_page=30&orientation=landscape&query=' 
-                const query = api + id + params + (category !== 'Wildlife' ? category : 'Wild Animals');
-                const {data:{results}} = await axios.get(query);
-                const reduced = results.reduce((output, obj) => {
-                    const newObj = {
-                        id: obj.id, 
-                        small: obj.urls.small,
-                        medium: obj.urls.regular,
-                        name: obj.user.name,
-                        link: obj.links.html,
-                        download: obj.links.download_location
-                    }
-                    output.push(newObj);
-                    return output;
-                },[])
-                //format photos for pagination
-                data[i] = reduced; 
+            try {
+                for(let i = 1; i <= 10; i ++) {
+                    const params = '&page=' + i + '&per_page=30&orientation=landscape&query=' 
+                    const query = api + id + params + (category !== 'Wildlife' ? category : 'Wild Animals');
+                    const {data:{results}} = await axios.get(query);
+                    const reduced = results.reduce((output, obj) => {
+                        const newObj = {
+                            id: obj.id, 
+                            small: obj.urls.small.replace(/(q=80)/,'q=0'),
+                            medium: obj.urls.regular.replace(/(q=80)/,'q=0'),
+                            name: obj.user.name,
+                            link: obj.links.html,
+                            download: obj.links.download_location
+                        }
+                        output.push(newObj);
+                        return output;
+                    },[])
+                    //format photos for pagination
+                    data[i] = reduced; 
+                }
+
+                //store retrieved photos in fire store to retrigger useEffect
+                firestore.collection('stock').doc(category).set({
+                    data: data,
+                    date: new Date().toString()
+                });
+            } catch (e) {
+                return toggleError(true);
             }
-            //store retrieved photos in fire store to retrigger useEffect
-            firestore.collection('stock').doc(category).set({
-                data: data,
-                date: new Date().toString()
-            });
         }
 
         //check if unsplash request has already been made within 24hours
         const checkDate = async () => {
             //if no stock exists for category, get stock
-            if(!stock[category]) return getStock(); 
+            if(!stock[category] && !error) return getStock(); 
             const categoryDate = stock[category].date;
             const today = new Date();
             const diffTime = today - new Date(categoryDate); 
             const diffDays = (diffTime / 86400000).toFixed(2);
             //if stock over 24 hours old, initiate request, otherwise use cache 
-            if(diffDays > 1) {
+            if(diffDays > 1 && !error) {
                 toggleVisible(true);
                 //retriggger useEffect
                 await getStock();

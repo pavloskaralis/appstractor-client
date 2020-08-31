@@ -102,6 +102,7 @@ const styles = makeStyles(theme => ({
     closeButton: {
         color: theme.palette.text.primary,
         position: 'absolute',
+        zIndex: 1,
         top: 4,
         left: 4,
         [theme.breakpoints.up('sm')]:{

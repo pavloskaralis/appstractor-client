@@ -1,6 +1,6 @@
 [
     {
-      "origin": ["localhost:3000, appstractorart.com"],
+      "origin": ["*"],
       "method": ["GET"],
       "maxAgeSeconds": 3600
     }

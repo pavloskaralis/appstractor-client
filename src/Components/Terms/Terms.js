@@ -114,7 +114,7 @@ export default function Forms() {
                 </Typography>
 
                 <Typography color='textPrimary'  paragraph variant='body2'>
-                We grant you a limited license to access and make personal use of this website. You are not allowed to download or modify it. This may be done only with written consent from us.
+                We grant you a limited license to access and make use of this website. You are not allowed to download or modify it. This may be done only with written consent from us.
                 </Typography>
 
                 <Typography color='textPrimary' className={classes.title} gutterBottom variant='subtitle1'>

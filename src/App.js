@@ -45,6 +45,9 @@ const styles = makeStyles(theme => ({
         backgroundColor: theme.palette.secondary.dark,
         border: `1px solid ${theme.palette.background.darkDefault}`
     },
+    '*':{
+      'scrollbar-color': 'red',
+    }
   },
 }))
 

@@ -66,7 +66,7 @@ export default function GlobalSnackbar(){
             className={classes.snackbar}
             anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
             open={Boolean(snackbar)}
-            autoHideDuration={snackbar && snackbar.capture ? null : 6000}
+            autoHideDuration={snackbar && (snackbar.capture || !snackbar.success) ? null : 6000}
             onClose={handleClose}
             message={snackbar && message}
             action={

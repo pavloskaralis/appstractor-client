@@ -19,6 +19,7 @@ import {useDispatch} from 'react-redux'
 import resetInterface from '../../Actions/Interface/resetInterface'
 import resetCanvas from '../../Actions/Canvas/resetCanvas' 
 import setImage from '../../Actions/Canvas/setImage';
+import NotChrome from '../NotChrome/NotChrome'
 
 const styles = makeStyles(theme => ({
     form: {
@@ -38,6 +39,7 @@ export default function Login(){
     const history = useHistory();
     const firebase = useFirebase();
     const dispatch = useDispatch();
+    const [isChrome] = useState(/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor));
 
     const [values, setValues] = useState({
         email: '',
@@ -91,6 +93,10 @@ export default function Login(){
             }
         }
       
+    }
+
+    if(!isChrome){
+        return <NotChrome/>
     }
 
     return (
