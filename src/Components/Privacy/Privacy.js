@@ -6,7 +6,7 @@ import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
-import {PRIVACY_POLICY, HOME} from '../../Routes/routes'
+import {HOME} from '../../Routes/routes'
 import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button'
 

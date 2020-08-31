@@ -7,7 +7,7 @@ import {BrowserRouter} from 'react-router-dom'
 import { createStore, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import thunkMiddleware from 'redux-thunk'
-import { createLogger } from 'redux-logger'
+// import { createLogger } from 'redux-logger'
 import rootReducer from './Reducers/rootReducer.js'
 //firebase
 import fbConfig from './Firebase/fbConfig'
@@ -25,7 +25,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 
 import * as serviceWorker from './serviceWorker';
 
-const loggerMiddleware = createLogger()
+// const loggerMiddleware = createLogger()
 
 firebase.initializeApp(fbConfig);
 firebase.firestore();

@@ -132,6 +132,9 @@ const theme = createMuiTheme({
         },
         MuiSlider: {
             root: {
+                '@media (pointer: coarse)':{
+                    padding: 13
+                },
                 color: blue[500],
             },
             thumb: {

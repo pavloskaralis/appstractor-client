@@ -185,12 +185,12 @@ export default function SearchDialog(){
             const api = 'https://api.unsplash.com/search/photos?client_id='
             //max 30 return limit
             try {
-                console.log('try')
+                // console.log('try')
                 for(let i = 1; i <= 10; i ++) {
                     const params = '&page=' + i + '&per_page=30&orientation=landscape&query=' 
                     const query = api + id + params + (category !== 'Wildlife' ? category : 'Wild Animals');
                     const {data:{results}} = await axios.get(query);
-                    console.log("result",results)
+                    // console.log("result",results)
                     const reduced = results.reduce((output, obj) => {
                         const newObj = {
                             id: obj.id, 
@@ -205,7 +205,7 @@ export default function SearchDialog(){
                     },[])
                     //format photos for pagination
                     data[i] = reduced; 
-                    console.log('loop')
+                    // console.log('loop')
                 }
                 //store retrieved photos in fire store to retrigger useEffect
                 firestore.collection('stock').doc(category).set({
@@ -213,7 +213,7 @@ export default function SearchDialog(){
                     date: new Date().toString()
                 });
             } catch (e) {
-                console.log('error', e)
+                // console.log('error', e)
                 return toggleError(true);
             }
         }
@@ -228,12 +228,12 @@ export default function SearchDialog(){
             const diffDays = (diffTime / 86400000).toFixed(2);
             //if stock over 24 hours old, initiate request, otherwise use cache 
             if(diffDays > 1 && !error) {
-                console.log('if')
+                // console.log('if')
                 toggleVisible(true);
                 //retriggger useEffect
                 await getStock();
             } else {
-                console.log('else', diffDays)
+                // console.log('else', diffDays)
                 toggleVisible(true);
                 ref.current.scrollTop = 0; 
                 setPage(1)
@@ -241,7 +241,8 @@ export default function SearchDialog(){
             }
         }
         checkDate();
-    },[category, stock, firestore])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[category])
 
     return (
         <ClickAwayListener

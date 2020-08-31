@@ -39,12 +39,7 @@ const styles = makeStyles(theme => ({
         marginBottom: 16,
         marginTop: -16
     },
-    link:{
-        margin: '0 auto',
-        color: theme.palette.text.primary,
-        textAlign: 'center',
-        marginTop: 16,
-    },  
+
 }))
 
 export default function Feedback(){

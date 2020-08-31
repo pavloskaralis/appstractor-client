@@ -13,7 +13,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Button from '@material-ui/core/Button'
 import {LOGIN, RECOVER} from '../../../Routes/routes'
 import FormPage from '../../FormPage/FormPage'
-import { useFirebase, useFirestore } from 'react-redux-firebase'
+import { useFirebase } from 'react-redux-firebase'
 import EmailIcon from '@material-ui/icons/Email'
 import Error from '../../FormPage/Error/Error'
 import {useHistory} from 'react-router-dom'
@@ -44,7 +44,6 @@ const styles = makeStyles(theme => ({
 export default function Reset({code, resetCode, email}){
     const classes = styles();
     const firebase = useFirebase();
-    const firestore = useFirestore();
     const history = useHistory();
     const dispatch = useDispatch();
     const [invalid, toggleInvalid] = useState(false);
