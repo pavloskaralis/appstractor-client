@@ -10,7 +10,8 @@ const styles = makeStyles((theme) => ({
       flexShrink: 0, 
       [theme.breakpoints.up('xs')]: {
         width: '300px',
-        minHeight: '200px'
+        height: '200px',
+        minHeight: 200
       },
       [theme.breakpoints.up(400)]: {
         width: '360px',
@@ -36,9 +37,21 @@ const styles = makeStyles((theme) => ({
         width: '900px',
         height: '600px',
       },
-      '@media (max-height: 688px) and (min-width:960px)': {
+      '@media (max-height: 696px) and (min-width:960px)': {
         width: '600px',
         height: '400px',
+      },
+      '@media (max-height: 496px) and (min-width: 600px)': {
+        width: '300px',
+        height: '200px'
+      },
+      '@media (max-height: 664px) and (min-width: 500px) and (max-width: 600px)': {
+        width: '360px',
+        height: '240px'
+      },
+      '@media (max-height: 604px) and (min-width: 400px) and (max-width: 600px)': {
+        width: '300px',
+        height: '200px'
       },
     },
 }));

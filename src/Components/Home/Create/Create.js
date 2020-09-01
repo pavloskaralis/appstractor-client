@@ -47,8 +47,11 @@ const styles = makeStyles(theme => ({
         [theme.breakpoints.up('lg')]: {
         minHeight: '632px',
         },
-        '@media (max-height: 688px) and (min-width:960px)': {
+        '@media (max-height: 696px) and (min-width:960px)': {
             minHeight: '432px',
+        },
+        '@media (max-height: 496px) and (min-width: 600px)': {
+            minHeight: '332px',
         },
     }
 }))
