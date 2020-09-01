@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -92,32 +91,32 @@ export default function Feedback(){
                     <Typography className={classes.text}>
                         contact@appstractorart.com
                     </Typography>
-                    <Box margin='0 auto'>
+                    <div style={{margin:'0 auto'}}>
                         <Button onClick={handleClick} color="secondary" type='submit'  variant='contained'>
                             Go Back
                         </Button>
-                    </Box>    
+                    </div>    
                     <Link component={RouterLink} to={HOME} className={classes.link}>
                         Return to Home
                     </Link>
                 </>:
                 <>
                     <form onSubmit={handleSubmit} className={classes.form}>
-                        <Box marginTop='-16px' marginBottom='16px' >
+                        <div style={{marginTop:'-16px', marginBottom:'16px' }}>
                             <Typography className={classes.text}>
                                 contact@appstractorart.com
                             </Typography>
                         
                             <Typography className={classes.ratingLabel}>Overall Rating</Typography>
-                            <Box display='flex' justifyContent='center' width='100%'>
+                            <div style={{display:'flex', justifyContent:'center', width:'100%'}}>
                                 <Rating
                                     name="rating"
                                     value={rating}
                                     onChange={handleRatingChange}
                                     required
                                 />
-                            </Box>  
-                        </Box>
+                            </div>  
+                        </div>
                         <TextField
                             color='secondary'
                             id='how'
@@ -149,7 +148,7 @@ export default function Feedback(){
                             variant='filled'
                             multiline
                         />
-                        <Box height='16px'/>
+                        <div style={{height:'16px'}}/>
                         <Button color="secondary" type='submit' fullWidth variant='contained'>
                             Send Feedback
                         </Button>

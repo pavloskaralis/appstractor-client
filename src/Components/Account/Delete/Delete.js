@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
@@ -113,7 +112,7 @@ export default function Signup(){
         } catch (error) {
             switch(error.code) {
                 case 'auth/wrong-password': 
-                    return setErrors(errors => ({...errors, password: 'The password is invalid'}));
+                    return setErrors(errors => ({...errors, password: 'The password is invalid.'}));
                 default: 
                     return;
             }
@@ -171,7 +170,7 @@ export default function Signup(){
                     }
                     label="All data will be permanently erased."
                 />
-                <Box height='16px'/>
+                <div style={{height:'16px'}}/>
                 <Button disabled={!confirm} startIcon={<WarningIcon/>} color="secondary" classes={{disabled: classes.disabled}} type='submit' fullWidth variant='contained'>
                     Delete Account
                 </Button>

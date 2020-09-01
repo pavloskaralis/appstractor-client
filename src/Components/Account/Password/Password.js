@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
@@ -94,9 +93,9 @@ export default function Signup(){
         } catch (error) {
             switch(error.code) {
                 case 'auth/wrong-password': 
-                    return setErrors(errors => ({...errors, current: 'The password is invalid'}));
+                    return setErrors(errors => ({...errors, current: 'The password is invalid.'}));
                 case 'auth/weak-password': 
-                    return setErrors(errors => ({...errors, newPassword: error.message}));
+                    return setErrors(errors => ({...errors, newPassword: error.message + "."}));
                 default: 
                     return;
             }
@@ -185,7 +184,7 @@ export default function Signup(){
                         </InputAdornment>
                     }}
                 />
-                <Box height='16px'/>
+                <div style={{height:'16px'}}/>
                 <Button type='submit' fullWidth color='secondary' variant='contained'>
                     Change Password
                 </Button>

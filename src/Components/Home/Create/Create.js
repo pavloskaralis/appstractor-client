@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Box from '@material-ui/core/Box'
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import Canvas from '../../Canvas/Canvas'
 import CanvasContainer from './CanvasContainer/CanvasContainer'
@@ -75,13 +74,13 @@ export default function Create() {
     },[])
     return (
         //search, link, and save must stay mounted for transition effects
-        <Box 
+        <div 
             id='hometabpanel-0'
             aria-labelledby='hometab-0'
             className={classes.page} 
         >
             {matchesA && <CreateDrawer/>}
-            <Box className={classes.artboard} zIndex={capture ? 1202 : 1}>
+            <div className={classes.artboard} style={{zIndex: capture ? 1205 : 1}}>
                 <CanvasContainer>
                     <Canvas/>
                     {rendering && (image || edit) && <CanvasSpinner/>}
@@ -91,10 +90,10 @@ export default function Create() {
                     {delay && <SaveDialog/>}
                 </CanvasContainer>
                 {delay && matchesA && <SearchDialog/>}
-            </Box> 
+            </div> 
             {delay && matchesB && <SearchDialog/>}
             {matchesB && <CreateTabs/>}
             {capture && <Capture/>}
-        </Box>
+        </div>
     );
 }

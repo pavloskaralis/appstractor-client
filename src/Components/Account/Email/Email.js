@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
@@ -99,7 +98,7 @@ export default function  Email(){
             toggleUpdating(false)
             switch(error.code) {
                 case 'auth/wrong-password': 
-                    return setErrors(errors => ({...errors, password: 'The password is invalid'}));
+                    return setErrors(errors => ({...errors, password: 'The password is invalid.'}));
                 case 'auth/email-already-in-use':
                     return setErrors(errors => ({...errors, email: 'The email address is already in use.'}));
                 case 'auth/invalid-email':
@@ -153,7 +152,7 @@ export default function  Email(){
                         </InputAdornment>
                     }}
                 />
-                <Box height='16px'/>
+                <div style={{height:'16px'}}/>
                 <Button type='submit' fullWidth color='secondary' variant='contained'>
                     Change Email Address
                 </Button>

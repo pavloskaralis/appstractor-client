@@ -7,7 +7,6 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import Tooltip from '@material-ui/core/Tooltip'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Pagination from '@material-ui/lab/Pagination'
 import Slide from '@material-ui/core/Slide'
@@ -29,7 +28,7 @@ function a11yProps(index) {
 const styles = makeStyles(theme => ({
     container: {
         position:'absolute', 
-        zIndex:1, 
+        zIndex:1200, 
         height:'100%', 
         width:'100%', 
         top:'0',
@@ -44,7 +43,7 @@ const styles = makeStyles(theme => ({
         position: 'absolute',
         top: 71,
         left: 12,
-        zIndex: 1201, 
+        zIndex: 1203, 
         '@media (min-width: 600px)': {
             top: 19,
         }
@@ -242,7 +241,7 @@ export default function SearchDialog(){
         }
         checkDate();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[category])
+    },[category, stock])
 
     return (
         <ClickAwayListener
@@ -286,9 +285,7 @@ export default function SearchDialog(){
                     </Box>
 
                     <IconButton onClick={handleClose} size='small' className={classes.closeButton} aria-label='close'>
-                        <Tooltip title="Close" aria-label="close">
-                            <CloseIcon fontSize='small'/>
-                        </Tooltip>
+                        <CloseIcon fontSize='small'/>
                     </IconButton>  
                 </Box> 
             </Slide>          

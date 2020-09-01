@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Icon from '@material-ui/core/Icon'
 import Typography from '@material-ui/core/Typography'
@@ -34,8 +33,8 @@ export default function FormPage({icon, title, children}){
     const classes = styles();
 
     return (
-        <Box className={classes.box}>
-            <Box  overflow='auto' padding='24px 0' display='flex' flexDirection='column'>
+        <div className={classes.box}>
+            <div  style={{overflow:'auto', padding:'24px 0', display:'flex', flexDirection:'column'}}>
                 <Avatar className={classes.avatar}>
                     <Icon className={classes.icon}>
                         {icon}
@@ -43,8 +42,8 @@ export default function FormPage({icon, title, children}){
                 </Avatar>
                 <Typography className={classes.title} variant='h6'>{title}</Typography>
                 {children}
-            </Box>
+            </div>
             <div/>
-        </Box>
+        </div>
     )
 }

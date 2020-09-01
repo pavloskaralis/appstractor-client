@@ -5,7 +5,7 @@ import Fade from '@material-ui/core/Fade'
 
 const styles = makeStyles(theme => ({
     backdrop: {
-        zIndex: 1201,
+        zIndex: 1204,
         backgroundColor: 'rgba(66, 66, 66, 0.5)',
         width: '100%',
         height: '100%',

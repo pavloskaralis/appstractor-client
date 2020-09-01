@@ -108,7 +108,6 @@ export default function Capture () {
                             .child(docRef.id)
                             .getDownloadURL()
                             .then(url => {
-                                console.log(url)
                                 firestore.collection(`users/${uid}/appstractions`)
                                     .doc(docRef.id)
                                     .update({url: url})

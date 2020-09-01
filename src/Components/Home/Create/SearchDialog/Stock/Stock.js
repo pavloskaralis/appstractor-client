@@ -104,7 +104,7 @@ export default function Stock({urls,name,link, download}) {
                  
                     <CardMedia
                         className={classes.cardMedia}
-                        image={urls.medium}
+                        image={urls.medium.replace(/q=0/,'q=80')}
                         title="Image title"
                     />  
                     

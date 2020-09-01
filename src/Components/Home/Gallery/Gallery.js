@@ -101,6 +101,7 @@ export default function Create() {
                 {delay && appstractions &&  
                 Object.entries(appstractions)
                 .filter(([key,val]) => val && val.title.toLowerCase().includes(search.toLowerCase()))
+                .sort((a,b) => new Date(b[1].date) - new Date(a[1].date) )
                 .map(([key, val]) => {
                     return (
                         <Photo  uid={uid} image={val} doc={key} key={key}/>

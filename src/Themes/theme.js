@@ -68,7 +68,7 @@ const theme = createMuiTheme({
         },
         MuiAppBar: {
             root: {
-                zIndex: 1201
+                zIndex: 1202
             }
         },
         MuiBottomNavigation:{
