@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Box from '@material-ui/core/Box';
 import {useSelector} from 'react-redux'
 import {useFirestoreConnect} from 'react-redux-firebase'
 import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
 import CloseIcon from '@material-ui/icons/Close'
 import Typography from '@material-ui/core/Typography'
 import {useHistory, useParams, Redirect} from 'react-router-dom'
@@ -22,7 +20,7 @@ const styles = makeStyles(theme => ({
         justifyContent: 'center',
         flexDirection: 'column',
         backgroundColor: 'rgba(66,66,66,.9)',
-        zIndex: 1201,
+        zIndex: 1203,
         overflow: 'auto'
     },
     dialog: {
@@ -40,7 +38,7 @@ const styles = makeStyles(theme => ({
         backgroundSize: 'cover',
         [theme.breakpoints.up('xs')]: {
             width: '288px',
-            minHeight: '192px'
+            height: '192px'
         },
         [theme.breakpoints.up(400)]: {
             width: '369px',
@@ -62,9 +60,25 @@ const styles = makeStyles(theme => ({
             width: '930px',
             height: '620px',
         },
-        '@media (max-height: 688px) and (min-width:960px)': {
+        '@media (max-height: 703px) and (min-width:960px)': {
             width: '750px',
             height: '500px'
+        },
+        '@media (max-height: 583px) and (min-width:780px)': {
+            width: '570px',
+            height: '390px'
+        },
+        '@media (max-height: 473px) and (min-width:600px)': {
+            width: '468px',
+            height: '312px'
+        },
+        '@media (max-height: 393px) and (min-width:500px)': {
+            width: '369px',
+            height: '246px'
+        },
+        '@media (max-height: 329px) and (min-width:400px)': {
+            width: '288px',
+            height: '192px'
         },
     },
     iconButton: {
@@ -116,11 +130,15 @@ export default function Lightbox() {
     const classes = styles(); 
     const history = useHistory();
     const params = useParams(); 
+    const search = useSelector(state => state.interface.search);
+    const [viewable, setViewable] = useState([]);
+
     const [lightbox, updateLightbox] = useState({
         index: null,
         length: null,
         url: null
     })
+
     //load appstractions
     const uid = useSelector(state => state.firebase.auth.uid);
     useFirestoreConnect([ { collection: 'users', doc: uid, subcollections: [{ collection: 'appstractions' }], storeAs: 'appstractions' } ])
@@ -132,28 +150,35 @@ export default function Lightbox() {
     };
 
     const leftClick = () => {
-        const values = Object.values(appstractions);
-        const title = lightbox.index < 1 ? values[lightbox.length-1].title : values[lightbox.index-1].title
+        const title = lightbox.index < 1 ? viewable[lightbox.length-1].title : viewable[lightbox.index-1].title
         history.push(`/gallery/${title}`) 
     }
 
     const rightClick = () => {
-        const values = Object.values(appstractions);
-        const title = lightbox.index > lightbox.length - 2 ? values[0].title : values[lightbox.index+1].title
+        const title = lightbox.index > lightbox.length - 2 ? viewable[0].title : viewable[lightbox.index+1].title
         history.push(`/gallery/${title}`) 
     }
+
+    //set viewable
+    useEffect(()=>{
+        if(!appstractions) return;
+        const newViewable = Object.values(appstractions)
+            .filter((val) => val && val.title.toLowerCase().includes(search.toLowerCase()))
+            .sort((a,b) => new Date(b.date) - new Date(a.date))
+        
+        setViewable(newViewable);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[appstractions, search])
 
     //key toggle
     useEffect(()=> {
         const leftKey = () => {
-            const values = Object.values(appstractions);
-            const title = lightbox.index < 1 ? values[lightbox.length-1].title : values[lightbox.index-1].title
+            const title = lightbox.index < 1 ? viewable[lightbox.length-1].title : viewable[lightbox.index-1].title
             history.push(`/gallery/${title}`) 
         }
     
         const rightKey = () => {
-            const values = Object.values(appstractions);
-            const title = lightbox.index > lightbox.length - 2 ? values[0].title : values[lightbox.index+1].title
+            const title = lightbox.index > lightbox.length - 2 ? viewable[0].title : viewable[lightbox.index+1].title
             history.push(`/gallery/${title}`) 
         }
 
@@ -173,53 +198,45 @@ export default function Lightbox() {
 
     //set url on params change
     useEffect(()=>{
-        if(!appstractions || !params.title) return;
-        const values = Object.values(appstractions);
-        const index  = values.findIndex(obj => obj.title === params.title);
+        if(!viewable.length || !params.title) return;
+        const index  = viewable.findIndex(obj => obj.title === params.title);
         updateLightbox({
-            url: index > -1 ? values[index].url : null,
-            length: values.length,
+            url: index > -1 ? viewable[index].url : null,
+            length: viewable.length,
             index: index
         })
-    },[appstractions, params])
+    },[viewable, params])
 
+    if(lightbox.index === -1 ){
+        return <Redirect to={PAGE_NOT_FOUND}/>
+    }
    
     return (
-        <>
-            {lightbox.index === -1 && <Redirect to={PAGE_NOT_FOUND}/>}
-            <Fade in={Boolean(params.title && lightbox.index !== null && lightbox.index > -1)}>
-                <Box className={classes.container} onClick={handleClose}>
-                    <Box overflow='auto' display='flex' padding='16px 0' flexDirection='column'>
-                
+        <Fade in={Boolean(params.title && lightbox.index !== null && lightbox.index > -1)}>
+            <div className={classes.container} onClick={handleClose}>
+                <div style={{overflow:'auto', display:'flex', padding:'16px 0', flexDirection:'column'}}>
                     <IconButton onClick={handleClose} className={classes.closeButton} aria-label='close'>
-                        <Tooltip title="Close" aria-label="close">
-                            <CloseIcon />
-                        </Tooltip>
+                        <CloseIcon />
                     </IconButton>         
-                    <Box className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
-                        <Box 
+                    <div className={classes.dialog} onClick={(e)=>e.stopPropagation()}>   
+                        <div 
                             className={classes.image} 
                             style={{backgroundImage: appstractions && lightbox.url ? `url(${lightbox.url})` : ''}}
                         >
-                            <Box className={classes.buttonContainer}>
+                            <div className={classes.buttonContainer}>
                                 <IconButton onClick={leftClick} className={classes.iconButton} aria-label='left'>
-                                    <Tooltip title="Back" aria-label="back">
-                                        <ArrowForwardIosIcon  className={classes.backArrow} />
-                                    </Tooltip>
+                                    <ArrowForwardIosIcon  className={classes.backArrow} />
                                 </IconButton> 
                                 <IconButton onClick={rightClick} className={classes.iconButton} aria-label='right'>
-                                    <Tooltip title="Forward" aria-label="forward">
-                                        <ArrowForwardIosIcon />
-                                    </Tooltip>
+                                    <ArrowForwardIosIcon />
                                 </IconButton> 
-                            </Box> 
-                        </Box> 
-                    </Box>
+                            </div> 
+                        </div> 
+                    </div>
                     <Typography variant='h6' className={classes.title}>{params.title}</Typography>
                     <Typography className={classes.text}>{lightbox.index + 1} of {lightbox.length}</Typography>
-                    </Box>
-                </Box>
-            </Fade>         
-        </>
+                </div>
+            </div>
+        </Fade>         
     );
   }

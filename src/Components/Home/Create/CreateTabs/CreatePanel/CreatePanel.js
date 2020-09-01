@@ -1,12 +1,11 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography';
 
 
 
 const styles = makeStyles((theme) => ({
-    box: {
+    container: {
         backgroundColor: theme.palette.background.paper,
         width: '100%', 
         height:'220px',
@@ -26,22 +25,22 @@ export default function CreatePanel({heading, children, value, index, ...other }
     const classes = styles(); 
     
     return (
-      <Box
+      <div
         role="tabpanel"
         hidden={value !== index}
-        className={classes.box}
+        className={classes.container}
         id={`createtabpanel-${index}`}
         aria-labelledby={`createtab-${index}`}
         {...other}
       >
-        <Box  width='100%' height='220px'> 
-            <Box width='276px' padding='0 16px' margin='0 auto'>
+        <div style={{ width:'100%', height:'220px'}}> 
+            <div style={{width:'276px', padding:'0 16px', margin:'0 auto'}}>
               {heading !== 'Render' && <Typography className={classes.heading}>{heading}</Typography>}
-              <Box width='100%' padding='16px' display='flex' flexDirection='column'>
+              <div style={{width:'100%', padding:'16px', display:'flex', flexDirection:'column'}}>
                 {children}
-              </Box>
-            </Box>
-        </Box>
-      </Box>
+              </div>
+            </div>
+        </div>
+      </div>
     );
 }

@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef, useLayoutEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box'
 import {toggleSearchDialog} from '../../../../Actions/Interface/allInterfaceActions'
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -250,7 +249,7 @@ export default function SearchDialog(){
             onClickAway={handleClose}
         >
             <Slide in={searchDialog}>
-                <Box className={classes.container}>
+                <div className={classes.container}>
                     {matchesB && <Toolbar/>}
                     <AppBar position="static" className={classes.appBar}>
                         <Tabs
@@ -268,26 +267,26 @@ export default function SearchDialog(){
                         </Tabs>
                     </AppBar>    
 
-                    <Box ref={ref} overflow='auto' height='100%'>
+                    <div ref={ref} style={{overflow:'auto', height:'100%'}}>
                         {visible && <CanvasSpinner/>}
-                        <Box className={classes.stock}>
+                        <div className={classes.stock}>
                             {photos.map((photo,i)=>{
                                 return(
                                     <Stock name={photo.name} urls={{small: photo.small, medium: photo.medium}} link={photo.link} key={photo.id} download={photo.download}/>
                                 )
                             })}
-                        </Box>
-                    </Box>
+                        </div>
+                    </div>
                     
 
-                    <Box className={classes.bottomNav}>
+                    <div className={classes.bottomNav}>
                         <Pagination size={matchesB ? 'small' : 'medium'} color='secondary' onChange={handlePageChange} count={10} page={page}  shape="rounded"  className={classes.pagination}/>
-                    </Box>
+                    </div>
 
                     <IconButton onClick={handleClose} size='small' className={classes.closeButton} aria-label='close'>
                         <CloseIcon fontSize='small'/>
                     </IconButton>  
-                </Box> 
+                </div> 
             </Slide>          
         </ClickAwayListener>
     );

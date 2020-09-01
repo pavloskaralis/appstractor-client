@@ -1,6 +1,5 @@
 import React, { useState, useLayoutEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box'
 import Icon from '@material-ui/core/Icon'
 import SaveIcon from '@material-ui/icons/Save'
 import Typography from '@material-ui/core/Typography'
@@ -10,7 +9,6 @@ import Button from '@material-ui/core/Button'
 import Error from '../../../FormPage/Error/Error'
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector,useDispatch} from 'react-redux'
 import Fade from '@material-ui/core/Fade'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -136,7 +134,7 @@ export default function SaveDialog(){
                 return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
             }
             if(appstractions && Object.values(appstractions).some(obj => obj.title === title)){
-                return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
+                return setErrors(errors => ({...errors, title:'Title is in use by another image.'}))
             }
             //trigger capture and pass title 
             dispatch(toggleSaveDialog(false));  
@@ -154,8 +152,8 @@ export default function SaveDialog(){
             onClickAway={handleClose}
         >
             <Fade in={saveDialog}>
-                <Box className={classes.container}>
-                    <Box className={classes.dialog}>
+                <div className={classes.container}>
+                    <div className={classes.dialog}>
                         <Avatar className={classes.avatar}>
                             <Icon className={classes.icon}>
                                 <SaveIcon/>
@@ -180,13 +178,11 @@ export default function SaveDialog(){
                             />
                             <Button type='submit' fullWidth color='secondary' variant='contained'>Save Image</Button>
                         </form>            
-                    </Box>
+                    </div>
                     <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
-                        <Tooltip title="Close" aria-label="close">
-                            <CloseIcon fontSize='small'/>
-                        </Tooltip>
+                        <CloseIcon fontSize='small'/>
                     </IconButton>  
-                </Box>     
+                </div>     
             </Fade>   
         </ClickAwayListener>
     );

@@ -113,6 +113,7 @@ export default function Login(){
                     value={values.email}
                     onChange={handleChange}
                     variant='filled'
+                    inputProps={{ maxLength: 48 }}
                 />
                 <TextField
                     error={Boolean(errors.password)}
@@ -126,6 +127,7 @@ export default function Login(){
                     value={values.password}
                     onChange={handleChange}
                     variant='filled'
+                    inputProps={{ maxLength: 48 }}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">

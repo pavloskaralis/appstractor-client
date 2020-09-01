@@ -1,7 +1,6 @@
 import React, { useState, useLayoutEffect } from 'react'
 import {useDispatch } from 'react-redux'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box'
 import {toggleLinkDialog, toggleCreateClicked, setSnackbar, toggleFirstRender, toggleLoading, setProgress} from '../../../../Actions/Interface/allInterfaceActions'
 import Icon from '@material-ui/core/Icon'
 import LinkIcon from '@material-ui/icons/Link'
@@ -14,7 +13,6 @@ import isImageUrl from 'is-image-url'
 import setImage from '../../../../Actions/Canvas/setImage';
 import IconButton from '@material-ui/core/IconButton'
 import CloseIcon from '@material-ui/icons/Close'
-import Tooltip from '@material-ui/core/Tooltip'
 import {useSelector} from 'react-redux'
 import Fade from '@material-ui/core/Fade'
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
@@ -134,7 +132,7 @@ export default function LinkDialog(){
             link: '',
         }); 
         //uses 3rd party to check if link is image; unsplash exception
-        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/)) {
+        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/) && !link.match(/(png)||(jpeg)||(jpg)/)) {
             return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
         }
         //convert link to blob so it can be compressed and uploaded to server
@@ -145,7 +143,10 @@ export default function LinkDialog(){
             .then(function(blob) {
                 handleUpload(blob)
                 //close link dialog
-            });
+            })
+            .catch((e)=>{
+                return setErrors(errors => ({...errors, link:'Access rejected by source.'}))
+            })
     }
 
     const handleUpload = async (image) => {
@@ -234,8 +235,8 @@ export default function LinkDialog(){
             onClickAway={handleClose}
         >
             <Fade in={linkDialog}>
-                <Box className={classes.container}>
-                    <Box className={classes.dialog}>
+                <div className={classes.container}>
+                    <div className={classes.dialog}>
                         <Avatar className={classes.avatar}>
                             <Icon className={classes.icon}>
                                 <LinkIcon/>
@@ -259,13 +260,11 @@ export default function LinkDialog(){
                             />
                             <Button type='submit' fullWidth color='secondary' variant='contained'>Link Url</Button>
                         </form>            
-                    </Box>
+                    </div>
                     <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
-                        <Tooltip title="Close" aria-label="close">
-                            <CloseIcon fontSize='small'/>
-                        </Tooltip>
+                        <CloseIcon fontSize='small'/>
                     </IconButton>              
-                </Box>     
+                </div>     
             </Fade>   
         </ClickAwayListener>
     );

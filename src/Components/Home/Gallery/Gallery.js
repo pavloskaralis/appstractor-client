@@ -1,5 +1,4 @@
 import React, {useState,useEffect} from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Photo from './Photo/Photo'
 import useMediaQuery from '@material-ui/core/useMediaQuery'
@@ -14,7 +13,7 @@ import LightBox from './Lightbox/Lightbox'
 import RenameDialog from './RenameDialog/RenameDialog'
 
 const styles = makeStyles(theme => ({
-    box: {
+    container: {
         backgroundColor: theme.palette.background.default,
         display:'flex',
         width:'100%',
@@ -87,17 +86,17 @@ export default function Create() {
     }
 
     return (
-        <Box 
+        <div 
             id='hometabpanel-1'
             aria-labelledby='hometab-1'
-            className={classes.box}
+            className={classes.container}
             onClick={deselectAll} 
         >
             {delay && <DeleteDialog/>}
             {delay && <RenameDialog/>}
             {delay && <LightBox/>}
             {visible && <CanvasSpinner/>}
-            <Box className={classes.photoContainer}>
+            <div className={classes.photoContainer}>
                 {delay && appstractions &&  
                 Object.entries(appstractions)
                 .filter(([key,val]) => val && val.title.toLowerCase().includes(search.toLowerCase()))
@@ -108,14 +107,14 @@ export default function Create() {
                     )
                 })
                 }
-            </Box>
+            </div>
 
-            <Box flexGrow={1}/>
+            <div style={{flexGrow:1}}/>
             {matches && 
                 <BottomNavagation > 
                     <SearchBar/>
                 </BottomNavagation>
             }
-        </Box>
+        </div>
     );
 }

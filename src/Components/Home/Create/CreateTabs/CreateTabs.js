@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import CreatePanel from './CreatePanel/CreatePanel'
 import { makeStyles } from '@material-ui/styles';
-import Box from '@material-ui/core/Box'
 import Tooltip from '@material-ui/core/Tooltip'
 import WallpaperIcon from '@material-ui/icons/Wallpaper'
 import Brightness6Icon from '@material-ui/icons/Brightness6'
@@ -64,7 +63,7 @@ export default function CreateTabs() {
   const patternIcon = <Tooltip title="Pattern" aria-label="pattern"><FingerprintIcon/></Tooltip>
   const shadowIcon = <Tooltip title="Shadow" aria-label="shadow"><Brightness6Icon/></Tooltip>
   return (
-    <Box zIndex={2}>
+    <div style={{zIndex: 2}}>
       <CreatePanel heading='Render' value={bottomNavValue} index={0}>
         <RenderControls context={{image, rerenderClicked, preset,  customPreset, createClicked, firstRender, animation}}/>
       </CreatePanel>
@@ -87,6 +86,6 @@ export default function CreateTabs() {
         <BottomNavigationAction icon={patternIcon} label='Pattern' aria-label='pattern' className={classes.tab}  {...a11yProps(3)} />
         <BottomNavigationAction icon={shadowIcon} label='Shadow' aria-label='shadow' className={classes.tab}  {...a11yProps(4)} />
       </BottomNavigation>
-    </Box>
+    </div>
   )
 }

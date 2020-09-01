@@ -1,6 +1,5 @@
 import React from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
 import Link from '@material-ui/core/Link'
 import {useInView} from 'react-intersection-observer';
@@ -91,16 +90,16 @@ export default function Stock({urls,name,link, download}) {
     }
     return(
         
-        <Box ref={ref} onClick={handleClick} className={classes.card} style={{opacity: inView ? 1 : 0}} >
+        <div ref={ref} onClick={handleClick} className={classes.card} style={{opacity: inView ? 1 : 0}} >
             { inView && 
                 <>
-                    <Box className={classes.border}>
-                        <Box className={classes.linkContainer}>
+                    <div className={classes.border}>
+                        <div className={classes.linkContainer}>
                             <Link href={link} color='inherit' target='_blank' rel='noopener'>{name}</Link>
                             <Typography className={classes.text} variant='inherit'> | </Typography>
                             <Link href='https://unsplash.com/' target='_blank' rel='noopener' color='inherit'>Unsplash</Link>
-                        </Box>  
-                    </Box>
+                        </div>  
+                    </div>
                  
                     <CardMedia
                         className={classes.cardMedia}
@@ -110,7 +109,7 @@ export default function Stock({urls,name,link, download}) {
                     
                 </>
             }
-        </Box>
+        </div>
 
     )
 }

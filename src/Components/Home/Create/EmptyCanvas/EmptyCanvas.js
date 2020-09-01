@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import ImageSelect from '../../../Nav/Tools/SubTools/ImageSelect';
 const styles = makeStyles(theme => ({
@@ -22,9 +21,9 @@ export default function EmptyCanvas(){
     const classes = styles(); 
 
     return (
-        <Box className={classes.group} >
+        <div className={classes.group} >
             <ImageSelect type='canvas'/>
-        </Box>
+        </div>
     )
 
 }

@@ -138,7 +138,7 @@ export default function Signup(){
                     value={values.email}
                     onChange={handleChange}
                     variant='filled'
-                
+                    inputProps={{ maxLength: 48 }}
                 />
                 <TextField
                     error={Boolean(errors.password)}
@@ -152,6 +152,7 @@ export default function Signup(){
                     value={values.password}
                     onChange={handleChange}
                     variant='filled'
+                    inputProps={{ maxLength: 48 }}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">
@@ -178,6 +179,7 @@ export default function Signup(){
                     value={values.confirm}
                     onChange={handleChange}
                     variant='filled'
+                    inputProps={{ maxLength: 48 }}
                     InputProps={{
                         endAdornment:
                         <InputAdornment position="end">

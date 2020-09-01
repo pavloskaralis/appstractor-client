@@ -1,7 +1,6 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
-import Box from '@material-ui/core/Box';
 import {useDispatch, useSelector} from 'react-redux'
 import {useFirestore, useFirebase} from 'react-redux-firebase'
 import Button from '@material-ui/core/Button'
@@ -14,7 +13,7 @@ import {updateSelected, toggleDeleteDialog }from '../../../../Actions/Interface/
 const styles = makeStyles(theme => ({
     dialog: {
         '& .MuiPaper-root':{
-            padding: theme.spacing(1.5)
+            padding: theme.spacing(2)
         },
     },
     avatar:{
@@ -86,15 +85,15 @@ export default function DeleteDialog() {
                 {selected.length > 1 || !selected.length ? `Delete ${selected.length} images?` : `Delete "${selected[0].title}"?`}
             </Typography>
 
-            <Box display='flex' justifyContent='space-evenly'>
+            <div style={{display:'flex', justifyContent:'space-evenly'}}>
                 <Button variant='contained' onClick={handleClose} color="default">
                     Cancel
                 </Button>
-                <Box width='12px'/>
+                <div style={{width:'12px'}}/>
                 <Button variant='contained' onClick={deleteSelected} color='secondary' >
                     Delete
                 </Button>
-            </Box>
+            </div>
         </Dialog>
     );
   }
