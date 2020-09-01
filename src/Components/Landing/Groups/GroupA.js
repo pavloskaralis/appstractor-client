@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import {useSelector, useDispatch} from 'react-redux' 
 import Typography from '@material-ui/core/Typography'
@@ -80,31 +79,31 @@ export default function GroupA(){
             dispatch(toggleCreateClicked(true)); 
             //change animation effect after animation completes; resets to false when new image gets selected 
             //first render transitions opacity, while rerender transitions background
-            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1500)
+            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1650)
         } else {
             //enable rerender animation; resets to false after animation completes
             dispatch(toggleRerenderClicked(true))
-            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1500)
+            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1650)
         }
        
         setTimeout(()=>{
             //create new random values and swap pattern
             dispatch(renderAppstraction());      
-        },firstRender ? 300 : 0 )
+        },firstRender ? 300 : 150 )
     }
 
     return (
    
-        <Box zIndex={1} width='100%' display='flex' flexDirection='column'>
+        <div style={{zIndex:1, width:'100%', display:'flex', flexDirection:'column'}}>
             <Typography className={classes.title}>Appstractor</Typography>
-            <Box width='100%' display='flex' justifyContent='center' flexDirection={matches ? 'row' : 'column'}>
+            <div style={{width:'100%', display:'flex', justifyContent:'center', flexDirection:matches ? 'row' : 'column'}}>
                 <Typography className={classes.slogan}>Create art with the click of a</Typography>
-                <Box margin={matches ? '0 0 0 12px' : '4px auto 0 auto'}height='100%' display='flex' flexDirection='column' justifyContent='center'>
+                <div style={{margin:matches ? '0 0 0 12px' : '4px auto 0 auto', height:'100%', display:'flex', flexDirection:'column', justifyContent:'center'}}>
                     <Button onClick={handleButtonClick} variant='contained' color='primary' className={classes.button}>Button</Button>
                     <FormHelperText className={classes.helperText}>Click Me!</FormHelperText>
-                </Box>
-            </Box>
-        </Box>
+                </div>
+            </div>
+        </div>
            
     )
 }

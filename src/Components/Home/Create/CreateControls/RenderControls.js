@@ -64,17 +64,17 @@ export default function RenderControls({context}) {
             dispatch(toggleCreateClicked(true)); 
             //change animation effect after animation completes; resets to false when new image gets selected 
             //first render transitions opacity, while rerender transitions background
-            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1500)
+            setTimeout(()=>dispatch(toggleFirstRender(false)),firstRender ? 1800 : 1650)
         } else {
             //enable rerender animation; resets to false after animation completes
             dispatch(toggleRerenderClicked(true))
-            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1500)
+            setTimeout(()=>dispatch(toggleRerenderClicked(false)),firstRender ? 1800 : 1650)
         }
 
         setTimeout(()=>{
             //create new random values and swap pattern
             dispatch(renderAppstraction()); 
-        },firstRender ? 300 : 0)
+        },firstRender ? 300 : 150)
     }
 
     //switch button on click

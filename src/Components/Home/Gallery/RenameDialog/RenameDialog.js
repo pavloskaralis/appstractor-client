@@ -43,8 +43,8 @@ const styles = makeStyles(theme => ({
     iconButton: {
         color: theme.palette.text.primary,
         position: 'absolute',
-        top: 12,
-        left: 12,
+        top: 4,
+        left: 4,
     }
 }))
 export default function DeleteDialog() {
@@ -65,8 +65,7 @@ export default function DeleteDialog() {
         title: '',
     })
 
-    const handleClose = (event) => {
-        event.stopPropagation();
+    const handleClose = () => {
         if(!renameDialog) return;
         dispatch(toggleRenameDialog(false));
         dispatch(updateSelected([]));

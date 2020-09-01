@@ -161,8 +161,6 @@ export default function Canvas(){
             rowContext: {
                 quantity, 
                 maxUnits,
-                opacity: !createClicked ? '0' : '1',
-                transition: animation && !edit && !capture && !loading && !linkDialog && !searchDialog ? 'opacity 1.2s ease-in' : ''
             },
             blockContext: {
                 quantity, pattern, background, maxUnits, randomIndexes, firstRender,
@@ -179,13 +177,17 @@ export default function Canvas(){
                 flexBasis: `calc(100%/${maxUnits.stripe})`,
                 borderRadius: background.ellipse ? `50%` : '0%',
                 boxShadow: `0px ${canvasWidth * shadow.angle}px ${canvasWidth * shadow.size}px ${canvasWidth * .0025}px rgba(0,0,0,${shadow.opacity})`,
-                transition: animation && !edit && !capture && !loading && !linkDialog && !searchDialog ? `all 1.5s ease-in 0s, box-shadow .75s`: ``,
+                transition: animation && !edit && !capture && !loading && !linkDialog && !searchDialog ? `all 1.5s ease-in 0s, box-shadow .75s, border-radius .75s`: ``,
             },
         }}>
             <div ref={canvasRef} className='canvas'>
                 <div className='static' style={{backgroundImage:`url(${image.medium})`}} />
                 {delay && <div className='background' style={backgroundStyle} />}
-                {delay && rowComponents}
+                {delay && 
+                    <div className={'canvas'} style={{transition: animation && !edit && !capture && !loading && !linkDialog && !searchDialog ? 'opacity 1.2s ease-in' : '', opacity: !createClicked ? '0' : '1'}}>
+                        {rowComponents}
+                    </div>
+                }
             </div>
         </CanvasContext.Provider>
     )

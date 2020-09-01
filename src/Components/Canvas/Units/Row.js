@@ -7,7 +7,7 @@ import Block from './Block';
 //relevant alternate flex directions (object), and relevant random values
 export default function Row({backgroundPositions, alternatePattern, randomValues}){
     //access canvas state
-    const {rowContext: {quantity,maxUnits, transition, opacity}} = useContext(CanvasContext);
+    const {rowContext: {quantity,maxUnits}} = useContext(CanvasContext);
     //generate unique id for each block in row
     const ids = useMemo(()=> new Array(maxUnits.block).fill().map(ele => uniqueid()), [maxUnits.block]);
     
@@ -25,16 +25,12 @@ export default function Row({backgroundPositions, alternatePattern, randomValues
     }
 
 
-    const rowStyle = {
-        opacity: opacity,
-        transition: transition
-    }
+ 
 
 
     return (
         <div 
             className='row'
-            style={rowStyle}
         >
             {blockComponents}
         </div>
