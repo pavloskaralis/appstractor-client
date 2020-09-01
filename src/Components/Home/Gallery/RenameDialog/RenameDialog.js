@@ -11,6 +11,8 @@ import {updateSelected, setSnackbar, toggleRenameDialog }from '../../../../Actio
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Error from '../../../FormPage/Error/Error'
+import IconButton from '@material-ui/core/IconButton'
+import CloseIcon from '@material-ui/icons/Close'
 
 const styles = makeStyles(theme => ({
     dialog: {
@@ -38,6 +40,12 @@ const styles = makeStyles(theme => ({
             backgroundColor: theme.palette.background.paper,
         },
     },
+    iconButton: {
+        color: theme.palette.text.primary,
+        position: 'absolute',
+        top: 12,
+        left: 12,
+    }
 }))
 export default function DeleteDialog() {
     const classes = styles(); 
@@ -57,7 +65,8 @@ export default function DeleteDialog() {
         title: '',
     })
 
-    const handleClose = () => {
+    const handleClose = (event) => {
+        event.stopPropagation();
         if(!renameDialog) return;
         dispatch(toggleRenameDialog(false));
         dispatch(updateSelected([]));
@@ -134,7 +143,9 @@ export default function DeleteDialog() {
                 />
                 <Button type='submit' fullWidth color='secondary' variant='contained'>Rename Image</Button>
             </form>  
-
+            <IconButton onClick={handleClose} size='small' className={classes.iconButton} aria-label='close'>
+                <CloseIcon fontSize='small'/>
+            </IconButton>        
         </Dialog>
     );
   }

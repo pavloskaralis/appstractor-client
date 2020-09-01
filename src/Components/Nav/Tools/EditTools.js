@@ -91,10 +91,12 @@ export default function EditTools({title}){
         history.push('/gallery');
     }
 
+    if(typeof appstractions !== 'undefined' && target === false){
+        return <Redirect to={PAGE_NOT_FOUND}/>
+    }
+    
     return (
         <> 
-            {typeof appstractions !== 'undefined' && target === false && <Redirect to={PAGE_NOT_FOUND}/>}
-
             {matches ? 
                 <>
                     <Typography className={classes.title}>{title}</Typography>

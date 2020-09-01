@@ -38,6 +38,12 @@ const styles = makeStyles(theme => ({
         },
         '@media (max-width: 399px)':{
             marginBottom: 0
+        },
+        '@media (max-height: 496px)':{
+            marginBottom: 0
+        },
+        '@media (max-height: 604px) and (max-width: 599px)':{
+            marginBottom: 0
         }
     },
     textField: {
@@ -46,7 +52,13 @@ const styles = makeStyles(theme => ({
         },
         '@media (max-width: 399px)':{
             marginBottom: theme.spacing(.5)
-        }    
+        },
+        '@media (max-height: 496px)':{
+            marginBottom: theme.spacing(.5)
+        },
+        '@media (max-height: 604px) and (max-width: 599px)':{
+            marginBottom: theme.spacing(.5)
+        }
     },
     avatar:{
         margin: '0 auto',
@@ -82,6 +94,14 @@ const styles = makeStyles(theme => ({
             left: 4,        
         },
         '@media (max-width: 399px)':{
+            top: 4,
+            left: 4,
+        },
+        '@media (max-height: 496px)':{
+            top: 4,
+            left: 4,
+        },
+        '@media (max-height: 604px) and (max-width: 599px)':{
             top: 4,
             left: 4,
         }

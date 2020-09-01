@@ -42,6 +42,9 @@ export default function DeleteDialog() {
 
     const handleClose = () => {
         dispatch(toggleDeleteDialog(false));
+        setTimeout(()=> {
+            dispatch(updateSelected([]));
+        },150)
     };
 
     const deleteSelected = () => {    
@@ -65,7 +68,7 @@ export default function DeleteDialog() {
         //prevent undefined text 
         setTimeout(()=>{
             dispatch(updateSelected([]));
-        },200)
+        },150)
     }
   
     return (

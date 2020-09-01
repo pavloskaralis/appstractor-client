@@ -110,22 +110,20 @@ export default function GalleryTools(){
             {matches ?
                 <>
                     <SearchBar/>
-                    <Button size='small' onClick={selectAll} className={classes.selectAll} variant='outlined'>
+                    <Button disabled={isEmpty(appstractions)} size='small' onClick={selectAll} className={classes.selectAll} variant='outlined'>
                         Select All
                     </Button>
                 
                     <Box marginRight='12px'>
                         <IconButton onClick={handleMenuClick} className={classes.iconButton} aria-label='actions'>
-                            <Tooltip title="Actions" aria-label="Actions">
-                                <MoreVertIcon />
-                            </Tooltip>
+                            <MoreVertIcon />
                         </IconButton> 
                     </Box>
                 </> : 
 
                 <>
     
-                    <IconButton  onClick={selectAll} className={classes.iconButton}                      aria-label='select-all'>
+                    <IconButton  disabled={isEmpty(appstractions)} onClick={selectAll} className={classes.iconButton}                      aria-label='select-all'>
                         <Tooltip title="Select All" aria-label="select-all">
                             <SelectAllIcon />
                         </Tooltip>
@@ -133,9 +131,7 @@ export default function GalleryTools(){
                 
                     
                     <IconButton onClick={handleMenuClick} className={classes.iconButton} aria-label='actions'>
-                        <Tooltip title="Actions" aria-label="actions">
-                            <MoreVertIcon />
-                        </Tooltip>
+                        <MoreVertIcon />
                     </IconButton> 
                 </>
 
