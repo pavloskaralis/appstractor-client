@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
 import WarningIcon from '@material-ui/icons/Warning'
@@ -44,11 +43,11 @@ export default function Signup(){
             <Typography className={classes.text}>
                 The content you are looking for does not exist or has been removed from the site.
             </Typography>
-            <Box margin='0 auto'>
+            <div style={{margin:'0 auto'}}>
                 <Button onClick={handleClick} color="secondary"  variant='contained'>
                     Go Back
                 </Button>
-            </Box>
+            </div>
 
             <Link component={RouterLink} to={HOME} className={classes.link}>
                 Return to Home

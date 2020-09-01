@@ -3,7 +3,6 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import IconButton from '@material-ui/core/IconButton'
 import MenuIcon from '@material-ui/icons/Menu'
-import Box from '@material-ui/core/Box'
 import Menu from '@material-ui/core/Menu'
 import MenuItem from '@material-ui/core/MenuItem'
 import Icon from '@material-ui/core/Icon'
@@ -101,7 +100,7 @@ export default function Nav(){
  
     return (
         <AppBar position={isEmpty(auth) && pathname==='/' ? 'fixed' : 'static'} className={isEmpty(auth) && pathname==='/' ? classes.landingBar : ''}>
-            <Box display='flex' width='100%' justifyContent='space-between'>
+            <div style={{display:'flex', width:'100%', justifyContent:'space-between'}}>
                 <Toolbar className={classes.buttonsToolbar}>
                     <IconButton component={RouterLink} to={ROUTES.HOME} edge='start' aria-label='menu'>
                         <Tooltip  title="Home" aria-label="home">
@@ -118,7 +117,7 @@ export default function Nav(){
                         <MenuIcon className={classes.menuIcon}/>
                     </IconButton>       
                 </Toolbar>
-            </Box>
+            </div>
           
             {isEmpty(auth) ? 
                 <Menu 

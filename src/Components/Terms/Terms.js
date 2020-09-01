@@ -2,7 +2,6 @@ import React from 'react'
 import FormPage from '../FormPage/FormPage'
 import ImportContactsIcon from '@material-ui/icons/ImportContacts'
 import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
@@ -43,13 +42,13 @@ export default function Forms() {
     return (
         <FormPage icon={<ImportContactsIcon/>} title='Terms of Service'>
 
-            <Box margin='0 auto' padding='0 16px' marginTop='-16px' maxWidth='600px'>
+            <div style={{margin:'0 auto', padding:'0 16px', marginTop:'-16px', maxWidth:'600px'}}>
                 <Typography align='center' color='textPrimary' variant='subtitle2'  paragraph>
                         Please read these terms of service carefully before using www.appstractorart.com
                 </Typography>
-            </Box>
+            </div>
            
-            <Box className={classes.container}> 
+            <div className={classes.container}> 
 
                 <Typography color='textPrimary' className={classes.title} gutterBottom variant='subtitle1'>
                     Conditions of Use
@@ -132,13 +131,13 @@ export default function Forms() {
                 <Typography color='textPrimary'  paragraph variant='body2'>
                 This website and its content are provided "as is". Appstraction does not represent or warrant that the website or its content will meet your requirements or that their use will be uninterrupted or error free. Appstractor will not be liable to you or to any other person or entity for any damages or losses arising out of your use of the website or its content.
                 </Typography>
-            </Box>
+            </div>
 
-            <Box margin='0 auto'>
+            <div style={{margin:'0 auto'}}>
                 <Button onClick={handleClick} color="secondary" type='submit'  variant='contained'>
                     Go Back
                 </Button>
-            </Box>
+            </div>
 
             <Link component={RouterLink} to={HOME} className={classes.link}>
                 Return to Home

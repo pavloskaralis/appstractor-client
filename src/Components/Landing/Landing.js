@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Box from '@material-ui/core/Box'
 import Canvas from '../Canvas/Canvas'
 import {makeStyles} from '@material-ui/core/styles'
 import GroupA from './Groups/GroupA'
@@ -18,7 +17,8 @@ const styles = makeStyles(theme => ({
         height:'100vh', 
         justifyContent:'space-evenly',
         flexDirection:'column',
-        backgroundSize: 'cover'
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
     },
     purpleGradient: {
         width: '100vw',
@@ -52,14 +52,14 @@ export default function Landing(){
     },[])
     
     return (
-        <Box className={classes.container}>
-            <Box zIndex={0} minHeight='568px' width='100vw' height='100vh' position='absolute'>
+        <div className={classes.container}>
+            <div style={{zIndex:0, minHeight:'568px', width:'100vw', height:'100vh', position:'absolute'}}>
                 <Canvas/>
-            </Box>
-            <Box minHeight='568px' className={classes.blackGradient}/>
-            <Box minHeight='568px' className={classes.purpleGradient}/>
+            </div>
+            <div style={{minHeight:'568px'}} className={classes.blackGradient}/>
+            <div style={{minHeight:'568px'}} className={classes.purpleGradient}/>
             <GroupA/>
             <GroupB/>
-        </Box>
+        </div>
     )
 }

@@ -1,5 +1,4 @@
 import React from 'react'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import Button from '@material-ui/core/Button'
@@ -97,14 +96,14 @@ export default function GroupB(){
   
 
     return (
-        <Box zIndex={1} width='100%' display='flex' flexDirection='column'>
+        <div style={{zIndex:1, width:'100%', display:'flex', flexDirection:'column'}}>
             <Typography className={classes.slogan}>WORKS ON ANY IMAGE</Typography>
             <Typography className={classes.description}>
                 Choose from endless stock photos or upload your own.<br/>
                 Intuitive controls help you craft the perfect centerpiece.<br/> 
                 Easily download your creations and share with friends.
             </Typography>
-            <Box className={classes.buttonContainer}>
+            <div className={classes.buttonContainer}>
                 <Button component={RouterLink} to={SIGNUP} variant='contained' color='secondary' className={classes.button}>
                     Sign Up
                 </Button>
@@ -112,13 +111,13 @@ export default function GroupB(){
                     Try Demo
                 </Button>
 
-            </Box>
+            </div>
             <Link component={RouterLink} to={LOGIN} className={classes.link}>
                 Already have an account? Log In
             </Link>
             <FormHelperText className={classes.helperText}>
                 contact@appstractorart.com
             </FormHelperText>
-        </Box>
+        </div>
     )
 }

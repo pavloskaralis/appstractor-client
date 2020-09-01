@@ -2,7 +2,6 @@ import React from 'react'
 import FormPage from '../FormPage/FormPage'
 import ScreenLockPortraitIcon from '@material-ui/icons/ScreenLockPortrait'
 import Typography from '@material-ui/core/Typography'
-import Box from '@material-ui/core/Box'
 import {makeStyles} from '@material-ui/core/styles'
 import {Link as RouterLink} from 'react-router-dom';
 import Link from '@material-ui/core/Link'
@@ -43,13 +42,13 @@ export default function Privacy() {
     return (
         <FormPage icon={<ScreenLockPortraitIcon/>} title='Privacy Policy'>
 
-            <Box margin='0 auto' padding='0 16px' marginTop='-16px' maxWidth='600px'>
+            <div style={{ margin:'0 auto', padding:'0 16px', marginTop:'-16px', maxWidth:'600px'}}>
                 <Typography align='center' color='textPrimary' variant='subtitle2'  paragraph>
                         Please read this privacy policy carefully before using www.appstractorart.com
                 </Typography>
-            </Box>
+            </div>
            
-            <Box className={classes.container}> 
+            <div className={classes.container}> 
 
                 <Typography color='textPrimary' className={classes.title} gutterBottom variant='subtitle1'>
                 Collecting and Using Personal Data
@@ -131,13 +130,13 @@ export default function Privacy() {
                 <Typography color='textPrimary'  paragraph variant='body2'>
                     We may update our privacy policy from time to time. We will notify you of any changes by posting the new privacy policy on this page. We will let you know via email and/or a prominent notice on our service, prior to the change becoming effective. 
                 </Typography>
-            </Box>
+            </div>
 
-            <Box margin='0 auto'>
+            <div style={{margin:'0 auto'}}>
                 <Button onClick={handleClick} color="secondary" type='submit'  variant='contained'>
                     Go Back
                 </Button>
-            </Box>
+            </div>
 
             <Link component={RouterLink} to={HOME} className={classes.link}>
                 Return to Home

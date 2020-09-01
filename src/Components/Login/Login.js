@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import Visibility from '@material-ui/icons/Visibility'
@@ -142,17 +141,17 @@ export default function Login(){
                         </InputAdornment>
                     }}
                 />
-                <Box height='16px'/>
+                <div style={{height:'16px'}}/>
                 <Button  type='submit' fullWidth color='secondary' variant='contained'>Log In</Button>
             </form>
-            <Box display='flex' width='296px' margin='0 auto' justifyContent='space-between'>
+            <div style={{display:'flex', width:'296px', margin:'0 auto', justifyContent:'space-between'}}>
                 <Link component={RouterLink} to={RECOVER} className={classes.link}>
                     Forgot password?
                 </Link>
                 <Link component={RouterLink} to={SIGNUP} className={classes.link}>
                     Need an account? Sign Up
                 </Link>
-            </Box>
+            </div>
         </FormPage> 
     )
 }

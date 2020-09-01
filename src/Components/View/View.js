@@ -3,7 +3,6 @@ import {useFirestoreConnect} from 'react-redux-firebase'
 import {useSelector} from 'react-redux'
 import {useParams, Redirect} from 'react-router-dom'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box'
 import { PAGE_NOT_FOUND } from '../../Routes/routes';
 import CanvasSpinner from '../Home/Create/CanvasSpinner/CanvasSpinner'
 
@@ -72,16 +71,16 @@ export default function View (){
     },[appstractions]);
 
     return(
-        <Box className={classes.container}>
+        <div className={classes.container}>
             {visible && <CanvasSpinner/>}
             {typeof appstractions !== 'undefined' && target !== null &&
-                <Box overflow='auto' padding='16px 0' display='flex' flexDirection='column'>
+                <div style={{overflow:'auto', padding:'16px 0', display:'flex', flexDirection:'column'}}>
                     {appstractions !== null && target ?
-                        <Box className={classes.image} style={{backgroundImage:`url(${target.url})`}}/>:
+                        <div className={classes.image} style={{backgroundImage:`url(${target.url})`}}/>:
                         <Redirect to={PAGE_NOT_FOUND}/>
                     }
-                </Box>
+                </div>
             }
-        </Box>
+        </div>
     )
 }

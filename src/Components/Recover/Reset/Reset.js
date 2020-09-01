@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import {makeStyles} from '@material-ui/core/styles'
 import LockIcon from '@material-ui/icons/Lock'
@@ -133,11 +132,11 @@ export default function Reset({code, resetCode, email}){
                     </Typography>
                     {!email && 
                         <>
-                            <Box margin='0 auto'>
+                            <div style={{margin:'0 auto'}}>
                                 <Button onClick={resetCode} component={RouterLink} to={RECOVER} color="secondary" type='submit'  variant='contained'>
                                     Try Again
                                 </Button>
-                            </Box>
+                            </div>
 
                             <Link component={RouterLink} to={LOGIN} className={classes.link}>
                                 Return to Login
@@ -203,7 +202,7 @@ export default function Reset({code, resetCode, email}){
                             />
                         </>
                     }
-                    <Box height='16px'/>
+                    <div style={{height:'16px'}}/>
                     <Button type='submit' fullWidth color='secondary' variant='contained'>
                         {email ? 'Revoke Change' : 'Change Password'}
                     </Button>

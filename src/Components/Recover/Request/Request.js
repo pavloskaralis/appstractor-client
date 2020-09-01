@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Box from '@material-ui/core/Box'
 import TextField from '@material-ui/core/TextField'
 import {makeStyles} from '@material-ui/core/styles'
 import Button from '@material-ui/core/Button'
@@ -97,7 +96,7 @@ export default function Request(){
                             onChange={handleChange}
                             variant='filled'
                         />
-                        <Box height='16px'/>
+                        <div style={{height:'16px'}}/>
                         <Button type='submit' fullWidth color='secondary' variant='contained'>
                             Reset Password
                         </Button>
