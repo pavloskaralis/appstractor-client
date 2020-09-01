@@ -59,10 +59,13 @@ export default function Capture () {
                     .child(capture)
                     .getDownloadURL()
                     .then(url => {
-                        console.log(url)
                         firestore.collection(`users/${uid}/appstractions`)
                             .doc(capture)
-                            .update({url: url})
+                            .update({
+                                url: url,
+                                state: {image, quantity, background, pattern, shadow, randomValues, swapPattern},
+                                date: new Date().toString()
+                            })
                         dispatch(toggleCapture(false));
                         setTimeout(()=>{
                             dispatch(toggleLoading(false));

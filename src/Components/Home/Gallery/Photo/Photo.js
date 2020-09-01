@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
 import {makeStyles} from '@material-ui/core/styles'
-import Box from '@material-ui/core/Box';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import FacebookIcon from '@material-ui/icons/Facebook'
@@ -8,7 +7,6 @@ import Button from '@material-ui/core/Button'
 import ButtonGroup from '@material-ui/core/ButtonGroup'
 import Checkbox from '@material-ui/core/Checkbox'
 import IconButton from '@material-ui/core/IconButton'
-import Tooltip from '@material-ui/core/Tooltip'
 import Menu from '@material-ui/core/Menu'
 import MoreVertIcon from '@material-ui/icons/MoreVert'
 import {useInView} from 'react-intersection-observer'
@@ -167,7 +165,8 @@ export default function Photo({uid, doc, image:{url,title}}) {
         dispatch(setSnackbar({success: true, message:'Link copied to clipboard.'}))
     }
 
-    const facebookShare = () => {
+    const facebookShare = (event) => {
+        event.stopPropagation();
         window.FB.ui(
             {
                 method: 'share',
@@ -179,14 +178,12 @@ export default function Photo({uid, doc, image:{url,title}}) {
     }
 
     return(
-        <Box onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
+        <div onDoubleClick={openLightbox} ref={ref} className={classes.card} style={{opacity: inView ? 1 : 0}} onClick={handleCheckboxChange} >
             { inView && 
                 <>
-                    <Box border={isSelected ? 'solid 2px #2196f3' : 'solid 2px transparent'} className={classes.border}/>
+                    <div style={{border:isSelected ? 'solid 2px #2196f3' : 'solid 2px transparent'}} className={classes.border}/>
                     <IconButton onClick={handleMenuClick} size='small' className={classes.iconButton} aria-label='actions'>
-                        <Tooltip title="Actions" aria-label="actions">
-                            <MoreVertIcon />
-                        </Tooltip>
+                        <MoreVertIcon />
                     </IconButton> 
                     <Menu 
                         anchorEl={anchorEl}
@@ -241,23 +238,23 @@ export default function Photo({uid, doc, image:{url,title}}) {
                         </Button>
                     </ButtonGroup>
 
-                    <Box className={classes.cardContent}>
+                    <div className={classes.cardContent}>
                         <Checkbox
                             size='small'
                             checked={isSelected}
                             name="confirm"
                             className={classes.checkbox}
                         />
-                        <Box display='flex' height='100%' flexDirection='column' justifyContent='center'>
+                        <div style={{display:'flex', height:'100%', flexDirection:'column', justifyContent:'center'}}>
                             <Typography className={classes.title} variant="h6" >
                                 {title}
                             </Typography>
-                        </Box>
+                        </div>
 
-                    </Box>
+                    </div>
                 </>
             }
-        </Box>
+        </div>
 
     )
 }

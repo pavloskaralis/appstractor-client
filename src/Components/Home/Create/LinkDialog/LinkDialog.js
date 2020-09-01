@@ -22,7 +22,7 @@ import {useFirebase} from 'react-redux-firebase'
 const styles = makeStyles(theme => ({
     container: {
         position:'absolute', 
-        padding:'12px', 
+        padding:'16px', 
         zIndex:1, 
         height:'100%', 
         width:'100%', 
@@ -132,8 +132,8 @@ export default function LinkDialog(){
             link: '',
         }); 
         //uses 3rd party to check if link is image; unsplash exception
-        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/) && !link.match(/(png)||(jpeg)||(jpg)/)) {
-            return setErrors(errors => ({...errors, link:'Not a valid image url.'}))
+        if(!isImageUrl(link) && !link.match(/(unsplash\.com\/photo)/) && !link.match(/(png)|(jpeg)|(jpg)/)) {
+            return setErrors(errors => ({...errors, link:'Image url is invalid.'}))
         }
         //convert link to blob so it can be compressed and uploaded to server
         fetch(link)
@@ -158,8 +158,16 @@ export default function LinkDialog(){
         //triggers canvas loader 
         dispatch(toggleLoading(true));
         //compress image (small = stripe size, medium = background size)
-        const small = await imageCompression(image, {maxSizeMB: .05, maxWidthOrHeight: 400});
-        const medium = await imageCompression(image, {maxSizeMB: .5});
+        let small;
+        let medium;
+        try {
+            small = await imageCompression(image, {maxSizeMB: .05, maxWidthOrHeight: 400});
+            medium = await imageCompression(image, {maxSizeMB: .5});
+        } catch (e) {
+            dispatch(toggleLoading(false));
+            dispatch(setSnackbar({success: false, message: 'Image url is invalid.'}))
+        }
+
         const storage = firebase.storage();
 
         //3. called after both small and medium files upload

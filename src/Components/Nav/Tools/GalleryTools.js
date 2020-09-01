@@ -15,6 +15,7 @@ import SearchBar from './SubTools/SearchBar'
 import {useDispatch, useSelector} from 'react-redux'
 import {updateSelected, toggleDeleteDialog} from '../../../Actions/Interface/allInterfaceActions'
 import {useFirestoreConnect} from 'react-redux-firebase'
+import { isEmpty } from '@firebase/util';
 
 const styles = makeStyles(theme => ({
     iconButton: {
@@ -64,6 +65,7 @@ export default function GalleryTools(){
 
     const selectAll = () => {
         handleClose();
+        if(isEmpty(appstractions)) return;
         if(selected.length === Object.keys(appstractions).length) {
             dispatch(updateSelected([]));
         } else {
@@ -96,7 +98,7 @@ export default function GalleryTools(){
             xhr.send()   
         }
         for (let i = 0; i < selected.length; i++) {
-            const img = appstractions[selected[i]];
+            const img = appstractions[selected[i].doc];
             download(img);
         }
         

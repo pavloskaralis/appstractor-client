@@ -18,7 +18,7 @@ import {toggleCapture, toggleSaveDialog} from '../../../../Actions/Interface/all
 const styles = makeStyles(theme => ({
     container: {
         position:'absolute', 
-        padding: theme.spacing(1.5), 
+        padding: theme.spacing(2), 
         zIndex:1, 
         height:'100%', 
         width:'100%', 
@@ -131,7 +131,7 @@ export default function SaveDialog(){
                 title: '',
             }); 
             if(!title.match(/^\w+$/)){
-                return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
+                return setErrors(errors => ({...errors, title:'Title must be alphanumeric.'}))
             }
             if(appstractions && Object.values(appstractions).some(obj => obj.title === title)){
                 return setErrors(errors => ({...errors, title:'Title is in use by another image.'}))

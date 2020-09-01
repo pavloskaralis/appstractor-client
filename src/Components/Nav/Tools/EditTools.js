@@ -52,8 +52,9 @@ export default function EditTools({title}){
     useEffect(()=>{
         if(typeof appstractions === 'undefined') return;
         const target = Object.entries(appstractions).find(([key,val]) => val.title === title); 
+        if(!target) return setTarget(false);
+
         setTarget(target[0]);
-        if(!target) return;
         dispatch(setImage(target[1].state.image));
         setTimeout(()=>{
             dispatch(loadPreset(target[1].state));
@@ -92,7 +93,7 @@ export default function EditTools({title}){
 
     return (
         <> 
-            {typeof appstractions !== 'undefined' && typeof target === 'undefined' && <Redirect to={PAGE_NOT_FOUND}/>}
+            {typeof appstractions !== 'undefined' && target === false && <Redirect to={PAGE_NOT_FOUND}/>}
 
             {matches ? 
                 <>

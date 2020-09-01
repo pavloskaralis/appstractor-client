@@ -15,7 +15,8 @@ import Error from '../../../FormPage/Error/Error'
 const styles = makeStyles(theme => ({
     dialog: {
         '& .MuiPaper-root':{
-            padding: theme.spacing(1.5)
+            padding: theme.spacing(2),
+            margin: theme.spacing(2)
         },
     },
     avatar:{
@@ -30,14 +31,6 @@ const styles = makeStyles(theme => ({
         textAlign: 'center',
         color: theme.palette.text.primary,
         marginBottom: theme.spacing(2),
-    },
-    textField: {
-        '@media (max-width: 779px) and (min-width: 600px)':{
-            marginBottom: theme.spacing(.5)
-        },
-        '@media (max-width: 399px)':{
-            marginBottom: theme.spacing(.5)
-        }    
     },
     form: {
         maxWidth: 296,
@@ -95,10 +88,10 @@ export default function DeleteDialog() {
             title: '',
         }); 
         if(!title.match(/^\w+$/)){
-            return setErrors(errors => ({...errors, title:'Title must use alphanumeric characters.'}))
+            return setErrors(errors => ({...errors, title:'Title must be alphanumeric.'}))
         }
         if(appstractions && Object.values(appstractions).some(obj => obj.title === title)){
-            return setErrors(errors => ({...errors, title:'Title is already assigned to another image.'}))
+            return setErrors(errors => ({...errors, title:'Title is in use by another image.'}))
         }
         handleClose();
         dispatch(setSnackbar({success: true, message: 'Image has been renamed.'}))
@@ -136,7 +129,6 @@ export default function DeleteDialog() {
                     value={values.title}
                     onChange={handleChange}
                     variant='filled'
-                    className={classes.textField}
                     required
                     inputProps={{ maxLength: 12 }}
                 />

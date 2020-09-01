@@ -191,9 +191,10 @@ export default function Lightbox() {
         if(params.title){
             window.addEventListener('keydown',handleKeyDown)
         }
-      
+        
         return ()=> window.removeEventListener('keydown', handleKeyDown);
-    },[params, appstractions, lightbox, updateLightbox, history])
+
+    },[params, viewable, lightbox, updateLightbox, history])
    
 
     //set url on params change
