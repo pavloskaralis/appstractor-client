@@ -129,7 +129,7 @@ export default function Forms() {
                  </Typography>
 
                 <Typography color='textPrimary'  paragraph variant='body2'>
-                This website and its content are provided "as is". Appstraction does not represent or warrant that the website or its content will meet your requirements or that their use will be uninterrupted or error free. Appstractor will not be liable to you or to any other person or entity for any damages or losses arising out of your use of the website or its content.
+                This website and its content are provided "as is". Appstractor does not represent or warrant that the website or its content will meet your requirements or that their use will be uninterrupted or error free. Appstractor will not be liable to you or to any other person or entity for any damages or losses arising out of your use of the website or its content.
                 </Typography>
             </div>
 
